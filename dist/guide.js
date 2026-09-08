@@ -23,6 +23,28 @@ function next(g){
 
  return{title:`协助${s.players[s.carrier].name}运送遗骸`,text:`遗骸已由${s.players[s.carrier].name}携带，其他英雄不必重复搜索。目标是让携带者到达${burial.name}并安葬。`,focus:`剩余 ${s.countdown} 轮。可接近叛徒牵制它，或使用道具恢复属性；无事可做时结束回合。`,action:null};
 }
+// Resolve advice to one legal action without changing the game state.
+function cue(g){
+ const tip=next(g),s=g.s,p=g.p;
+ if(s.result||g.isAI()||!p.alive)return {...tip,action:null};
+ if(tip.action){if((tip.action.startsWith('move:')||tip.action.startsWith('room:'))&&s.moves<g.cost())return {...tip,action:'end'};return tip;}
+ if(s.moves<g.cost())return {...tip,action:'end'};
+ let goal=null;
+ if(s.phase==='burial'&&p.team==='hero')goal=s.carrier===p.id?s.burialRoom:s.carrier===null?s.corpseRoom:s.players[s.carrier].room;
+ if(s.phase==='collapse'&&p.team==='hero')goal=s.ghost.room;
+ if(p.team==='traitor'){
+  const targets=s.players.filter(t=>t.alive&&t.team==='hero').map(t=>({p:t,path:g.path(p.room,t.room)})).filter(t=>t.path.length).sort((a,b)=>a.path.length-b.path.length);
+  if(targets[0]?.p.room===p.room&&!s.attackUsed)return {...tip,action:'attack:'+targets[0].p.id};
+  goal=targets[0]?.p.room;
+ }
+ if(s.phase==='explore'){
+  const paths=s.rooms.filter(r=>r.doors.some(d=>{const [x,y]=[[0,-1],[1,0],[0,1],[-1,0]][d];return !s.rooms.some(n=>n.f===r.f&&n.x===r.x+x&&n.y===r.y+y)})).map(r=>g.path(p.room,r.id)).filter(a=>a.length>1).sort((a,b)=>a.length-b.length);
+  goal=paths[0]?.at(-1);
+ }
+ const path=goal?g.path(p.room,goal):[];
+ if(path.length>1){const room=s.rooms.find(r=>r.id===path[1]),exit=g.exits().find(e=>e.target?.id===room.id||e.target===room.id);return {...tip,action:room.f!==g.roomNow.f?'room:'+room.id:exit?'move:'+exit.d:'room:'+room.id,room:room.id};}
+ return {...tip,action:'end'};
+}
 function impact(before,after,type){
  const p=before.players[before.active],q=after.players[p.id],out=[];
  if(q.room!==p.room){const room=after.rooms.find(r=>r.id===q.room);out.push(`${p.name}从${before.rooms.find(r=>r.id===p.room).name}移动到${room.name}。`)}
@@ -64,5 +86,5 @@ function explain(s,title){
  }
  return [];
 }
-root.HouseGuide={next,impact,explain};if(typeof module!=='undefined')module.exports=root.HouseGuide;
+root.HouseGuide={next,cue,impact,explain};if(typeof module!=='undefined')module.exports=root.HouseGuide;
 })(typeof window!=='undefined'?window:globalThis);

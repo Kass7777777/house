@@ -29,3 +29,13 @@ g.s.attackUsed=true;assert.equal(Guide.next(g).action,'end');
 before=copy(g);g.damage(g.p,1);assert(Guide.impact(before,g.s,'attack').some(s=>s.includes('轨移动')));
 g.endGame('hero','测试结局');assert.equal(Guide.next(g).action,null);
 console.log('Guide: exploration, card stop, omen comparison, AI observation, factions, burial, ghost, damage and terminal state passed; advice does not mutate game state.');
+
+const c=new Game({count:4,humanCount:4});
+let state=copy(c);assert(Guide.cue(c).action.startsWith('move:'));assert.deepEqual(c.s,state);
+c.s.moves=0;assert.equal(Guide.cue(c).action,'end');
+c.startHaunt();c.s.active=c.s.players.find(p=>p.team==='hero').id;c.turnStart();c.summon('hero');c.s.taskUsed=false;c.s.moves=10;
+let cue=Guide.cue(c);assert(cue.action.startsWith('move:')||cue.action.startsWith('room:'));
+if(cue.action.startsWith('move:'))assert(c.exits()[Number(cue.action.split(':')[1])].open);
+c.p.room=c.s.corpseRoom;c.s.moves=0;assert.equal(Guide.cue(c).action,'task:2');
+c.p.controller='ai';assert.equal(Guide.cue(c).action,null);
+console.log('Action cues: legal movement, exhausted movement, remains route, zero-move search and AI suppression passed.');
