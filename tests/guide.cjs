@@ -12,7 +12,14 @@ g.p.controller='human';g.startHaunt();assert(Guide.next(g).action.startsWith('ta
 g.s.taskUsed=true;assert.equal(Guide.next(g).action,'end');
 g.s.active=g.s.traitor;g.turnStart();assert(Guide.next(g).text.includes('叛徒'));
 g.s.active=0;g.turnStart();g.summon('hero');
+g.p.room=g.s.ghost.room;g.s.moves=0;
+assert.notEqual(g.p.room,g.s.corpseRoom);
+assert(Guide.next(g).text.includes('✧ 表示幽灵，并非遗骸位置'));
+assert(Guide.next(g).text.includes(g.roomNow.name));
+assert.equal(Guide.next(g).action,'end');
+assert(Guide.next(g).focus.includes('移动力已用尽'));
 g.p.room=g.s.corpseRoom;assert.equal(Guide.next(g).action,'task:2');
+assert(Guide.next(g).focus.includes('移动力为 0'));
 g.s.carrier=g.p.id;g.p.room=g.s.burialRoom;assert.equal(Guide.next(g).action,'task:2');
 assert(Guide.next(g).text.includes('仅仅走进房间不会获胜'));
 g.s.taskUsed=true;assert.equal(Guide.next(g).action,null);

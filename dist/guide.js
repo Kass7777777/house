@@ -15,8 +15,12 @@ function next(g){
  if(p.team==='traitor')return{title:s.phase==='burial'?'阻止英雄安葬遗骸':'配合幽灵追击英雄',text:s.phase==='burial'?`英雄还有 ${s.countdown} 轮。寻找携带遗骸的英雄，移动到同一房间后攻击，拖过期限即可获胜。`:'幽灵会在轮末自动行动。你可以追击英雄，并在同一房间攻击。全部英雄倒下，叛徒获胜。',focus:'每回合最多攻击一次。力量为攻击骰池；攻击败北也可能受伤。离开敌人所在房间需要更多移动力。',action:null};
  if(s.phase==='collapse')return{title:'靠近幽灵并驱散它',text:`已成功驱散 ${s.ghost.hits}/3 次。与幽灵同房时使用「驱散幽灵」，以理智骰池对抗幽灵 4 颗骰子；严格高于对方才成功。`,focus:s.attackUsed?'本回合已经攻击过。结束回合后才可再次驱散。':'成功会击晕幽灵；失败可能承受精神伤害。注意每轮的崩塌和角色属性余量。',action:s.attackUsed?'end':s.ghost.room===p.room?'attack:ghost':null};
  const burial=s.rooms.find(r=>r.id===s.burialRoom),corpse=s.rooms.find(r=>r.id===s.corpseRoom);
- if(s.carrier===p.id)return{title:`把遗骸送往${burial.name}`,text:`你正在携带遗骸，剩余 ${s.countdown} 轮。沿门和楼梯到达安葬点，再执行「安葬遗骸」才算完成；仅仅走进房间不会获胜。`,focus:s.taskUsed?'本回合已经尝试任务，需要下回合才能安葬。':'在地图寻找 ◎ 标记。换层要用楼梯，避免与叛徒纠缠。',action:p.room===s.burialRoom&&!s.taskUsed?'task:2':null};
- if(s.carrier===null)return{title:`前往${corpse.name}寻找遗骸`,text:`在标记房间点击「寻找遗骸」，知识检定 ≥ 4 才会找到。之后还要携带它前往${burial.name}安葬。剩余 ${s.countdown} 轮。`,focus:s.taskUsed?'这回合已经尝试任务，失败也要等到下回合重试。':'知识高的角色更适合搜索。关注右侧目标和倒计时。',action:p.room===s.corpseRoom&&!s.taskUsed?'task:2':null};
+ if(s.carrier===p.id)return{title:`把遗骸送往${burial.name}`,text:`你正在携带遗骸，剩余 ${s.countdown} 轮。沿门和楼梯到达安葬点，再执行「安葬遗骸」才算完成；仅仅走进房间不会获胜。`,focus:s.taskUsed?'本回合已经尝试任务，需要下回合才能安葬。':'在地图寻找「Ⅱ 安葬」标记。换层要用楼梯，避免与叛徒纠缠。',action:p.room===s.burialRoom&&!s.taskUsed?'task:2':null};
+ if(s.carrier===null){
+  const here=p.room===s.corpseRoom,location=`${['地下层','一层','二层'][corpse.f+1]}·${corpse.name}`;
+  return{title:here?'已到达遗骸搜索点':`前往${corpse.name}寻找遗骸`,text:`你当前在${r.name}；遗骸搜索点在${location}（「Ⅰ 遗骸」标记）。${here?'点击下方「寻找遗骸」，知识骰子总和 ≥ 4 才会找到。':'到达搜索点后才会出现「寻找遗骸」按钮。✧ 表示幽灵，并非遗骸位置。'}之后携带遗骸前往${burial.name}安葬。剩余 ${s.countdown} 轮。`,focus:s.taskUsed?'本回合已尝试任务，结束回合后才能再次搜索。':!here&&s.moves===0?'移动力已用尽，请先结束回合，下次轮到你时继续前往搜索点。':here?'搜索不消耗移动力；即使移动力为 0 也可以尝试。':'沿相通的门前往搜索点；切换楼层视图不会移动角色。',action:here&&!s.taskUsed?'task:2':s.taskUsed||s.moves===0?'end':null};
+ }
+
  return{title:`协助${s.players[s.carrier].name}运送遗骸`,text:`遗骸已由${s.players[s.carrier].name}携带，其他英雄不必重复搜索。目标是让携带者到达${burial.name}并安葬。`,focus:`剩余 ${s.countdown} 轮。可接近叛徒牵制它，或使用道具恢复属性；无事可做时结束回合。`,action:null};
 }
 function impact(before,after,type){
