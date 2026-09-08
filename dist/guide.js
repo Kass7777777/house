@@ -36,5 +36,29 @@ function impact(before,after,type){
  if(!out.length)out.push(type==='give'?'道具已移交，同一件物品本回合不能再次执行物品动作。':type==='pickup'?'遗落道具已拾取，本回合不能再次操作这些物品。':'操作已结算。查看当前目标决定下一步。');
  return [...new Set(out)].slice(0,8);
 }
-root.HouseGuide={next,impact};if(typeof module!=='undefined')module.exports=root.HouseGuide;
+function explain(s,title){
+ if(title.startsWith('预兆 ·'))return [
+  ['预兆是什么？','预兆是探索中发现的诡异征兆，例如古老面具、染血戒指。它是一类卡牌，表示小屋里的超自然危险正在积累。'],
+  ['这次发生了什么？',`有人抽到了一张预兆牌，全队共用的预兆计数增加了 1，现在是 ${s.omen}/13。13 是预兆牌总数，不是必须收集满的目标；任何角色（包括 AI）抽到预兆都会增加它。`],
+  ['接下来会怎样？',s.phase==='explore'?'拿到预兆不代表灾难已经发生。抽牌者本回合的移动停止；结束回合时，系统才会掷骰判断是否进入「作祟」。这个 Demo 的预兆牌本身不附加独立能力。':'现在已经进入作祟阶段，这张预兆不会再次触发作祟检定。']
+ ];
+ if(title==='作祟检定'){
+  const c=s.lastHauntCheck;return [
+   ['检定是什么？','检定就是掷骰子，再按规则比较结果。作祟检定用来判断：小屋是否从共同探索，转入有敌我阵营和胜负目标的危机阶段。'],
+   ['这次怎么算？',`${s.players[c.playerId].name}在这回合抽过预兆，所以结束回合时固定掷 6 颗骰子。每颗只出 0、1、2，与角色属性无关。本次 ${c.dice.join(' + ')} = ${c.total}；全局预兆为 ${c.omen}。`],
+   ['比较结果',c.total<c.omen?`${c.total} < ${c.omen}，作祟触发。`:`${c.total} ≥ ${c.omen}，本次没有触发，继续探索。预兆数量保留，不会清零。只有严格小于才触发，相等也安全。`],
+   ['为什么越来越危险？','骰子始终是 6 颗，但预兆计数越来越高，掷出的总和就更容易低于它。例如预兆为 4 时，掷出 3 会触发，掷出 4 不会触发。']
+  ];
+ }
+ if(title==='降魂仪式'){
+  const c=s.lastHauntCheck;return [
+   ['作祟是什么？','作祟是这一局的剧情转折：小屋里的超自然危机正式爆发，原本一起探索的人开始分成不同阵营，并有了各自的胜利条件。它不是普通伤害，也不代表你已经输掉游戏。'],
+   ['为什么现在发生？',c?`刚才的作祟检定掷出 ${c.total} 点，严格小于全局 ${c.omen} 个预兆，所以触发了作祟。`:'你选择了「直接测试作祟」，因此跳过正常探索和随机检定，直接体验这个阶段。'],
+   ['这一局变了什么？',`本 Demo 固定进入「降魂仪式」剧本。${s.players[s.traitor].name}成为叛徒，其余角色是英雄。已有的房间、道具、位置和属性全部保留；手动／AI 控制权也保留。作祟后属性降至骷髅会死亡，预兆不再触发新作祟。`],
+   ['现在应该做什么？','先确认自己控制角色的阵营，再看右侧目标。双方先竞争幽灵控制权：每回合用知识或理智尝试一次仪式。此时还不能普通攻击；仪式完成后才进入安葬或对抗幽灵的下一阶段。']
+  ];
+ }
+ return [];
+}
+root.HouseGuide={next,impact,explain};if(typeof module!=='undefined')module.exports=root.HouseGuide;
 })(typeof window!=='undefined'?window:globalThis);
