@@ -6,6 +6,7 @@ function next(g){
  if(s.result)return{title:'本局已结束',text:s.result.reason,focus:'结束后可以导出日志复盘，或返回菜单开始新对局。',action:null};
  if(!p.alive)return{title:'当前角色已倒下',text:'作祟后任意属性降到骷髅格就会死亡。这个角色不能再行动。',focus:'点击结束回合，让其他存活角色继续。',action:'end'};
  if(g.isAI())return{title:'现在观察 AI 的行动',text:`${p.name}由电脑控制，不需要你替它点击移动或结束回合。AI 和你遵守相同的移动、抽卡与检定规则。`,focus:'关注地图上的位置变化和「房屋纪事」。轮到手动角色时，操作按钮会恢复。',action:null};
+ if(s.phase==='explore'&&g.roomActions){const a=g.roomActions().find(a=>!a.reason);if(a&&!s.guide?.learned?.['room-'+a.id])return{title:a.label,text:a.detail,focus:'这是可选的房间行动；你也可以继续探索。',action:'roomAction:'+a.id};}
  if(s.phase==='explore'){
   if(s.moves===0)return{title:'移动结束了，回合还没结束',text:s.drawnOmen?`本回合抽到了预兆。点击结束回合后会掷 6 颗骰子，总和严格小于当前 ${s.omen} 个预兆时，作祟才会开始。相等不会触发。`:'发现带卡牌的房间会让剩余移动归零；重新进入已发现房间不会再次抽牌。你仍可使用道具。',focus:'看看左侧有没有可使用的道具；准备好后点击「结束回合」。',action:'end'};
   const e=g.exits().find(e=>e.open&&!e.target);
@@ -26,6 +27,7 @@ function next(g){
 }
 function lessonKey(g,tip=cue(g)){
  const a=tip.action||'',s=g.s;
+ if(a.startsWith('roomAction:'))return 'room-'+a.split(':')[1];
  if(s.phase==='rescue'){if(a.startsWith('rescue:'))return a;if(a.startsWith('attack:'))return a==='attack:spider'?'spider':'attack';if(a==='end')return g.p.restrained?'restrained':s.rescue.door&&s.round<=s.rescue.openedTurn?'escape-wait':'end';return 'rescue-movement';}
  if(a==='end')return s.phase==='explore'&&s.drawnOmen?'end-omen':'end';
  if(a.startsWith('move:')||a.startsWith('room:'))return s.phase==='explore'?'move':s.phase==='burial'?(s.carrier===g.p.id?'carry-route':'remains-route'):'chase-route';

@@ -53,7 +53,7 @@ const Rescue={
    if(id==='eggs'){const v=roll(g.val(p,2,true),'处理蜘蛛卵');if(v>=c.medicineThreshold){r.eggs=true;r.kitHolder=null;title='蜘蛛卵已处理';text='医疗用品已使用；倒计时仍继续，完成破网后前往入口。';}else{title='处理未成功';text='知识总和未达到 4；用品保留，下回合可重试。';}}
    if(id.startsWith('door-')){const t=id==='door-might'?0:2,v=roll(g.val(p,t,true),'打开前门');if(v>=c.doorThreshold){r.door=true;r.openedTurn=s.round;p.doorWait=true;s.moves=0;title='前门已打开';text='本回合无法继续移动。请结束回合，下一轮起到入口执行「逃出小屋」才能获胜。';}else{title='开门未成功';text='骰子总和未达到 6；下回合可以再次尝试，或让同伴来开门。';}}
   }
-  s.actions++;g.log(`${p.name} · ${title}：${text}`);s.actionFeedback={player:p.name,title,text,rolls};
+  s.actions++;g.count(p,'tasks');if((id==='web'&&r.web>=r.webGoal)||(id==='eggs'&&r.eggs)||(id.startsWith('door-')&&r.door))g.milestone('objective',title,`${p.name}：${text}`);g.log(`${p.name} · ${title}：${text}`);s.actionFeedback={player:p.name,title,text,rolls};
   if(!g.isAI())g.report(title,text,rolls);
   return true;
  },

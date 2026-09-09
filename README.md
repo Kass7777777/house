@@ -4,7 +4,7 @@ Source: 山中小屋_游戏策划案_v0.3_HD2D_100Haunt.docx, sections 5–12, 2
 
 Static, dependency-free browser game. `dist/engine.js` owns serializable game state and deterministic seeded RNG; `dist/app.js` owns UI, Canvas board, local storage and generated audio cues. `dist/index.html` can also be opened locally. Sites owns project identity in `.openai/hosting.json`.
 
-Implemented: configurable 3–6 character roster and 1–N manually controlled characters; solo multi-character control or local hotseat with pass-device screens; unselected characters are AI-controlled in every phase; three floors; 24 room definitions with door rotation; 4 discrete trait tracks; 0/1/2 dice; 6 item definitions; 6 event templates; 13 omen cards; end-of-turn six-dice haunt check; fixed Haunt #2 structural adaptation; ritual competition, ghost control transfer, corpse search/carry/burial, countdown, hostile ghost/stun/banishment, peripheral room collapse, combat/death, same-room item transfer, autosave/resume and JSON session export.
+Implemented: configurable 3–6 character roster and 1–N manually controlled characters; solo multi-character control or local hotseat with pass-device screens; unselected characters are AI-controlled in every phase; three floors; 26 room definitions with door rotation; 4 discrete trait tracks; 0/1/2 dice; 6 item definitions; 6 event templates; 13 omen cards; end-of-turn six-dice haunt check; fixed Haunt #2 structural adaptation; ritual competition, ghost control transfer, corpse search/carry/burial, countdown, hostile ghost/stun/banishment, peripheral room collapse, combat/death, same-room item transfer, autosave/resume and JSON session export.
 
 Deliberate prototype adaptations, disclosed in in-game help:
 - New explorer tracks and simplified card text, not full official content.
@@ -50,3 +50,12 @@ Explicit adaptations: lowest-sanity traitor retained for all player counts; reac
 Roll presentation: `lastRoll` and per-report immutable `rolls` snapshots bind results to the event that rolled them. Omen report intentionally has no rolls. The last haunt-check record remains separately labeled after later AI/event dice. Human check results pause for acknowledgement even when tutorials have been skipped; routine AI checks stay in logs except first-time teaching.
 
 Validation: `tests/rescue.cjs` covers objective prerequisites, opposed-roll failure, zero-movement tasks, restraint, delayed escape, protection, medicine death drop, deterministic restore and 40 full AI games (both entry points, 3–6 characters). `tests/roll-reports.cjs` verifies no stale omen dice and exact check snapshots. `tests/ui-markup.cjs` executes rendering against a minimal host to validate both scenario markup and dice output; it is not browser or visual QA. Existing control, guide and objective tests pass. Human playtesting and final balance remain pending.
+
+
+## Complete-session exploration batch
+
+Added reusable `dist/rooms.js`: vault knowledge checks with one attempt per turn and a shared one-time reward; first-discovery collapsed-room speed check with optional later jump; coal chute transport on every entry. Prototype adaptations: falls/jumps go to the existing lower-floor platform, with no damage or generated return connection. New room deck entries require a new game.
+
+Players can inspect item effects and choose which trait a healing kit restores. Turn handoffs retain a collapsible recent-change review; AI pace can be adjusted. A session recap records role activity and key milestones, survives saves, and is available during play and at the ending. Same-team replay returns to setup with the roster retained and a fresh map seed. Older saves explicitly mark partial statistics.
+
+Validation: room-session tests cover vault failure/retry/single reward, recurring chute transport, collapsed-room checks/jump cost, healing choice validation and save persistence. Existing scenario, controller, objective, guide, dice and minimal-host rendering tests pass. No browser visual QA performed; human playtesting remains the next gate.
