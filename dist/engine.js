@@ -65,7 +65,7 @@ class Game{
  attack(target){let s=this.s,p=this.p;if(!this.canAct()||s.attackUsed||!['burial','collapse'].includes(s.phase))return false;if(target==='ghost'){if(s.phase!=='collapse'||p.team!=='hero'||s.ghost.room!==p.room)return false;s.attackUsed=true;const a=this.roll(this.val(p,3,true),'驱散幽灵'),d=this.roll(4,'幽灵抵抗');if(a>d){s.ghost.hits++;s.ghost.stunned=true;this.log(`驱散进度 ${s.ghost.hits}/3；幽灵被击晕。`);if(s.ghost.hits>=3)this.endGame('hero','幽灵被彻底驱散，房屋停止崩塌。')}else if(d>a)this.damage(p,d-a,'mental');return true}const t=s.players.find(x=>x.id===Number(target));if(!t||!t.alive||t.team===p.team||t.room!==p.room)return false;s.attackUsed=true;s.actions++;const w=p.items.some(i=>i.type==='weapon')?2:0,a=this.roll(this.val(p,0)+w,`${p.name}攻击`),d=this.roll(this.val(t,0),`${t.name}防守`);if(a>d)this.damage(t,a-d);else if(d>a)this.damage(p,d-a);else this.log('攻防平局，无伤害。');return true}
  path(start,goal){let q=[[start]],seen=new Set([start]);while(q.length){let p=q.shift(),last=p.at(-1);if(last===goal)return p;for(const n of this.neighbors(last))if(!seen.has(n.id)){seen.add(n.id);q.push([...p,n.id])}}return[]}
  ghostTurn(){const s=this.s,g=s.ghost;if(s.phase!=='collapse'||!g)return;if(g.stunned){g.stunned=false;this.log('幽灵从击晕中恢复，本轮不行动。');return}let targets=s.players.filter(p=>p.alive&&p.team==='hero').map(p=>({p,path:this.path(g.room,p.room)})).filter(x=>x.path.length).sort((a,b)=>a.path.length-b.path.length);if(!targets.length)return;const t=targets[0];let move=this.roll(2,'幽灵移动');g.room=t.path[Math.min(move,t.path.length-1)];this.log(`幽灵移动至${s.rooms.find(r=>r.id===g.room).name}。`);if(g.room===t.p.room){const a=this.roll(4,'幽灵精神攻击'),d=this.roll(this.val(t.p,3,true),`${t.p.name}理智防御`);if(a>d)this.damage(t.p,a-d,'mental');else if(d>a){g.stunned=true;this.log('幽灵被防御反制击晕。')}}}
- roundEnd(){const s=this.s;if(s.result)return;if(s.phase==='collapse'){const protectedIds=new Set(['0:0:0','0:0:-1','1:0:0','-1:0:0',s.ghost.room]);const opts=s.rooms.filter(r=>!r.collapsed&&!protectedIds.has(r.id)&&this.neighbors(r.id).length<=1);if(opts.length){let r=opts[Math.floor(this.rng()*opts.length)];const exit=this.neighbors(r.id)[0];if(exit){for(const p of s.players.filter(p=>p.alive&&p.room===r.id)){this.damage(p,1);p.room=exit.id}r.collapsed=true;this.log(`${r.name}崩塌！在场探索者受伤后撤离。`)}}}if(s.phase==='burial'&&s.round>s.summonRound){s.countdown--;this.log(`安葬剩余 ${s.countdown} 轮。`);if(s.countdown<=0)this.endGame('traitor','未能及时安葬遗骸，幽灵吞没了房屋。')}s.round++;if(s.phase!=='explore')s.hauntRound++}
+ roundEnd(){const s=this.s;if(s.result)return;if(s.phase==='collapse'){const protectedIds=new Set(['0:0:0','0:0:-1','1:0:0','-1:0:0',s.ghost.room]);const opts=s.rooms.filter(r=>!r.collapsed&&!protectedIds.has(r.id)&&this.neighbors(r.id).length<=1);if(opts.length){let r=opts[Math.floor(this.rng()*opts.length)];const exit=this.neighbors(r.id)[0];if(exit){for(const p of s.players.filter(p=>p.alive&&p.room===r.id)){this.damage(p,1);p.room=exit.id}r.collapsed=true;this.log(`${r.name}崩塌！在场探索者受伤后撤离。`)}}}if(s.phase==='burial'&&s.round>s.summonRound){s.countdown--;this.log(`安葬剩余 ${s.countdown} 轮。`);if(s.countdown<=0)this.endGame('traitor','未能及时安葬遗骸，幽灵吞没了房屋。')}if(s.result)return;s.round++;if(s.phase!=='explore')s.hauntRound++}
  order(){const ps=this.s.players.filter(p=>p.alive);return this.s.phase==='explore'?ps:ps.filter(p=>p.team==='hero').concat(ps.filter(p=>p.team==='traitor'))}
  endTurn(){let s=this.s;if(s.result)return false;s.actions++;if(s.phase==='explore'&&s.drawnOmen){const v=this.roll(6,'作祟检定');s.lastHauntCheck={serial:(s.lastHauntCheck?.serial||0)+1,total:v,omen:s.omen,dice:[...s.dice],playerId:s.active,round:s.round};if(v<s.omen){this.startHaunt();return true}this.log(`检定 ${v} ≥ ${s.omen}，暂时安全。`)}const order=s.phase==='explore'?s.players:s.players.filter(p=>p.team==='hero').concat(s.players.filter(p=>p.team==='traitor'));let i=order.findIndex(p=>p.id===s.active);let next=order.slice(i+1).find(p=>p.alive);if(!next){this.ghostTurn();this.roundEnd();next=this.order()[0]}if(!s.result&&next){s.active=next.id;this.turnStart()}this.checkVictory();return true}
 
@@ -111,6 +111,15 @@ class Game{
    else if(s.carrier===null)targetRoom=s.corpseRoom;
    else targetRoom=s.players[s.carrier].room;
    if(!s.taskUsed&&this.task(2))return true;
+   // A carrier prioritizes delivering the objective over optional combat.
+   if(s.carrier===p.id&&p.room!==s.burialRoom){
+    const route=this.path(p.room,s.burialRoom);
+    if(route.length>1){
+     if(this.moveRoom(route[1]))return true;
+     const boost=p.items.find(i=>i.type==='speed'&&!p.used.includes(i.id));
+     if(boost&&this.use(boost.id))return true;
+    }
+   }
    const nearby=enemies.find(t=>t.p.room===p.room);
    if(nearby)attackTarget=nearby.p.id;
   }
