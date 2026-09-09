@@ -23,6 +23,15 @@ function next(g){
 
  return{title:`协助${s.players[s.carrier].name}运送遗骸`,text:`遗骸已由${s.players[s.carrier].name}携带，其他英雄不必重复搜索。目标是让携带者到达${burial.name}并安葬。`,focus:`剩余 ${s.countdown} 轮。可接近叛徒牵制它，或使用道具恢复属性；无事可做时结束回合。`,action:null};
 }
+function lessonKey(g,tip=cue(g)){
+ const a=tip.action||'',s=g.s;
+ if(a==='end')return s.phase==='explore'&&s.drawnOmen?'end-omen':'end';
+ if(a.startsWith('move:')||a.startsWith('room:'))return s.phase==='explore'?'move':s.phase==='burial'?(s.carrier===g.p.id?'carry-route':'remains-route'):'chase-route';
+ if(a.startsWith('task:'))return s.phase==='ritual'?'ritual-'+g.p.team:s.carrier===g.p.id?'bury':'search';
+ if(a.startsWith('attack:'))return a==='attack:ghost'?'banish':'attack';
+ return s.phase+'-'+g.p.team;
+}
+function tutorial(g){const tip=cue(g);return g.s.guide?.learned?.[lessonKey(g,tip)]?null:tip;}
 // Resolve advice to one legal action without changing the game state.
 function cue(g){
  const tip=next(g),s=g.s,p=g.p;
@@ -86,5 +95,5 @@ function explain(s,title){
  }
  return [];
 }
-root.HouseGuide={next,cue,impact,explain};if(typeof module!=='undefined')module.exports=root.HouseGuide;
+root.HouseGuide={next,cue,lessonKey,tutorial,impact,explain};if(typeof module!=='undefined')module.exports=root.HouseGuide;
 })(typeof window!=='undefined'?window:globalThis);

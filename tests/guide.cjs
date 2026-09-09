@@ -39,3 +39,15 @@ if(cue.action.startsWith('move:'))assert(c.exits()[Number(cue.action.split(':')[
 c.p.room=c.s.corpseRoom;c.s.moves=0;assert.equal(Guide.cue(c).action,'task:2');
 c.p.controller='ai';assert.equal(Guide.cue(c).action,null);
 console.log('Action cues: legal movement, exhausted movement, remains route, zero-move search and AI suppression passed.');
+
+const once=new Game({count:4,humanCount:4});once.s.guide={enabled:true,lesson:3,learned:{}};
+assert.equal(Guide.lessonKey(once),'move');once.s.guide.learned.move=true;
+assert.equal(Guide.tutorial(once),null);once.s.moves=0;
+assert.equal(Guide.lessonKey(once),'end');assert(Guide.tutorial(once));once.s.guide.learned.end=true;
+assert.equal(Guide.tutorial(once),null);once.s.drawnOmen=true;
+assert.equal(Guide.lessonKey(once),'end-omen');assert(Guide.tutorial(once));
+once.s.guide.learned['end-omen']=true;
+const resumed=new Game({},copy(once));assert.equal(Guide.tutorial(resumed),null);
+resumed.startHaunt();resumed.s.taskUsed=false;assert(Guide.tutorial(resumed));
+assert(Guide.lessonKey(resumed).startsWith('ritual-'));
+console.log('One-time tutorials: learned steps suppressed, new omen/ritual contexts retained, progress survives save restoration.');
