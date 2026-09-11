@@ -4,14 +4,14 @@ Source: 山中小屋_游戏策划案_v0.3_HD2D_100Haunt.docx, sections 5–12, 2
 
 Static, dependency-free browser game. `dist/engine.js` owns serializable game state and deterministic seeded RNG; `dist/app.js` owns UI, Canvas board, local storage and generated audio cues. `dist/index.html` can also be opened locally. Sites owns project identity in `.openai/hosting.json`.
 
-Implemented: configurable 3–6 character roster and 1–N manually controlled characters; solo multi-character control or local hotseat with pass-device screens; unselected characters are AI-controlled in every phase; three floors; 26 room definitions with door rotation; 4 discrete trait tracks; 0/1/2 dice; 6 item definitions; 6 event templates; 13 omen cards; end-of-turn six-dice haunt check; fixed Haunt #2 structural adaptation; ritual competition, ghost control transfer, corpse search/carry/burial, countdown, hostile ghost/stun/banishment, peripheral room collapse, combat/death, same-room item transfer, autosave/resume and JSON session export.
+Implemented: configurable 3–6 character roster and 1–N manually controlled characters; solo multi-character control or local hotseat with pass-device screens; unselected characters are AI-controlled in every phase; three floors; 26 room definitions with door rotation; 4 discrete trait tracks; 0/1/2 dice; 6 item definitions; 4 choice-event templates; 13 omen cards; end-of-turn six-dice haunt check; fixed Haunt #2 structural adaptation; ritual competition, ghost control transfer, corpse search/carry/burial, countdown, hostile ghost/stun/banishment, peripheral room collapse, combat/death, same-room item transfer, autosave/resume and JSON session export.
 
 Deliberate prototype adaptations, disclosed in in-game help:
 - New explorer tracks and simplified card text, not full official content.
-- Fixed Haunt #2 instead of the full Room × Omen mapping.
+- Two-scenario prototype Room × Omen mapping, with a separate fixed-scenario test mode; not the official full matrix.
 - Ritual anywhere, threshold 4, goal 3; hero success +1, traitor success +2. These are provisional test values, not final balance.
 - Basement is directly linked to Grand Staircase.
-- Damage automatically allocated to the eligible trait with more remaining track positions.
+- Human damage is allocated interactively across physical or mental traits; AI keeps automatic allocation.
 - Collapse selects leaf rooms to preserve connectivity; rounds with no eligible leaf do not collapse a room.
 - No online multiplayer, hidden-traitor security, theft, complete room exceptions or full HD-2D renderer. Hotseat privacy is courtesy-based on a shared browser, not a security boundary.
 - Gameplay visuals are a functional isometric board; GDD HD-2D artwork is used for start/reveal screens.
@@ -59,3 +59,15 @@ Added reusable `dist/rooms.js`: vault knowledge checks with one attempt per turn
 Players can inspect item effects and choose which trait a healing kit restores. Turn handoffs retain a collapsible recent-change review; AI pace can be adjusted. A session recap records role activity and key milestones, survives saves, and is available during play and at the ending. Same-team replay returns to setup with the roster retained and a fresh map seed. Older saves explicitly mark partial statistics.
 
 Validation: room-session tests cover vault failure/retry/single reward, recurring chute transport, collapsed-room checks/jump cost, healing choice validation and save persistence. Existing scenario, controller, objective, guide, dice and minimal-host rendering tests pass. No browser visual QA performed; human playtesting remains the next gate.
+
+
+## Exploration decisions and tactical resolution
+Normal setup defaults to hidden scenario selection. `tactics.js` defines an explicit 26-row/13-column two-scenario prototype matrix; only successful haunt checks reveal the selected scenario. Last omen room and identity are saved. Fixed scenario tests remain available; legacy saves retain their original fixed scenario.
+
+Four authored event prompts offer investigation (trait >=4, +1 trait and one available item; failure 2 damage), safe retreat, consumable-assisted safety, or same-room ally support. These are original prototype events, not official card reproductions. Events block other gameplay until resolved and survive reloads. AI chooses using its abilities and resources.
+
+Every UI/AI gameplay command that may cause damage runs through `Game.invoke`. Human damage suspends the entire atomic command: saved baseline, ordered allocations and immutable dice evidence allow deterministic replay once the player confirms. This preserves exact RNG, enemy/round continuation, death and victory ordering even for multiple victims. Direct low-level methods retain automatic damage for legacy headless callers. Pending allocations save safely. Attack confirmation explains both dice pools, retaliation and the attack budget.
+
+AI medicine assignment considers route distance and knowledge; a carrier can hand off to a stronger same-room medic. Party cards display live AI goals. Also corrected spider movement-blocking cost being overwritten by ordinary enemy count.
+
+Validation: `node --require ./dist/tactics.js --test tests/*.cjs` includes the live extension in all regression simulations. New coverage checks mapping, event choice locking, save/replay allocations, enemy attacks on humans, and 12 complete automatic-selection games spanning both scenarios; UI host tests execute choice and allocation clicks. No browser visual QA was performed. Human pacing/balance feedback remains required.

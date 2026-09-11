@@ -3,7 +3,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const app={innerHTML:'',className:'',querySelector:()=>null,querySelectorAll:()=>[]};
 const modal={innerHTML:'',dataset:{},open:false,showModal(){this.open=true},close(){this.open=false},querySelector:()=>null,addEventListener(){}};
 const ctx={document:{querySelector:q=>q==='#app'?app:q==='#modal'?modal:null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:()=>null,setItem(){}},clearTimeout(){},setTimeout(){},requestAnimationFrame(){},matchMedia:()=>({matches:true})};ctx.window=ctx;ctx.addEventListener=()=>{};vm.createContext(ctx);
-for(const file of ['scenarios.js','rooms.js','engine.js','guide.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
+for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','guide.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
 assert(app.innerHTML.includes('命运罗网'));assert(app.innerHTML.includes('scenario:rescue'));
 for(const scenario of ['ritual','rescue']){
  vm.runInContext(`game=new Game({scenario:'${scenario}',quick:true,count:4,humanCount:4});floor=game.roomNow.f;render();report();`,ctx);
@@ -19,3 +19,8 @@ console.log('UI markup: scenario picker, both scenario renders and results, resc
 vm.runInContext("game=new Game({count:4,humanCount:2});recap();",ctx);assert(modal.innerHTML.includes('这一夜的经过'));assert(modal.innerHTML.includes('进入小屋'));
 vm.runInContext("healingChoice('test-kit');",ctx);assert.equal((modal.innerHTML.match(/heal:test-kit:/g)||[]).length,4);assert(!modal.innerHTML.includes('undefined'));
 console.log('Session recap and four healing options render passed.');
+vm.runInContext("game=new Game({scenarioMode:'auto',count:3,humanCount:3});game.draw('E');afterAction(0);",ctx);assert(modal.innerHTML.includes('探索抉择'));assert(modal.innerHTML.includes('event:risk'));
+vm.runInContext("act('event:leave');",ctx);assert(!vm.runInContext('game.s.eventChoice',ctx));assert(modal.innerHTML.includes('谨慎离开'));
+vm.runInContext("game=new Game({count:3,humanCount:3});game.s.eventChoice={title:'test',trait:0,type:'physical',playerId:0};game.p.tracks=JSON.parse(JSON.stringify(game.p.tracks));game.p.tracks[0][3]=0;act('event:risk');",ctx);assert(modal.innerHTML.includes('分配伤害'));
+vm.runInContext("act('damagePick:0');act('damagePick:1');act('damageConfirm');",ctx);assert(!vm.runInContext('game.s.pendingDecision',ctx));assert(modal.innerHTML.includes('受到 2 点物理伤害'));
+console.log('Interactive event and damage-allocation UI flow passed.');

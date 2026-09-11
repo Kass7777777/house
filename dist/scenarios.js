@@ -79,14 +79,14 @@ const Rescue={
   if(r.web>=r.webGoal&&r.eggs)return '0:0:0';
   if(!r.eggs&&r.kitHolder===p.id)return this.room(g);
   if(!r.eggs&&r.kitHolder===null&&!p.restrained){
-   const eligible=s.players.filter(q=>q.alive&&q.team==='hero'&&!q.restrained).map(q=>({p:q,path:g.path(q.room,r.kitRoom)})).filter(x=>x.path.length).sort((a,b)=>a.path.length-b.path.length||a.p.id-b.p.id);
+   const eligible=s.players.filter(q=>q.alive&&q.team==='hero'&&!q.restrained).map(q=>({p:q,path:g.path(q.room,r.kitRoom)})).filter(x=>x.path.length).sort((a,b)=>(a.path.length*2-g.val(a.p,2,true))-(b.path.length*2-g.val(b.p,2,true))||a.p.id-b.p.id);
    if(eligible[0]?.p.id===p.id)return r.kitRoom;
   }
   return this.room(g);
  },
  advice(g){
   const s=g.s,r=s.rescue,p=g.p,goal=this.goal(g),choices=this.actions(g),pick=id=>choices.find(a=>a.id===id&&a.available);
-  let task=pick('escape')||pick('eggs')||pick('kit')||pick(g.val(p,0)>g.val(p,2,true)?'door-might':'door-knowledge')||pick('web');
+  let task=pick('escape')||pick('eggs')||(goal===r.kitRoom?pick('kit'):null)||pick(g.val(p,0)>g.val(p,2,true)?'door-might':'door-knowledge')||pick('web');
   if(p.team==='hero'&&task)return {title:task.label,text:task.detail,focus:'高亮按钮是当前建议；你也可以选择其他合法行动。',action:'rescue:'+task.id};
   const enemy=s.players.find(t=>t.alive&&t.team!==p.team&&t.room===p.room&&this.enemyAllowed(g,t));
   if(p.team==='traitor'&&enemy&&!s.attackUsed)return {title:'阻止救援',text:'拖过时限或消灭英雄获胜。蜘蛛每轮自动追击。',focus:'蜘蛛卵处理前，受困者不能被攻击。',action:'attack:'+enemy.id};
@@ -95,7 +95,7 @@ const Rescue={
   if(p.team==='hero'&&p.room===r.spider.room&&!s.attackUsed)return{title:'击退蜘蛛',text:'力量对抗蜘蛛，成功让它跳过下次行动；失败可能受伤。',focus:'击退蜘蛛不会直接获胜。',action:'attack:spider'};
   return {title:'结束当前回合',text:p.restrained?'你暂时不能移动；每回合可以尝试破网，也可以使用或交换道具。':r.door&&s.round<=r.openedTurn?'前门已打开，下一轮起可以执行逃脱。':'本回合可用的任务已完成，可结束回合等待同伴。',focus:`剩余 ${r.remaining} 轮。`,action:'end'};
  },
- ai(g){const tip=this.advice(g),a=tip.action||'end';if(a.startsWith('rescue:'))return this.action(g,a.slice(7));if(a.startsWith('attack:'))return g.attack(a.slice(7));if(a.startsWith('move:'))return g.move(Number(a.slice(5)));if(a.startsWith('room:'))return g.moveRoom(a.slice(5));return g.endTurn();}
+ ai(g){const p=g.p,r=g.s.rescue;if(p.team==='hero'&&r.kitHolder===p.id&&!g.s.taskUsed){const medic=g.s.players.filter(q=>q.alive&&q.team==='hero'&&q.id!==p.id&&q.room===p.room&&g.val(q,2,true)>g.val(p,2,true)).sort((a,b)=>g.val(b,2,true)-g.val(a,2,true))[0];if(medic&&g.handoffKit(medic.id))return true;}const tip=this.advice(g),a=tip.action||'end';if(a.startsWith('rescue:'))return this.action(g,a.slice(7));if(a.startsWith('attack:'))return g.attack(a.slice(7));if(a.startsWith('move:'))return g.move(Number(a.slice(5)));if(a.startsWith('room:'))return g.moveRoom(a.slice(5));return g.endTurn();}
 };
 root.HouseScenarios={configs,validate,Rescue};if(typeof module!=='undefined')module.exports=root.HouseScenarios;
 })(typeof window!=='undefined'?window:globalThis);
