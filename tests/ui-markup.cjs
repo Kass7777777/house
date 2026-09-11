@@ -28,7 +28,11 @@ vm.runInContext("game=new Game({count:3,humanCount:3});game.s.reviewTurn=game.s.
 vm.runInContext("act('briefingRead');",ctx);assert(!app.innerHTML.includes('刚才发生了什么'));
 console.log('Compact turn header and removed duplicate panels verified.');
 
-vm.runInContext("game=new Game({scenario:'rescue',quick:true,count:4,humanCount:4});render();",ctx);assert(app.innerHTML.includes('未解锁——需完成破网和医疗'));assert(app.innerHTML.includes('查看状态'));assert(app.innerHTML.includes('<details class="chronicle">'));
+vm.runInContext("game=new Game({scenario:'rescue',quick:true,count:4,humanCount:4});render();",ctx);assert(app.innerHTML.includes('完成破网与医疗'));assert(app.innerHTML.includes('查看状态'));assert(app.innerHTML.includes('<details class="chronicle" open>'));
 const actor=vm.runInContext('game.s.active',ctx);vm.runInContext("act('inspect:2');",ctx);assert(modal.innerHTML.includes('携带物品'));assert.equal(vm.runInContext('game.s.active',ctx),actor);
 vm.runInContext("act('locate:1:0:0');",ctx);assert.equal(vm.runInContext('floor',ctx),1);assert.equal(vm.runInContext('game.s.active',ctx),actor);assert.equal(vm.runInContext('mapFocus',ctx),'1:0:0');
 console.log('Compact state: no duplicated feeds; objectives, character inspection and cross-floor location preserve actor.');
+
+vm.runInContext("game=new Game({count:3,humanCount:1});game.s.active=1;game.s.guide={enabled:false,lesson:3,last:[]};readingMode='confirm';game.p.idx[0]=2;game.s.eventChoice={title:'观察事件',trait:0,type:'physical',playerId:1};game.invoke('resolveEvent',['leave']);afterAction(1,true);",ctx);assert(modal.open);assert(modal.innerHTML.includes('观察事件'));assert(!vm.runInContext('game.s.eventChoice',ctx));
+vm.runInContext("closeModal();game.invoke('resolveEvent',['leave']);",ctx);assert(!modal.open);
+console.log('AI informational events wait for acknowledgement even without tutorials.');

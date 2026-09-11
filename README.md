@@ -79,3 +79,9 @@ Added a central phase/goal/deadline and turn-order display, persistent recent-ac
 
 ## Compact current-state layout
 Supersedes the preceding awareness layout: removed visible recent-party-action and handoff-brief panels, compressed the phase header to current/next actor, and folded the sole House Chronicle history panel by default. A centralized faction-aware objective panel lists prerequisites, progress, deadlines, carriers and floor-qualified location links. Every character can be inspected for trait values, inventory, critical states and AI intent without changing the active actor. Map location highlights are distinct from current-character highlighting. Existing dice/atomic action rules remain unchanged. VM markup checks cover removed panels, rescue prerequisites, inspection and cross-floor location without actor mutation.
+
+
+## Readable event pacing and objective status
+House Chronicle defaults open. Party cards expose all four attributes and AI goals. Rescue objective cards show parallel rescue/medical status, locations, missing prerequisites and a factual situation summary; other haunt phases summarize remaining progress.
+AI informational results default to explicit acknowledgement independent of tutorials. Automatic reading waits 4.5–15 seconds based on text length, while fast mode skips routine AI report pauses. Death, phase transitions and key completions remain acknowledged. Modal visibility blocks subsequent AI commands; reports persist through saves. A single atomic round-end command may contain multiple effects, which are shown together in its result. No animation work or rule changes in this batch.
+Validation: controller, guide, objectives, rescue, dice, damage/reload, awareness and UI host regression suites passed. Actual browser visual testing was not performed.
