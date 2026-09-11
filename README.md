@@ -71,3 +71,7 @@ Every UI/AI gameplay command that may cause damage runs through `Game.invoke`. H
 AI medicine assignment considers route distance and knowledge; a carrier can hand off to a stronger same-room medic. Party cards display live AI goals. Also corrected spider movement-blocking cost being overwritten by ordinary enemy count.
 
 Validation: `node --require ./dist/tactics.js --test tests/*.cjs` includes the live extension in all regression simulations. New coverage checks mapping, event choice locking, save/replay allocations, enemy attacks on humans, and 12 complete automatic-selection games spanning both scenarios; UI host tests execute choice and allocation clicks. No browser visual QA was performed. Human pacing/balance feedback remains required.
+
+
+## Team and session awareness
+Added a central phase/goal/deadline and turn-order display, persistent recent-action feed, detailed dice-backed action history, and an expanded human-turn briefing prioritizing trait changes and objectives. AI normal pacing is 1.1 seconds, with fast/slow, pause and single-step controls. Structured change records are generated only after atomic commands commit, so pending damage and save/replay do not emit duplicate outcomes. History keeps the last 100 changed commands and persists in local saves; old saves begin recording from this update. Presentation does not consume RNG or alter turn rules. Targeted tests cover pending damage, resumed single emission, actor/dice preservation and handoff markup.

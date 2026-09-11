@@ -3,7 +3,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const app={innerHTML:'',className:'',querySelector:()=>null,querySelectorAll:()=>[]};
 const modal={innerHTML:'',dataset:{},open:false,showModal(){this.open=true},close(){this.open=false},querySelector:()=>null,addEventListener(){}};
 const ctx={document:{querySelector:q=>q==='#app'?app:q==='#modal'?modal:null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:()=>null,setItem(){}},clearTimeout(){},setTimeout(){},requestAnimationFrame(){},matchMedia:()=>({matches:true})};ctx.window=ctx;ctx.addEventListener=()=>{};vm.createContext(ctx);
-for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','guide.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
+for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','awareness.js','guide.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
 assert(app.innerHTML.includes('命运罗网'));assert(app.innerHTML.includes('scenario:rescue'));
 for(const scenario of ['ritual','rescue']){
  vm.runInContext(`game=new Game({scenario:'${scenario}',quick:true,count:4,humanCount:4});floor=game.roomNow.f;render();report();`,ctx);
@@ -24,3 +24,6 @@ vm.runInContext("act('event:leave');",ctx);assert(!vm.runInContext('game.s.event
 vm.runInContext("game=new Game({count:3,humanCount:3});game.s.eventChoice={title:'test',trait:0,type:'physical',playerId:0};game.p.tracks=JSON.parse(JSON.stringify(game.p.tracks));game.p.tracks[0][3]=0;act('event:risk');",ctx);assert(modal.innerHTML.includes('分配伤害'));
 vm.runInContext("act('damagePick:0');act('damagePick:1');act('damageConfirm');",ctx);assert(!vm.runInContext('game.s.pendingDecision',ctx));assert(modal.innerHTML.includes('受到 2 点物理伤害'));
 console.log('Interactive event and damage-allocation UI flow passed.');
+vm.runInContext("game=new Game({count:3,humanCount:3});game.s.reviewTurn=game.s.turnSerial;game.s.briefingCursor=0;game.invoke('endTurn');afterAction(0);",ctx);assert(app.innerHTML.includes('刚才发生了什么'));assert(app.innerHTML.includes('整局进度'));assert(app.innerHTML.includes('全队最近行动'));assert(app.innerHTML.includes('接下来：'));
+vm.runInContext("act('briefingRead');",ctx);assert(!app.innerHTML.includes('刚才发生了什么'));
+console.log('Progress, persistent action feed and dismissible handoff briefing render passed.');

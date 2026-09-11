@@ -1,0 +1,5 @@
+const assert=require('node:assert/strict');require('../dist/tactics.js');require('../dist/awareness.js');const {Game}=require('../dist/engine.js');
+let g=new Game({count:3,humanCount:3});g.s.eventChoice={title:'test',trait:0,type:'physical',playerId:0};g.p.tracks=JSON.parse(JSON.stringify(g.p.tracks));g.p.tracks[0][3]=0;
+g.invoke('resolveEvent',['risk']);assert(g.s.pendingDecision);assert(!g.s.awareness?.length);g.allocateDamage(0);g.allocateDamage(1);g=new Game({},g.s);g.confirmDamage();assert.equal(g.s.awareness.length,1);assert(g.s.awareness[0].lines.some(l=>l.text.includes('力量 -1')));assert(g.s.awareness[0].lines.some(l=>l.text.includes('速度 -1')));assert.equal(g.s.awareness[0].rolls.length,1);
+const before=JSON.stringify(g.s);g.intent(g.p);assert.equal(JSON.stringify(g.s),before);g.invoke('endTurn');assert.equal(g.s.awareness.length,2);assert.equal(g.s.awareness[1].name,'薇拉');assert.equal(new Game({},g.s).s.awareness.length,2);
+console.log('Awareness: pending damage emits no premature result; reload/confirmation records once; actor and dice retained; turn completion recorded.');
