@@ -24,6 +24,11 @@ vm.runInContext("act('event:leave');",ctx);assert(!vm.runInContext('game.s.event
 vm.runInContext("game=new Game({count:3,humanCount:3});game.s.eventChoice={title:'test',trait:0,type:'physical',playerId:0};game.p.tracks=JSON.parse(JSON.stringify(game.p.tracks));game.p.tracks[0][3]=0;act('event:risk');",ctx);assert(modal.innerHTML.includes('分配伤害'));
 vm.runInContext("act('damagePick:0');act('damagePick:1');act('damageConfirm');",ctx);assert(!vm.runInContext('game.s.pendingDecision',ctx));assert(modal.innerHTML.includes('受到 2 点物理伤害'));
 console.log('Interactive event and damage-allocation UI flow passed.');
-vm.runInContext("game=new Game({count:3,humanCount:3});game.s.reviewTurn=game.s.turnSerial;game.s.briefingCursor=0;game.invoke('endTurn');afterAction(0);",ctx);assert(app.innerHTML.includes('刚才发生了什么'));assert(app.innerHTML.includes('整局进度'));assert(app.innerHTML.includes('全队最近行动'));assert(app.innerHTML.includes('接下来：'));
+vm.runInContext("game=new Game({count:3,humanCount:3});game.s.reviewTurn=game.s.turnSerial;game.s.briefingCursor=0;game.invoke('endTurn');afterAction(0);",ctx);assert(!app.innerHTML.includes('刚才发生了什么'));assert(app.innerHTML.includes('当前回合'));assert(!app.innerHTML.includes('全队最近行动'));assert(app.innerHTML.includes('接下来：'));
 vm.runInContext("act('briefingRead');",ctx);assert(!app.innerHTML.includes('刚才发生了什么'));
-console.log('Progress, persistent action feed and dismissible handoff briefing render passed.');
+console.log('Compact turn header and removed duplicate panels verified.');
+
+vm.runInContext("game=new Game({scenario:'rescue',quick:true,count:4,humanCount:4});render();",ctx);assert(app.innerHTML.includes('未解锁——需完成破网和医疗'));assert(app.innerHTML.includes('查看状态'));assert(app.innerHTML.includes('<details class="chronicle">'));
+const actor=vm.runInContext('game.s.active',ctx);vm.runInContext("act('inspect:2');",ctx);assert(modal.innerHTML.includes('携带物品'));assert.equal(vm.runInContext('game.s.active',ctx),actor);
+vm.runInContext("act('locate:1:0:0');",ctx);assert.equal(vm.runInContext('floor',ctx),1);assert.equal(vm.runInContext('game.s.active',ctx),actor);assert.equal(vm.runInContext('mapFocus',ctx),'1:0:0');
+console.log('Compact state: no duplicated feeds; objectives, character inspection and cross-floor location preserve actor.');
