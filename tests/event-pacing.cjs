@@ -1,0 +1,18 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const timers=new Map(),storage=new Map();let serial=0;
+const app={innerHTML:'',className:'',querySelector:()=>null,querySelectorAll:()=>[]};
+const modal={innerHTML:'',dataset:{},open:false,showModal(){this.open=true},close(){this.open=false},querySelector:()=>null,addEventListener(){}};
+const ctx={document:{querySelector:q=>q==='#app'?app:q==='#modal'?modal:null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},clearTimeout:id=>timers.delete(id),setTimeout:(fn,ms)=>{timers.set(++serial,{fn,ms});return serial},requestAnimationFrame(){},matchMedia:()=>({matches:true})};ctx.window=ctx;ctx.addEventListener=()=>{};vm.createContext(ctx);
+for(const f of ['scenarios','rooms','engine','tactics','awareness','guide','intel','app'])vm.runInContext(fs.readFileSync('dist/'+f+'.js','utf8'),ctx);
+const run=s=>vm.runInContext(s,ctx);
+run("game=new Game({count:3,humanCount:1});game.s.active=1;game.s.report={title:'发现',text:'测试结果',observation:true};readingMode='auto';report();scheduleAI();");
+assert.equal(timers.size,1,'AI must not advance while modal is open');const stale=[...timers.values()][0].fn;
+run("act('holdEvent');");assert.equal(timers.size,0);assert(modal.innerHTML.includes('已停留'));
+run("act('holdEvent');");assert.equal(timers.size,1);run('persist();modal.close();act("resume");');assert(modal.open);assert(modal.innerHTML.includes('测试结果'));assert.equal(timers.size,1);
+stale();assert(modal.open,'previous-game callback must not close restored report');
+[...timers.values()][0].fn();assert(!modal.open);assert(run('game.s.report===null'));
+timers.clear();run("game=new Game({scenario:'rescue',quick:true,count:3,humanCount:1});game.s.countdown=2;game.s.rescue.remaining=2;game.s.report=null;game.s.awareness=[{id:1,actor:game.s.active,name:game.p.name,round:game.s.round,rolls:[],lines:[{important:true,text:'时限剩余 2 轮。'}]}];readingMode='fast';afterAction(game.s.active,true);");
+assert(modal.open);assert(run('game.s.report.major'));assert.equal(timers.size,0);assert(modal.innerHTML.includes('关键进展'));
+run("game.s.actionFeedback={player:'旧角色',title:'旧行动',text:'旧结果'};afterAction((game.s.active+1)%3);");assert(!app.innerHTML.includes('旧结果'));
+run("act('logFilter:important');");assert(app.innerHTML.includes('log-important'));assert(!app.innerHTML.includes('undefined'));
+console.log('Event timers: hold/resume, save restore, stale callback, AI blocking, urgent fast-mode acknowledgement and stale feedback clearing passed.');

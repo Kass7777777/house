@@ -85,3 +85,6 @@ Supersedes the preceding awareness layout: removed visible recent-party-action a
 House Chronicle defaults open. Party cards expose all four attributes and AI goals. Rescue objective cards show parallel rescue/medical status, locations, missing prerequisites and a factual situation summary; other haunt phases summarize remaining progress.
 AI informational results default to explicit acknowledgement independent of tutorials. Automatic reading waits 4.5–15 seconds based on text length, while fast mode skips routine AI report pauses. Death, phase transitions and key completions remain acknowledged. Modal visibility blocks subsequent AI commands; reports persist through saves. A single atomic round-end command may contain multiple effects, which are shown together in its result. No animation work or rule changes in this batch.
 Validation: controller, guide, objectives, rescue, dice, damage/reload, awareness and UI host regression suites passed. Actual browser visual testing was not performed.
+
+### 单局信息（v17）
+目标栏统一展示当前阵营目标和胜负风险。操作区可展开「行动说明」，查看实际骰数与失败代价；结束回合前可看到下一位及轮末结算预告。房屋纪事默认展开，可筛选本轮或关键记录。AI 自动阅读可停留，最后三轮的时限变化即使快速模式也需要确认。结局回顾保留具体结束原因。

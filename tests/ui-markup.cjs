@@ -3,7 +3,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const app={innerHTML:'',className:'',querySelector:()=>null,querySelectorAll:()=>[]};
 const modal={innerHTML:'',dataset:{},open:false,showModal(){this.open=true},close(){this.open=false},querySelector:()=>null,addEventListener(){}};
 const ctx={document:{querySelector:q=>q==='#app'?app:q==='#modal'?modal:null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:()=>null,setItem(){}},clearTimeout(){},setTimeout(){},requestAnimationFrame(){},matchMedia:()=>({matches:true})};ctx.window=ctx;ctx.addEventListener=()=>{};vm.createContext(ctx);
-for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','awareness.js','guide.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
+for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','awareness.js','guide.js','intel.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
 assert(app.innerHTML.includes('命运罗网'));assert(app.innerHTML.includes('scenario:rescue'));
 for(const scenario of ['ritual','rescue']){
  vm.runInContext(`game=new Game({scenario:'${scenario}',quick:true,count:4,humanCount:4});floor=game.roomNow.f;render();report();`,ctx);
