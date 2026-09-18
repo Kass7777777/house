@@ -36,3 +36,12 @@ console.log('Compact state: no duplicated feeds; objectives, character inspectio
 vm.runInContext("game=new Game({count:3,humanCount:1});game.s.active=1;game.s.guide={enabled:false,lesson:3,last:[]};readingMode='confirm';game.p.idx[0]=2;game.s.eventChoice={title:'观察事件',trait:0,type:'physical',playerId:1};game.invoke('resolveEvent',['leave']);afterAction(1,true);",ctx);assert(modal.open);assert(modal.innerHTML.includes('观察事件'));assert(!vm.runInContext('game.s.eventChoice',ctx));
 vm.runInContext("closeModal();game.invoke('resolveEvent',['leave']);",ctx);assert(!modal.open);
 console.log('AI informational events wait for acknowledgement even without tutorials.');
+vm.runInContext("game=new Game({count:3,humanCount:1});game.s.active=1;modal.close();act('route:1:0:0');",ctx);
+assert(modal.innerHTML.includes('同阵营角色距此位置'));assert(modal.innerHTML.includes('相邻移动'));
+assert.equal(vm.runInContext('game.s.active',ctx),1);
+vm.runInContext("act('locate:1:0:0');",ctx);assert(vm.runInContext('aiPaused',ctx));
+assert(app.innerHTML.includes('正在行动'));assert(app.innerHTML.includes('下一轮'));
+vm.runInContext("game.s.report={title:'普通发现',text:'发现一个房间。'};game.s.awareness=[];afterAction(1,true);",ctx);
+assert(vm.runInContext('game.s.report.observation',ctx));assert(modal.innerHTML.includes('reportMode'));
+vm.runInContext("act('reportMode');",ctx);assert.equal(vm.runInContext('readingMode',ctx),'auto');assert(modal.open);
+console.log('Route inspection preserves actor; AI map inspection pauses; turn order and report reading-mode controls verified.');

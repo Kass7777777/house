@@ -18,3 +18,5 @@
 .party-traits{font-size:14px;line-height:1.6;margin-top:5px;color:#e3e6ce}.situation{padding:10px;background:#303a28;border-left:3px solid #dfce95;font-size:16px;line-height:1.65}.quest-state{padding:12px 0;border-bottom:1px solid #506047}.quest-state>div{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.quest-state span{font-size:14px;color:#f0dc9d}.quest-state p{font-size:14px;line-height:1.65;margin:7px 0}.quest-state.done{opacity:.7}.quest-state.done span{color:#b7ddc4}
 
 .event-result-text{white-space:pre-line;line-height:1.7}
+
+.turn-position{font-size:11px;color:var(--gold);margin:5px 0}.route-steps{padding-left:24px;line-height:1.8}.route-steps li{padding:4px 0;border-bottom:1px solid #ffffff14}
