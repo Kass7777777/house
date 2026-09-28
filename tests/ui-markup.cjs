@@ -3,7 +3,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const app={innerHTML:'',className:'',querySelector:()=>null,querySelectorAll:()=>[]};
 const modal={innerHTML:'',dataset:{},open:false,showModal(){this.open=true},close(){this.open=false},querySelector:()=>null,addEventListener(){}};
 const ctx={document:{querySelector:q=>q==='#app'?app:q==='#modal'?modal:null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:()=>null,setItem(){}},clearTimeout(){},setTimeout(){},requestAnimationFrame(){},matchMedia:()=>({matches:true})};ctx.window=ctx;ctx.addEventListener=()=>{};vm.createContext(ctx);
-for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','awareness.js','guide.js','intel.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
+for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','equipment.js','awareness.js','guide.js','intel.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
 assert(app.innerHTML.includes('命运罗网'));assert(app.innerHTML.includes('scenario:rescue'));
 for(const scenario of ['ritual','rescue']){
  vm.runInContext(`game=new Game({scenario:'${scenario}',quick:true,count:4,humanCount:4});floor=game.roomNow.f;render();report();`,ctx);
@@ -46,3 +46,5 @@ assert(vm.runInContext('game.s.report.observation',ctx));assert(modal.innerHTML.
 vm.runInContext("act('reportMode');",ctx);assert.equal(vm.runInContext('readingMode',ctx),'auto');assert(modal.open);
 console.log('Route inspection preserves actor; AI map inspection pauses; turn order and report reading-mode controls verified.');
 vm.runInContext("game=new Game({count:3,humanCount:3});game.s.eventChoice={...HouseTactics.events[4],playerId:0};decisionDialog();",ctx);assert(modal.innerHTML.includes('event:alternate'));assert(modal.innerHTML.includes('成功率约'));assert(modal.innerHTML.includes('物理'));
+vm.runInContext("game=new Game({count:3,humanCount:3});game.p.items=[{id:'gift',name:'急救包',type:'heal'}];act('supplies');",ctx);assert(modal.innerHTML.includes('dropItem:gift'));vm.runInContext("act('dropItem:gift');act('supplies');",ctx);assert(modal.innerHTML.includes('本回合已进行物品动作'));assert(modal.innerHTML.includes('房间地面'));
+vm.runInContext("game=new Game({quick:true,scenario:'rescue',count:3,humanCount:3});game.s.rescue.eggs=true;game.s.active=game.s.traitor;game.turnStart();game.s.players[0].items=[{id:'prize',name:'典籍',type:'book'}];game.s.combatChoice={attacker:game.s.active,target:0,damage:3,rolls:[]};decisionDialog();",ctx);assert(modal.innerHTML.includes('combatResolve:steal:prize'));vm.runInContext("act('close');",ctx);assert(modal.open);vm.runInContext("act('combatResolve:steal:prize');",ctx);assert(!vm.runInContext('game.s.combatChoice',ctx));assert(modal.innerHTML.includes('夺取物品'));

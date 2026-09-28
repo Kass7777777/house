@@ -31,14 +31,14 @@ events.push(
 );
 function eventRule(e){return {threshold:e.threshold??4,damage:e.damage??2,reward:e.reward||'both'};}
 function rewardText(e,t){const r=eventRule(e).reward;return r==='recover'?'最低轨道属性恢复 2 格（并列时优先力量、速度、知识、理智）':r==='item'?'获得一件剩余道具':r==='trait'?TRAITS[t]+'提升 1 格':TRAITS[t]+'提升 1 格并获得一件剩余道具';}
-function chance(n,threshold){let a=[1];for(let i=0;i<n;i++){const b=Array(a.length+2).fill(0);a.forEach((v,j)=>{for(let k=0;k<3;k++)b[j+k]+=v/3});a=b;}return a.reduce((sum,v,i)=>sum+(i>=threshold?v:0),0);}
+function chance(n,threshold){n=Math.max(0,Math.min(8,n));let a=[1];for(let i=0;i<n;i++){const b=Array(a.length+2).fill(0);a.forEach((v,j)=>{for(let k=0;k<3;k++)b[j+k]+=v/3});a=b;}return a.reduce((sum,v,i)=>sum+(i>=threshold?v:0),0);}
 const oldDraw=P.draw;
 P.draw=function(type){if(type==='O'){const i=this.s.omenDeck.at(-1);oldDraw.call(this,type);if(i!==undefined)this.s.lastOmen={index:i,name:this.p.items.at(-1).name,room:this.roomNow.name};return;}
  if(type!=='E')return oldDraw.call(this,type);
  if(!this.s.eventDeck?.length)this.s.eventDeck=this.shuffle(events.map((_,i)=>i));const e=events[this.s.eventDeck.pop()];this.s.moves=0;this.s.eventChoice={...e,playerId:this.p.id};this.s.report=null;this.log(`${this.p.name}遇到${e.title}，正在选择应对方式。`);
 };
 P.eventOptions=function(){const e=this.s.eventChoice;if(!e)return[];const p=this.s.players[e.playerId],spend=p.items.find(i=>['heal','calm','speed'].includes(i.type)&&!p.used.includes(i.id));const ally=this.s.players.find(q=>q.alive&&q.id!==p.id&&q.room===p.room&&(this.s.phase==='explore'||q.team===p.team)&&q.idx[e.trait]<7);
- const r=eventRule(e),check=(id,t)=>({id,label:(id==='risk'?'冒险调查':'换一种方法')+' · '+TRAITS[t],detail:`${this.val(p,t,true)} 骰，总和 ≥ ${r.threshold}（成功率约 ${Math.round(chance(this.val(p,t,true),r.threshold)*100)}%）。成功：${rewardText(e,t)}；失败：${r.damage} 点${e.type==='physical'?'物理':'精神'}伤害。`});return[check('risk',e.trait),...(e.alt===undefined?[]:[check('alternate',e.alt)]),{id:'leave',label:'谨慎离开',detail:'不获得奖励，也不损失属性；抽到事件消耗的移动力不会恢复。'},{id:'spend',label:spend?'使用 '+spend.name+' 排除危险':'消耗补给排除危险',detail:'消耗一件恢复或移动补给，不检定，提升对应属性 1 格；不额外获得道具。',reason:spend?'':'没有可消耗且本回合未使用的补给。',item:spend?.id},{id:'help',label:ally?'稳定 '+ally.name+' 的状态':'帮助同房同伴',detail:`不检定，使同伴${TRAITS[e.trait]}提升 1 格；自己不获得奖励。`,reason:ally?'':'没有同房且该属性未满的友方角色。',ally:ally?.id}];
+ const r=eventRule(e),check=(id,t)=>({id,label:(id==='risk'?'冒险调查':'换一种方法')+' · '+TRAITS[t],detail:`${Math.min(8,this.val(p,t,true))} 骰，总和 ≥ ${r.threshold}（成功率约 ${Math.round(chance(this.val(p,t,true),r.threshold)*100)}%）。成功：${rewardText(e,t)}；失败：${r.damage} 点${e.type==='physical'?'物理':'精神'}伤害。`});return[check('risk',e.trait),...(e.alt===undefined?[]:[check('alternate',e.alt)]),{id:'leave',label:'谨慎离开',detail:'不获得奖励，也不损失属性；抽到事件消耗的移动力不会恢复。'},{id:'spend',label:spend?'使用 '+spend.name+' 排除危险':'消耗补给排除危险',detail:'消耗一件恢复或移动补给，不检定，提升对应属性 1 格；不额外获得道具。',reason:spend?'':'没有可消耗且本回合未使用的补给。',item:spend?.id},{id:'help',label:ally?'稳定 '+ally.name+' 的状态':'帮助同房同伴',detail:`不检定，使同伴${TRAITS[e.trait]}提升 1 格；自己不获得奖励。`,reason:ally?'':'没有同房且该属性未满的友方角色。',ally:ally?.id}];
 };
 P.resolveEvent=function(id){const e=this.s.eventChoice,a=this.eventOptions().find(x=>x.id===id);if(!e||!a||a.reason||this.s.result)return false;const aiReason=this.isAI(this.s.players[e.playerId])?this.eventPlan()?.reason:null;this.s.eventChoice=null;const p=this.s.players[e.playerId];let text=a.detail,rolls=[];
  if(id==='risk'||id==='alternate'){const t=id==='risk'?e.trait:e.alt,r=eventRule(e),n=this.roll(this.val(p,t,true),e.title+' · '+TRAITS[t]);rolls=[this.s.lastRoll];if(n>=r.threshold){
@@ -56,7 +56,7 @@ const oldCan=P.canAct;P.canAct=function(){return oldCan.call(this)&&!this.s.even
 const oldEnd=P.endTurn;P.endTurn=function(){if(this.s.eventChoice||this.s.pendingDecision)return false;return oldEnd.call(this);};
 // Atomic command replay keeps RNG, turn handoff, monster actions and victory checks
 // suspended until every human damage allocation is supplied; pending data is saveable.
-P.invoke=function(name,args=[],allocations=[]){if(this.s.pendingDecision)return false;const allowed=['move','moveRoom','endTurn','roomAction','task','rescueAction','attack','use','pickup','trade','handoffKit','aiStep','resolveEvent'];if(!allowed.includes(name))return false;
+P.invoke=function(name,args=[],allocations=[]){if(this.s.pendingDecision||(this.s.combatChoice&&!['resolveCombat','aiStep'].includes(name)))return false;const allowed=['drop','resolveCombat','move','moveRoom','endTurn','roomAction','task','rescueAction','attack','use','pickup','trade','handoffKit','aiStep','resolveEvent'];if(!allowed.includes(name))return false;
  const baseline=copy(this.s);this._decision={allocations,cursor:0,baseline};try{return this[name](...args);}catch(e){if(!e.damageChoice)throw e;this.s=baseline;this.s.pendingDecision={name,args,allocations:copy(allocations),damage:e.damageChoice,chosen:[]};return true;}finally{this._decision=null;}
 };
 const oldDamage=P.damage;

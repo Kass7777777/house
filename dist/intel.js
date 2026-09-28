@@ -18,7 +18,7 @@ function endTurn(g){const s=g.s,order=s.phase==='explore'?s.players:s.players.fi
  if(s.phase==='collapse')out.push('结算幽灵行动；符合条件的末端房间可能崩塌，在场角色受伤后撤离。');
  out.push('本轮结算后开始下一轮；若结算触发胜负则立即结束。');return out;
 }
-function checks(g){const s=g.s,p=g.p,rows=[],add=(name,dice,condition,cost,result)=>rows.push({name,dice,condition,cost,result});
+function checks(g){const s=g.s,p=g.p,rows=[],add=(name,dice,condition,cost,result)=>rows.push({name,dice:Math.min(8,dice),condition,cost,result});
  if(s.phase==='ritual')for(const [t,n]of [[2,'知识仪式'],[3,'理智仪式']])add(n,g.val(p,t,true),'总和 ≥ 4','一次任务；失败也消耗','成功为阵营增加 '+(p.team==='hero'?1:2)+' 点；失败不增加。');
  if(s.phase==='burial'&&p.team==='hero'&&s.carrier===null)add('寻找遗骸',g.val(p,2,true),'总和 ≥ 4','一次任务；需在遗骸房间','成功后由当前角色携带；失败可下回合重试。');
  if(s.phase==='rescue'&&p.team==='hero'){
