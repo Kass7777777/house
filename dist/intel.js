@@ -1,7 +1,8 @@
 (function(root){
 'use strict';
 function situation(g){const s=g.s,p=g.p;
- if(s.result)return {goal:(s.result.team==='hero'?'英雄':'叛徒')+'获胜',risk:s.result.reason,next:'可查看本局回顾，或保留队伍再开一局。'};
+ if(s.result)return {goal:(s.result.team==='hero'?'英雄':s.result.team==='house'?'小屋':'叛徒')+'获胜',risk:s.result.reason,next:'可查看本局回顾，或保留队伍再开一局。'};
+ if(s.phase==='seals')return {goal:'合作修复全部封印，再由一名英雄在入口执行撤离',risk:'全员倒下或时限归零则失败。已修复的房间抵挡侵蚀；入口不自动安全。',next:'已修复 '+s.seals.nodes.filter(n=>n.progress>=n.goal).length+'/'+s.seals.nodes.length+' 处；剩余 '+s.countdown+' 轮。'};
  if(s.phase==='explore')return {goal:'探索房间，积累物品与属性',risk:'抽到预兆不等于已触发作祟。仅该角色回合结束时进行检定。',next:s.drawnOmen?'本回合结束：6 骰总和 < '+s.omen+' 才触发危机。':'继续探索；抽到卡牌会停止移动，仍可使用物品。'};
  const hero=p.team==='hero';
  if(s.phase==='ritual')return {goal:'先获得 3 点仪式进度，争夺幽灵控制权',risk:'控制幽灵后仍需完成后续目标，并非立即获胜。',next:hero?'英雄控制 → 寻找并安葬遗骸；叛徒控制 → 驱散幽灵。':'控制幽灵后消灭英雄，并阻止他们驱散幽灵。'};
@@ -13,12 +14,14 @@ function endTurn(g){const s=g.s,order=s.phase==='explore'?s.players:s.players.fi
  if(s.result)return ['对局已结束。'];
  if(s.phase==='explore'&&s.drawnOmen)out.push('先掷 6 骰；总和小于 '+s.omen+' 触发作祟并重排行动顺序。');
  if(!last){out.push((s.phase==='explore'&&s.drawnOmen?'若未触发作祟，':'')+'交给 '+next.name+'；尚未到整轮结算，不扣减时限。');return out;}
+ if(s.phase==='seals')out.push(s.round===s.seals.startedRound?'作祟当轮不侵蚀、不扣时限。':`安全房间外的英雄受到 1 点${(s.round-s.seals.startedRound)%2?'精神':'物理'}伤害；随后时限减 1。`);
  if(s.phase==='rescue'){out.push(s.rescue.spider.stunned?'蜘蛛跳过本次追击并解除击退状态。':'蜘蛛追击英雄，接触目标时可能攻击。');out.push(s.round>s.rescue.startedRound?'随后逃脱时限减 1 轮。':'作祟开始的这一轮不扣减逃脱时限。');}
  if(s.phase==='burial')out.push(s.round>s.summonRound?'安葬时限减 1 轮；此阶段幽灵不追击。':'召唤当轮不扣减安葬时限；此阶段幽灵不追击。');
  if(s.phase==='collapse')out.push('结算幽灵行动；符合条件的末端房间可能崩塌，在场角色受伤后撤离。');
  out.push('本轮结算后开始下一轮；若结算触发胜负则立即结束。');return out;
 }
 function checks(g){const s=g.s,p=g.p,rows=[],add=(name,dice,condition,cost,result)=>rows.push({name,dice:Math.min(8,dice),condition,cost,result});
+ if(s.phase==='seals'){const n=s.seals.nodes.find(n=>n.room===p.room);if(n&&n.progress<n.goal)add('修复封印',g.val(p,n.trait,true),'总和 ≥ 4','一次任务；不消耗移动','成功 +1；失败无额外损失；每处需 2 次成功。');}
  if(s.phase==='ritual')for(const [t,n]of [[2,'知识仪式'],[3,'理智仪式']])add(n,g.val(p,t,true),'总和 ≥ 4','一次任务；失败也消耗','成功为阵营增加 '+(p.team==='hero'?1:2)+' 点；失败不增加。');
  if(s.phase==='burial'&&p.team==='hero'&&s.carrier===null)add('寻找遗骸',g.val(p,2,true),'总和 ≥ 4','一次任务；需在遗骸房间','成功后由当前角色携带；失败可下回合重试。');
  if(s.phase==='rescue'&&p.team==='hero'){

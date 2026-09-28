@@ -3,12 +3,12 @@
 const {Game,TRAITS,ROOMDEFS}=root.House||(typeof require==='function'?require('./engine.js'):{});
 const P=Game.prototype,copy=x=>JSON.parse(JSON.stringify(x));
 // Explicit prototype lookup: row and omen column both influence the selected scenario.
-const mapping=ROOMDEFS.map((r,row)=>Array.from({length:13},(_,omen)=>(row+omen)%2?'rescue':'ritual'));
+const mapping=ROOMDEFS.map((r,row)=>Array.from({length:13},(_,omen)=>['ritual','rescue','seals'][(row+omen)%3]));
 const oldStart=P.startHaunt;
 P.startHaunt=function(){const s=this.s;if(s.phase!=='explore')return;if(s.scenarioMode==='auto'){
  const clue=s.lastOmen||{room:this.roomNow.name,index:0,name:'验证预兆'},row=ROOMDEFS.findIndex(r=>r[0]===clue.room);
  s.scenario=mapping[Math.max(0,row)][clue.index%13];s.hauntSelection={room:clue.room,omen:clue.name,scenario:s.scenario};
- this.log(`危机揭晓：${clue.room} × ${clue.name} → ${this.scenario.title}（双剧本原型映射）。`);
+ this.log(`危机揭晓：${clue.room} × ${clue.name} → ${this.scenario.title}（三剧本原型映射）。`);
  }oldStart.call(this);if(s.hauntSelection&&s.report)s.report.text=`${s.hauntSelection.room}中的${s.hauntSelection.omen}揭开了这场危机。\n`+s.report.text;};
 const oldNotice=P.omenNotice;
 P.omenNotice=function(){return oldNotice.call(this).replace('进入'+this.scenario.title,this.s.scenarioMode==='auto'&&this.s.phase==='explore'?'届时由房间与预兆组合揭晓剧本':'进入'+this.scenario.title);};
@@ -56,7 +56,7 @@ const oldCan=P.canAct;P.canAct=function(){return oldCan.call(this)&&!this.s.even
 const oldEnd=P.endTurn;P.endTurn=function(){if(this.s.eventChoice||this.s.pendingDecision)return false;return oldEnd.call(this);};
 // Atomic command replay keeps RNG, turn handoff, monster actions and victory checks
 // suspended until every human damage allocation is supplied; pending data is saveable.
-P.invoke=function(name,args=[],allocations=[]){if(this.s.pendingDecision||(this.s.combatChoice&&!['resolveCombat','aiStep'].includes(name)))return false;const allowed=['drop','resolveCombat','move','moveRoom','endTurn','roomAction','task','rescueAction','attack','use','pickup','trade','handoffKit','aiStep','resolveEvent'];if(!allowed.includes(name))return false;
+P.invoke=function(name,args=[],allocations=[]){if(this.s.pendingDecision||(this.s.combatChoice&&!['resolveCombat','aiStep'].includes(name)))return false;const allowed=['sealAction','drop','resolveCombat','move','moveRoom','endTurn','roomAction','task','rescueAction','attack','use','pickup','trade','handoffKit','aiStep','resolveEvent'];if(!allowed.includes(name))return false;
  const baseline=copy(this.s);this._decision={allocations,cursor:0,baseline};try{return this[name](...args);}catch(e){if(!e.damageChoice)throw e;this.s=baseline;this.s.pendingDecision={name,args,allocations:copy(allocations),damage:e.damageChoice,chosen:[]};return true;}finally{this._decision=null;}
 };
 const oldDamage=P.damage;

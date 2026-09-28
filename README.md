@@ -1,19 +1,19 @@
-# 山中小屋 · 双剧本 M2 playable prototype
+# 山中小屋 · 三剧本 M3 playable prototype
 
 Source: 山中小屋_游戏策划案_v0.3_HD2D_100Haunt.docx, sections 5–12, 29, 31.2, 34. Uses two concept images embedded in that user-owned GDD.
 
 Static, dependency-free browser game. `dist/engine.js` owns serializable game state and deterministic seeded RNG; `dist/app.js` owns UI, Canvas board, local storage and generated audio cues. `dist/index.html` can also be opened locally. Sites owns project identity in `.openai/hosting.json`.
 
-Implemented: configurable 3–6 character roster and 1–N manually controlled characters; solo multi-character control or local hotseat with pass-device screens; unselected characters are AI-controlled in every phase; three floors; 26 room definitions with door rotation; 4 discrete trait tracks; 0/1/2 dice; 6 item definitions; 4 choice-event templates; 13 omen cards; end-of-turn six-dice haunt check; fixed Haunt #2 structural adaptation; ritual competition, ghost control transfer, corpse search/carry/burial, countdown, hostile ghost/stun/banishment, peripheral room collapse, combat/death, same-room item transfer, autosave/resume and JSON session export.
+Implemented: configurable 3–6 character roster and 1–N manually controlled characters; solo multi-character control or local hotseat with pass-device screens; unselected characters are AI-controlled in every phase; three floors; 26 room definitions with door rotation; 4 discrete trait tracks; 0/1/2 dice; 6 item definitions; 12 choice-event templates; 13 omen cards; end-of-turn six-dice haunt check; fixed Haunt #2 structural adaptation; ritual competition, ghost control transfer, corpse search/carry/burial, countdown, hostile ghost/stun/banishment, peripheral room collapse, combat/death, same-room item transfer, autosave/resume and JSON session export.
 
 Deliberate prototype adaptations, disclosed in in-game help:
 - New explorer tracks and simplified card text, not full official content.
-- Two-scenario prototype Room × Omen mapping, with a separate fixed-scenario test mode; not the official full matrix.
+- Three-scenario prototype Room × Omen mapping, with a separate fixed-scenario test mode; not the official full matrix.
 - Ritual anywhere, threshold 4, goal 3; hero success +1, traitor success +2. These are provisional test values, not final balance.
 - Basement is directly linked to Grand Staircase.
 - Human damage is allocated interactively across physical or mental traits; AI keeps automatic allocation.
 - Collapse selects leaf rooms to preserve connectivity; rounds with no eligible leaf do not collapse a room.
-- No online multiplayer, hidden-traitor security, theft, complete room exceptions or full HD-2D renderer. Hotseat privacy is courtesy-based on a shared browser, not a security boundary.
+- No online multiplayer, hidden-traitor security, complete room exceptions or full HD-2D renderer. Hotseat privacy is courtesy-based on a shared browser, not a security boundary.
 - Gameplay visuals are a functional isometric board; GDD HD-2D artwork is used for start/reveal screens.
 
 Validation completed: JS syntax and local asset checks; 100 seeded quick-start hero-route simulations reached terminal states; an explicit traitor-control run reached collapse, room mutation and hero victory; seeded RNG/save restore equality, card draw stops movement, pre-haunt death protection and post-death turn advance were checked. No browser visual or end-to-end QA was performed. Initial balance strongly favors heroes in quick start and needs user playtesting.
@@ -88,3 +88,9 @@ Validation: controller, guide, objectives, rescue, dice, damage/reload, awarenes
 
 ### 单局信息（v17）
 目标栏统一展示当前阵营目标和胜负风险。操作区可展开「行动说明」，查看实际骰数与失败代价；结束回合前可看到下一位及轮末结算预告。房屋纪事默认展开，可筛选本轮或关键记录。AI 自动阅读可停留，最后三轮的时限变化即使快速模式也需要确认。结局回顾保留具体结束原因。
+
+
+### v20 · 封印之夜完整合作剧本
+新增原创无叛徒合作场景：2–4 个已发现可达房间作为封印点，每处需要两次指定知识/理智总和 ≥4；每人每回合一次。修复点成为免疫侵蚀的安全房间。从作祟后的下一轮末起，安全房间外角色受到精神/物理交替的 1 点伤害。8＋人数轮倒计时，全点完成后需由一位英雄在入口主动撤离。AI 分工、地图标记、情境引导、存档及合作失败结果均接入。作为分散仪式结构验证，不是官方 #44 或其他手册剧本的复刻。
+
+执行完整规则回归：`node --require ./dist/tactics.js --require ./dist/equipment.js --require ./dist/seals.js --require ./dist/awareness.js --test tests/*.cjs`。封印之夜快速开局目前偏易，平衡仍待真人试玩；验证只覆盖程序化规则与界面模板，未做真实浏览器视觉验收。

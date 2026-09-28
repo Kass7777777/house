@@ -3,7 +3,7 @@ const timers=new Map(),storage=new Map();let serial=0;
 const app={innerHTML:'',className:'',querySelector:()=>null,querySelectorAll:()=>[]};
 const modal={innerHTML:'',dataset:{},open:false,showModal(){this.open=true},close(){this.open=false},querySelector:()=>null,addEventListener(){}};
 const ctx={document:{querySelector:q=>q==='#app'?app:q==='#modal'?modal:null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},clearTimeout:id=>timers.delete(id),setTimeout:(fn,ms)=>{timers.set(++serial,{fn,ms});return serial},requestAnimationFrame(){},matchMedia:()=>({matches:true})};ctx.window=ctx;ctx.addEventListener=()=>{};vm.createContext(ctx);
-for(const f of ['scenarios','rooms','engine','tactics','equipment','awareness','guide','intel','app'])vm.runInContext(fs.readFileSync('dist/'+f+'.js','utf8'),ctx);
+for(const f of ['scenarios','rooms','engine','tactics','equipment','seals','awareness','guide','intel','app'])vm.runInContext(fs.readFileSync('dist/'+f+'.js','utf8'),ctx);
 const run=s=>vm.runInContext(s,ctx);
 run("game=new Game({count:3,humanCount:1});game.s.active=1;game.s.report={title:'发现',text:'测试结果',observation:true};readingMode='auto';report();scheduleAI();");
 assert.equal(timers.size,1,'AI must not advance while modal is open');const stale=[...timers.values()][0].fn;

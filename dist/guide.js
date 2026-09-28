@@ -12,6 +12,7 @@ function next(g){
   const e=g.exits().find(e=>e.open&&!e.target);
   return{title:e?'打开一扇未知的门':'沿相通的门继续探索',text:`你正在控制${p.name}，位于${r.name}，剩余 ${s.moves} 点移动。${e?'点击虚线框中的「＋」，或下方标有「探索」的方向按钮。':'点击相邻且门相通的房间。楼层按钮只切换视图，换楼层需要站在楼梯或平台上。'}`,focus:'目标是扩展地图并积累道具。速度决定移动预算；右侧预兆越多，结束回合时触发作祟的风险越高。',action:e?'move:'+e.d:null};
  }
+ if(s.phase==='seals')return g.sealAdvice();
  if(s.phase==='rescue')return g.rescueAdvice();
  if(s.phase==='ritual')return{title:s.taskUsed?'本回合仪式已尝试':'尝试一次降魂仪式',text:`你是${p.team==='hero'?'英雄':'叛徒'}。知识或理智任选一项检定，骰子总和 ≥ 4 就成功；${p.team==='hero'?'英雄成功增加 1 点':'叛徒成功增加 2 点'}，先到 3 点的一方控制幽灵。`,focus:s.taskUsed?'无论成功或失败，每名角色每回合只能尝试一次。可以结束回合，等待下次机会。':'优先选数值更高的属性。每颗骰子只出 0、1、2；属性值表示骰子数量，不保证成功。仪式阶段不能攻击。',action:s.taskUsed?'end':'task:'+(g.val(p,2,true)>=g.val(p,3,true)?2:3)};
  if(p.team==='traitor')return{title:s.phase==='burial'?'阻止英雄安葬遗骸':'配合幽灵追击英雄',text:s.phase==='burial'?`英雄还有 ${s.countdown} 轮。寻找携带遗骸的英雄，移动到同一房间后攻击，拖过期限即可获胜。`:'幽灵会在轮末自动行动。你可以追击英雄，并在同一房间攻击。全部英雄倒下，叛徒获胜。',focus:'每回合最多攻击一次。力量为攻击骰池；攻击败北也可能受伤。离开敌人所在房间需要更多移动力。',action:null};
@@ -27,6 +28,7 @@ function next(g){
 }
 function lessonKey(g,tip=cue(g)){
  const a=tip.action||'',s=g.s;
+ if(s.phase==='seals')return a.startsWith('seal:')?a:a==='end'?'end':'seal-movement';
  if(a.startsWith('roomAction:'))return 'room-'+a.split(':')[1];
  if(s.phase==='rescue'){if(a.startsWith('rescue:'))return a;if(a.startsWith('attack:'))return a==='attack:spider'?'spider':'attack';if(a==='end')return g.p.restrained?'restrained':s.rescue.door&&s.round<=s.rescue.openedTurn?'escape-wait':'end';return 'rescue-movement';}
  if(a==='end')return s.phase==='explore'&&s.drawnOmen?'end-omen':'end';
