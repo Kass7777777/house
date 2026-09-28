@@ -45,3 +45,4 @@ vm.runInContext("game.s.report={title:'普通发现',text:'发现一个房间。
 assert(vm.runInContext('game.s.report.observation',ctx));assert(modal.innerHTML.includes('reportMode'));
 vm.runInContext("act('reportMode');",ctx);assert.equal(vm.runInContext('readingMode',ctx),'auto');assert(modal.open);
 console.log('Route inspection preserves actor; AI map inspection pauses; turn order and report reading-mode controls verified.');
+vm.runInContext("game=new Game({count:3,humanCount:3});game.s.eventChoice={...HouseTactics.events[4],playerId:0};decisionDialog();",ctx);assert(modal.innerHTML.includes('event:alternate'));assert(modal.innerHTML.includes('成功率约'));assert(modal.innerHTML.includes('物理'));
