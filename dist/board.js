@@ -243,13 +243,21 @@ function chip(c, x, y, text, color, bg = 'rgba(12,17,15,.86)') {
   c.fillStyle = bg; roundRect(c, x - w / 2, y - 15, w, 20, 4); c.fill(); c.strokeStyle = color; c.globalAlpha = 0.6; c.lineWidth = 1; c.stroke(); c.globalAlpha = 1;
   c.fillStyle = color; c.textAlign = 'center'; c.fillText(text, x, y); return w;
 }
+function bubble(c, x, y, text, color) {
+  c.font = '700 14px system-ui,"Microsoft YaHei",sans-serif'; const w = c.measureText(text).width + 22, h = 28;
+  c.fillStyle = 'rgba(10,14,12,.94)'; roundRect(c, x - w / 2, y - h, w, h, 6); c.fill();
+  path(c, [[x - 6, y - 1], [x + 6, y - 1], [x, y + 7]]); c.fill();
+  c.strokeStyle = color; c.lineWidth = 1.5; roundRect(c, x - w / 2, y - h, w, h, 6); c.stroke();
+  c.fillStyle = color; c.textAlign = 'center'; c.fillText(text, x, y - 9);
+}
+function hexA(hex, a) { const n = parseInt(String(hex).slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; }
 function roundRect(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
 
 // ---------- frame ----------
 function frame(now) {
   st.raf = 0;
   if (!st.canvas || !st.canvas.isConnected || !st.scene || !G()) return;
-  const dt = Math.min(0.05, (now - (st.last || now)) / 1000); st.last = now; st.t += dt;
+  const dt = Math.min(0.1, (now - (st.last || now)) / 1000); st.last = now; st.t += dt;
   const M = st.scene, c = st.ctx, t = st.t, still = reduced();
   // camera easing
   const cam = st.cam, target = st.target, ease = still || !cam.ready ? 1 : 1 - Math.pow(0.001, dt);
@@ -303,11 +311,15 @@ function frame(now) {
   for (const [rid, ps] of Object.entries(occupants)) {
     const r = M.rooms.find(q => q.id === rid); if (!r) continue;
     ps.forEach((p, i) => {
-      const a = st.anim[p.id] ??= { gx: r.x, gy: r.y, f: r.f };
-      if (a.f !== r.f || still) { a.gx = r.x; a.gy = r.y; a.f = r.f; }
-      const e = 1 - Math.pow(0.0005, dt); a.gx = lerp(a.gx, r.x, e); a.gy = lerp(a.gy, r.y, e);
+      // timed walk: fixed duration per move so the UI can wait for it before showing what happened
+      const a = st.anim[p.id] ??= { gx: r.x, gy: r.y, f: r.f, sx: r.x, sy: r.y, tx: r.x, ty: r.y, t0: -9, dur: 0 };
+      if (a.f !== r.f || still) { Object.assign(a, { gx: r.x, gy: r.y, sx: r.x, sy: r.y, tx: r.x, ty: r.y, f: r.f, dur: 0 }); }
+      if (a.tx !== r.x || a.ty !== r.y) { a.sx = a.gx; a.sy = a.gy; a.tx = r.x; a.ty = r.y; a.t0 = t; a.dur = clamp(0.36 + 0.16 * Math.hypot(r.x - a.sx, r.y - a.sy), 0.42, 0.95); }
+      const k = a.dur ? clamp((t - a.t0) / a.dur, 0, 1) : 1, e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      a.gx = lerp(a.sx, a.tx, e); a.gy = lerp(a.sy, a.ty, e);
+      const hop = k < 1 ? Math.abs(Math.sin(k * Math.PI * Math.max(1, Math.round(a.dur / 0.3)))) * T * 0.07 : 0;
       const [x, y] = pos(a.gx, a.gy), spread = Math.min(T * 0.22, 18), ox = (i - (ps.length - 1) / 2) * spread, oy = T * 0.06 + (i % 2) * 3;
-      drawnPlayers.push({ p, x: x + ox, y: y + oy });
+      drawnPlayers.push({ p, x: x + ox, y: y + oy - hop, walking: k < 1 });
     });
   }
   drawnPlayers.sort((a, b) => a.y - b.y);
@@ -361,12 +373,22 @@ function frame(now) {
   }
   // guide target
   if (M.guide) { const h = M.guide.room ? hits.find(a => a.room === M.guide.room) : candHits(M).find(a => a.d === M.guide.d); if (h) { const pulse = still ? 1 : 0.7 + 0.3 * Math.sin(t * 5); c.lineWidth = 3.5; c.strokeStyle = `rgba(255,227,149,${pulse})`; path(c, diamondPts(h.x, h.y, 0.96)); c.stroke(); chip(c, h.x, h.y - h.th - 16, '下一步 · 点击移动', '#ffe395'); } }
+  // actor cue: "what happened here" bubble shown while the move plays out, before the dialog opens
+  if (st.cue && t < st.cue.until) {
+    const a = st.anim[st.cue.pid], d = drawnPlayers.find(q => q.p.id === st.cue.pid);
+    if (a && d) {
+      const age = t - st.cue.t0, pop = still ? 1 : easeOut(clamp(age / 0.22, 0, 1)), bob = still ? 0 : Math.sin(t * 4) * 2;
+      const [rx, ry] = pos(a.tx, a.ty), ring = still ? 0.5 : (age * 1.2) % 1;
+      c.lineWidth = 2; c.strokeStyle = hexA(st.cue.color, 0.8 * (1 - ring)); path(c, diamondPts(rx, ry, 0.7 + ring * 0.4)); c.stroke();
+      c.save(); c.translate(d.x, d.y - clamp(st.cam.tile * 0.12, 6, 13) * 3.6 + bob); c.scale(pop, pop); bubble(c, 0, 0, st.cue.text, st.cue.color); c.restore();
+    }
+  } else if (st.cue) st.cue = null;
   // objectives on other floors
   const away = Object.entries(M.elsewhere).sort((a, b) => a[0] - b[0]).map(([f, n]) => ['地下', '一层', '二层'][Number(f) + 1] + ' ×' + n);
   if (away.length) chip(c, st.W / 2 + st.offX, st.H - 58, '其他楼层还有目标 · ' + away.join(' · ') + '（按 1 / 2 / 3 切换楼层）', '#c9b6ff');
   // floating feedback
   st.floats = st.floats.filter(f => t - f.t0 < 1.9);
-  for (const f of st.floats) { if (f.f !== floor) continue; const a = st.anim[f.pid]; if (!a) continue; const [x, y] = pos(a.gx, a.gy), age = t - f.t0; c.globalAlpha = clamp(1.6 - age, 0, 1); c.font = 'bold 14px system-ui'; c.textAlign = 'center'; c.lineWidth = 3; c.strokeStyle = 'rgba(0,0,0,.8)'; const yy = y - T * 0.45 - age * 26 - f.row * 17; c.strokeText(f.text, x, yy); c.fillStyle = f.color; c.fillText(f.text, x, yy); c.globalAlpha = 1; }
+  for (const f of st.floats) { if (f.f !== floor) continue; if (st.cue && st.cue.pid === f.pid && f.text.startsWith('+ ')) continue; const a = st.anim[f.pid]; if (!a) continue; const [x, y] = pos(a.gx, a.gy), age = t - f.t0; c.globalAlpha = clamp(1.6 - age, 0, 1); c.font = 'bold 14px system-ui'; c.textAlign = 'center'; c.lineWidth = 3; c.strokeStyle = 'rgba(0,0,0,.8)'; const yy = y - T * 0.45 - age * 26 - f.row * 17; c.strokeText(f.text, x, yy); c.fillStyle = f.color; c.fillText(f.text, x, yy); c.globalAlpha = 1; }
   c.restore();
   // vignette & urgency
   const vg = c.createRadialGradient(st.W / 2, st.H / 2, Math.min(st.W, st.H) * 0.35, st.W / 2, st.H / 2, Math.max(st.W, st.H) * 0.72);
@@ -487,6 +509,21 @@ const HouseBoard = {
     if (st.raf) cancelAnimationFrame(st.raf); st.raf = 0; st.last = performance.now();
     frame(st.last);
     return true;
+  },
+  // ms until walks, room reveals and fresh trait pop-ups have played; 0 when nothing animates (or motion is reduced)
+  animating() { return !!(st.canvas?.isConnected && st.scene && root.requestAnimationFrame && !reduced()); },
+  busyMs() {
+    if (!st.canvas?.isConnected || !st.scene || reduced()) return 0;
+    let m = 0;
+    for (const a of Object.values(st.anim)) if (a.dur) m = Math.max(m, a.t0 + a.dur - st.t);
+    for (const v of Object.values(st.reveal)) m = Math.max(m, v + 0.5 - st.t);
+    for (const f of st.floats) m = Math.max(m, f.t0 + 0.7 - st.t);
+    return Math.min(1400, Math.max(0, Math.round(m * 1000)));
+  },
+  // speech-bubble over a character, e.g. "✦ 旧斧" while the walk finishes; cue(null) clears
+  cue(pid, text, color = '#ffe7a8', seconds = 3) {
+    if (pid === null || pid === undefined) { st.cue = null; schedule(); return; }
+    st.cue = { pid, text, color, t0: st.t, until: st.t + seconds }; schedule();
   },
   shake(k = 0.6) { if (root.HouseSettings?.get('shake') === false) return; st.shake = Math.max(st.shake, k); schedule(); },
   flash(color = '#fff', k = 0.6) { if (reduced()) return; st.flashColor = color; st.flash = k; schedule(); },

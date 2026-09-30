@@ -2,8 +2,8 @@
 'use strict';
 // Scenario data: entry, balancing parameters, and prerequisite graph.
 const configs={
- ritual:{id:'ritual',title:'降魂仪式',source:'v0.3 §31.2 / #2 结构适配',summary:'争夺幽灵控制权，再运送遗骸或驱散幽灵。',threshold:4,goal:3,heroGain:1,traitorGain:2,rounds:6,objectives:[{id:'ritual',requires:[]},{id:'finale',requires:['ritual']}]},
- rescue:{id:'rescue',title:'命运罗网',source:'v0.3 §31.3 / #4 结构适配',summary:'救出受困同伴、处理蜘蛛卵，在追击下打开前门并逃脱。',webDefense:4,medicineThreshold:4,doorThreshold:6,spiderDice:3,spiderMove:1,rounds:12,objectives:[{id:'web',requires:[]},{id:'eggs',requires:[]},{id:'door',requires:['web','eggs']},{id:'escape',requires:['door']}]}
+ ritual:{id:'ritual',title:'降魂仪式',source:'v0.3 §31.2 / #2 结构适配',summary:'英雄与叛徒争夺幽灵的控制权，再安葬遗骸或驱散幽灵。',threshold:4,goal:3,heroGain:1,traitorGain:2,rounds:6,objectives:[{id:'ritual',requires:[]},{id:'finale',requires:['ritual']}]},
+ rescue:{id:'rescue',title:'命运罗网',source:'v0.3 §31.3 / #4 结构适配',summary:'救出被蛛网困住的同伴，处理蜘蛛卵，在追击中打开前门逃走。',webDefense:4,medicineThreshold:4,doorThreshold:6,spiderDice:3,spiderMove:1,rounds:12,objectives:[{id:'web',requires:[]},{id:'eggs',requires:[]},{id:'door',requires:['web','eggs']},{id:'escape',requires:['door']}]}
 };
 function validate(c){if(!c||!c.id||!c.title||!Array.isArray(c.objectives))throw Error('剧本缺少入口或目标');const ids=new Set();for(const n of c.objectives){if(ids.has(n.id)||n.requires.some(id=>!ids.has(id)))throw Error('剧本目标有重复、循环或无效前置');ids.add(n.id);}return true;}
 Object.values(configs).forEach(validate);

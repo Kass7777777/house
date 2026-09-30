@@ -20,7 +20,7 @@ const RoomRules={
   if(r.name==='塌陷房间'&&first){
    const value=g.roll(g.val(p,1),'避开塌陷'),roll=s.lastRoll;
    if(value<4){p.room=r.f===1?'0:0:0':'-1:0:0';g.log(`${p.name}没能避开塌陷，坠至${g.roomNow.name}。`);}
-   g.report(value>=4?'跨过裂口':'地板塌陷',value>=4?'速度总和达到 4，你安全停在房间内。以后可选择消耗 1 点移动力跳到下一层。':`速度总和小于 4，你落到${g.roomNow.name}；本次简化坠落不造成额外伤害。`,[roll]);
+   g.report(value>=4?'跨过裂口':'地板塌陷',value>=4?'速度总和达到 4，你安全停在房间内。以后可选择消耗 1 点移动力跳到下一层。':`速度总和小于 4，你落到${g.roomNow.name}；坠落没有造成伤害。`,[roll]);
    g.milestone('room','发现塌陷房间',`${p.name}${value>=4?'避开裂口':'坠至下一层平台'}。`);
   }
  },

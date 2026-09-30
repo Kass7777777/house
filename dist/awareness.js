@@ -5,7 +5,7 @@ const room=(s,id)=>s.rooms.find(r=>r.id===id)?.name||'未知房间';
 function capture(before,s){const lines=[],actor=before.players[before.active],add=(text,important=false)=>lines.push({text,important});
  for(const p of s.players){const old=before.players.find(q=>q.id===p.id);if(!old)continue;
  if(old.alive&&!p.alive)add(`${p.name}倒下了，遗落物品留在${room(s,p.room)}。`,true);
- if(old.room!==p.room)add(`${p.name}：${room(before,old.room)} → ${room(s,p.room)}`);
+ if(old.room!==p.room)add(`${p.name}从${room(before,old.room)}来到${room(s,p.room)}。`);
  const found=p.items.filter(i=>!old.items.some(o=>o.id===i.id));if(found.length)add(`${p.name}获得：${found.map(i=>i.name).join('、')}`,true);
  for(let t=0;t<4;t++){const delta=p.idx[t]-old.idx[t];if(delta)add(`${p.name}的${TRAITS[t]} ${delta>0?'+':''}${delta} 格（${old.tracks[t][Math.max(0,old.idx[t])]} → ${p.idx[t]<0?'死亡':p.tracks[t][p.idx[t]]}）`,true);}
  }

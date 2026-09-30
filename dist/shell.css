@@ -172,3 +172,25 @@ dialog:has(.result-title){max-width:760px}
 .hud-right .action-feedback{animation:slideL .35s var(--ease),settle 1s ease 7s forwards}
 @keyframes settle{to{opacity:.72}}
 .hud-right .action-feedback:hover{opacity:1!important}
+
+/* v23 · staged observation */
+.turn-banner.ai{top:18%;padding:8px 44px;animation:banner 1.5s var(--ease) both}
+.turn-banner.ai strong{font-size:20px;letter-spacing:.18em;text-shadow:0 0 12px var(--c,#d7bb7c)}
+.turn-banner.ai span{font-size:12px;color:#9aa596}
+#app.staging .actionbar{opacity:.78;transition:opacity .2s}
+#app.staging #board{cursor:progress!important}
+.eyebrow .obs-dot,.obs-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:1px;box-shadow:0 0 6px currentColor}
+.obs-meta{margin:-4px 0 10px;color:var(--muted);font-size:13px;letter-spacing:.04em}
+.obs-lines{margin:10px 0 4px;padding:10px 14px 10px 30px;border-left:2px solid #3a4a3e;background:#121a16;font-size:14px;line-height:1.7;color:#cfd8c9}
+.obs-lines li::marker{color:#d7bb7c}
+.event-result-text{white-space:pre-line}
+/* unavailable event approaches take less room */
+.event-options>div:has(>button[disabled]){padding:6px 12px;opacity:.62}
+.event-options>div:has(>button[disabled])>button{padding:5px 10px;font-size:13px}
+.event-options>div:has(>button[disabled])>p{margin:3px 0 0;font-size:12px}
+.turn-banner{white-space:nowrap}
+/* party cards: one compact tool row */
+#app.desk .player-tools{display:flex;flex-wrap:nowrap;gap:4px;margin-top:6px}
+#app.desk .player-tools>button{padding:3px 8px;font-size:12px;min-height:0;white-space:nowrap}
+#app.desk .player-tools .location-link{padding:3px 4px}
+#app.desk .player{padding-top:8px;padding-bottom:8px}

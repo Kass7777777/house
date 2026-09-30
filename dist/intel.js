@@ -13,7 +13,7 @@ function situation(g){const s=g.s,p=g.p;
 function endTurn(g){const s=g.s,order=s.phase==='explore'?s.players:s.players.filter(p=>p.team==='hero').concat(s.players.filter(p=>p.team==='traitor')),i=order.findIndex(p=>p.id===s.active),next=order.slice(i+1).find(p=>p.alive),last=!next,out=[];
  if(s.result)return ['对局已结束。'];
  if(s.phase==='explore'&&s.drawnOmen)out.push('先掷 6 骰；总和小于 '+s.omen+' 触发作祟并重排行动顺序。');
- if(!last){out.push((s.phase==='explore'&&s.drawnOmen?'若未触发作祟，':'')+'交给 '+next.name+'；尚未到整轮结算，不扣减时限。');return out;}
+ if(!last){out.push((s.phase==='explore'&&s.drawnOmen?'若未触发作祟，':'')+'交给 '+next.name+(s.phase==='explore'?'。':'；这一轮还没结束，时限不变。'));return out;}
  if(s.phase==='seals')out.push(s.round===s.seals.startedRound?'作祟当轮不侵蚀、不扣时限。':`安全房间外的英雄受到 1 点${(s.round-s.seals.startedRound)%2?'精神':'物理'}伤害；随后时限减 1。`);
  if(s.phase==='rescue'){out.push(s.rescue.spider.stunned?'蜘蛛跳过本次追击并解除击退状态。':'蜘蛛追击英雄，接触目标时可能攻击。');out.push(s.round>s.rescue.startedRound?'随后逃脱时限减 1 轮。':'作祟开始的这一轮不扣减逃脱时限。');}
  if(s.phase==='burial')out.push(s.round>s.summonRound?'安葬时限减 1 轮；此阶段幽灵不追击。':'召唤当轮不扣减安葬时限；此阶段幽灵不追击。');

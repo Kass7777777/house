@@ -1,7 +1,7 @@
 (function(root){
 'use strict';
 const {Game,ROOMDEFS}=root.House||(typeof require==='function'?require('./engine.js'):{}),S=root.HouseScenarios||(typeof require==='function'?require('./scenarios.js'):{}),T=root.HouseTactics||(typeof require==='function'?require('./tactics.js'):{}),P=Game.prototype;
-S.configs.seals={id:'seals',title:'封印之夜',source:'原创验证：分散仪式 + 全局侵蚀',summary:'无叛徒合作：分头修复封印、利用安全房间抵挡侵蚀，回到入口撤离。',objectives:[{id:'seals',requires:[]},{id:'exit',requires:['seals']}]};S.validate(S.configs.seals);
+S.configs.seals={id:'seals',title:'封印之夜',source:'原创验证：分散仪式 + 全局侵蚀',summary:'没有叛徒。分头修复封印，躲进安全房间抵挡侵蚀，最后从入口撤离。',objectives:[{id:'seals',requires:[]},{id:'exit',requires:['seals']}]};S.validate(S.configs.seals);
 const start=P.startHaunt;
 P.startHaunt=function(){const s=this.s;if(s.phase!=='explore')return;let chosen=s.scenario,clue;
  if(s.scenarioMode==='auto'){clue=s.lastOmen||{room:this.roomNow.name,index:0,name:'验证预兆'};const row=ROOMDEFS.findIndex(r=>r[0]===clue.room);chosen=T.mapping[Math.max(0,row)][clue.index%13];}

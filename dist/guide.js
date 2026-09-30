@@ -4,13 +4,13 @@ const names=['力量','速度','知识','理智'];
 function next(g){
  const s=g.s,p=g.p,r=g.roomNow;
  if(s.result)return{title:'本局已结束',text:s.result.reason,focus:'结束后可以导出日志复盘，或返回菜单开始新对局。',action:null};
- if(!p.alive)return{title:'当前角色已倒下',text:'作祟后任意属性降到骷髅格就会死亡。这个角色不能再行动。',focus:'点击结束回合，让其他存活角色继续。',action:'end'};
+ if(!p.alive)return{title:'当前角色已倒下',text:'作祟后任意一项属性跌出轨道，角色就会死亡。这个角色不能再行动。',focus:'点击结束回合，让其他存活角色继续。',action:'end'};
  if(g.isAI())return{title:'现在观察 AI 的行动',text:`${p.name}由电脑控制，不需要你替它点击移动或结束回合。AI 和你遵守相同的移动、抽卡与检定规则。`,focus:'关注地图上的位置变化和「房屋纪事」。轮到手动角色时，操作按钮会恢复。',action:null};
  if(s.phase==='explore'&&g.roomActions){const a=g.roomActions().find(a=>!a.reason);if(a&&!s.guide?.learned?.['room-'+a.id])return{title:a.label,text:a.detail,focus:'这是可选的房间行动；你也可以继续探索。',action:'roomAction:'+a.id};}
  if(s.phase==='explore'){
   if(s.moves===0)return{title:'移动结束了，回合还没结束',text:s.drawnOmen?`本回合抽到了预兆。点击结束回合后会掷 6 颗骰子，总和严格小于当前 ${s.omen} 个预兆时，作祟才会开始。相等不会触发。`:'发现带卡牌的房间会让剩余移动归零；重新进入已发现房间不会再次抽牌。你仍可使用道具。',focus:'看看左侧有没有可使用的道具；准备好后点击「结束回合」。',action:'end'};
   const e=g.exits().find(e=>e.open&&!e.target);
-  return{title:e?'打开一扇未知的门':'沿相通的门继续探索',text:`你正在控制${p.name}，位于${r.name}，剩余 ${s.moves} 点移动。${e?'点击虚线框中的「＋」，或下方标有「探索」的方向按钮。':'点击相邻且门相通的房间。楼层按钮只切换视图，换楼层需要站在楼梯或平台上。'}`,focus:'目标是扩展地图并积累道具。速度决定移动预算；右侧预兆越多，结束回合时触发作祟的风险越高。',action:e?'move:'+e.d:null};
+  return{title:e?'打开一扇未知的门':'沿相通的门继续探索',text:`你正在控制${p.name}，位于${r.name}，剩余 ${s.moves} 点移动。${e?'点击地图上标着「?」的虚线格，或下方带「探索」的方向按钮。':'点击相邻且门相通的房间。楼层按钮只切换视图，换楼层需要站在楼梯或平台上。'}`,focus:'目标是扩展地图并积累道具。速度决定移动预算；右侧预兆越多，结束回合时触发作祟的风险越高。',action:e?'move:'+e.d:null};
  }
  if(s.phase==='seals')return g.sealAdvice();
  if(s.phase==='rescue')return g.rescueAdvice();
@@ -65,7 +65,7 @@ function impact(before,after,type){
  if(q.room!==p.room){const room=after.rooms.find(r=>r.id===q.room);out.push(`${p.name}从${before.rooms.find(r=>r.id===p.room).name}移动到${room.name}。`)}
  if(after.rooms.length>before.rooms.length)out.push('发现新房间，首次进入时的卡牌效果已结算；抽卡让本回合剩余移动归零。');
  if(before.active===after.active&&before.round===after.round&&before.moves!==after.moves)out.push(`剩余移动：${before.moves} → ${after.moves}。`);
- for(const old of before.players){const now=after.players[old.id];for(let t=0;t<4;t++)if(now.idx[t]!==old.idx[t])out.push(`${old.name}的${names[t]}轨移动 ${now.idx[t]-old.idx[t]} 格（${old.tracks[t][Math.max(0,old.idx[t])]} → ${now.idx[t]<0?'骷髅':now.tracks[t][now.idx[t]]}）。`);if(old.alive&&!now.alive)out.push(`${old.name}倒下，物品掉落在房间中。`)}
+ for(const old of before.players){const now=after.players[old.id];for(let t=0;t<4;t++)if(now.idx[t]!==old.idx[t])out.push(`${old.name}的${names[t]}轨移动 ${now.idx[t]-old.idx[t]} 格（${old.tracks[t][Math.max(0,old.idx[t])]} → ${now.idx[t]<0?'死亡':now.tracks[t][now.idx[t]]}）。`);if(old.alive&&!now.alive)out.push(`${old.name}倒下，物品掉落在房间中。`)}
  const added=q.items.filter(i=>!p.items.some(x=>x.id===i.id));const removed=p.items.filter(i=>!q.items.some(x=>x.id===i.id));
  if(added.length)out.push('获得：'+added.map(i=>i.name).join('、')+'。');if(removed.length)out.push('离开背包：'+removed.map(i=>i.name).join('、')+'。');
  if(after.omen!==before.omen)out.push(`全局预兆 ${before.omen} → ${after.omen}。预兆不是生命值；它提高作祟触发风险。`);
@@ -81,7 +81,7 @@ function explain(s,title){
  if(title.startsWith('预兆 ·'))return [
   ['预兆是什么？','预兆是探索中发现的诡异征兆，例如古老面具、染血戒指。它是一类卡牌，表示小屋里的超自然危险正在积累。'],
   ['这次发生了什么？',`有人抽到了一张预兆牌，全队共用的预兆计数增加了 1，现在是 ${s.omen}/13。13 是预兆牌总数，不是必须收集满的目标；任何角色（包括 AI）抽到预兆都会增加它。`],
-  ['接下来会怎样？',s.phase==='explore'?'拿到预兆不代表灾难已经发生。抽牌者本回合的移动停止；结束回合时，系统才会掷骰判断是否进入「作祟」。这个 Demo 的预兆牌本身不附加独立能力。':'现在已经进入作祟阶段，这张预兆不会再次触发作祟检定。']
+  ['接下来会怎样？',s.phase==='explore'?'拿到预兆不代表灾难已经发生。抽牌者本回合的移动停止；结束回合时，系统才会掷骰判断是否进入「作祟」。':'现在已经进入作祟阶段，这张预兆不会再次触发作祟检定。']
  ];
  if(title==='作祟检定'){
   const c=s.lastHauntCheck;return [
@@ -93,7 +93,7 @@ function explain(s,title){
  }
  if(title==='命运罗网'){
   const r=s.rescue,c=s.lastHauntCheck;return [
-   ['为什么现在发生？',c?`本次作祟检定 ${c.total} < ${c.omen}，进入本局所选的命运罗网。`:'你选择了直接测试作祟，已跳过探索。'],
+   ['为什么现在发生？',c?`本次作祟检定 ${c.total} < ${c.omen}，进入本局所选的命运罗网。`:'这一局选择了快速开局，跳过了探索阶段。'],
    ['先救人，再逃脱',`先在${s.rooms.find(x=>x.id===s.players[r.victim].room).name}破网，同时取得医疗用品处理蜘蛛卵。两项都完成后，入口才允许开门。`],
    ['什么时候才算赢？','开门不是胜利。下一轮起，至少一名英雄到入口点击「逃出小屋」，全体英雄才获胜。'],
    ['可以自由分工','破网使用攻击次数，拿用品、治疗和开门使用任务次数，每回合各一次。受困者不能移动，但可以破网、使用和交换道具。']
@@ -102,8 +102,8 @@ function explain(s,title){
  if(title==='降魂仪式'){
   const c=s.lastHauntCheck;return [
    ['作祟是什么？','作祟是这一局的剧情转折：小屋里的超自然危机正式爆发，原本一起探索的人开始分成不同阵营，并有了各自的胜利条件。它不是普通伤害，也不代表你已经输掉游戏。'],
-   ['为什么现在发生？',c?`刚才的作祟检定掷出 ${c.total} 点，严格小于全局 ${c.omen} 个预兆，所以触发了作祟。`:'你选择了「直接测试作祟」，因此跳过正常探索和随机检定，直接体验这个阶段。'],
-   ['这一局变了什么？',`本局选择了「降魂仪式」剧本。${s.players[s.traitor].name}成为叛徒，其余角色是英雄。已有的房间、道具、位置和属性全部保留；手动／AI 控制权也保留。作祟后属性降至骷髅会死亡，预兆不再触发新作祟。`],
+   ['为什么现在发生？',c?`刚才的作祟检定掷出 ${c.total} 点，严格小于全局 ${c.omen} 个预兆，所以触发了作祟。`:'这一局选择了「快速开局」，跳过了探索和作祟检定，直接从这里开始。'],
+   ['这一局变了什么？',`本局选择了「降魂仪式」剧本。${s.players[s.traitor].name}成为叛徒，其余角色是英雄。已有的房间、道具、位置和属性全部保留；手动／AI 控制权也保留。作祟后任意属性跌出轨道就会死亡，预兆不再触发新作祟。`],
    ['现在应该做什么？','先确认自己控制角色的阵营，再看右侧目标。双方先竞争幽灵控制权：每回合用知识或理智尝试一次仪式。此时还不能普通攻击；仪式完成后才进入安葬或对抗幽灵的下一阶段。']
   ];
  }

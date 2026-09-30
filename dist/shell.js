@@ -3,7 +3,7 @@
 (function (root) {
 'use strict';
 if (typeof render !== 'function' || typeof act !== 'function') return;
-const VERSION = 'v22';
+const VERSION = 'v23';
 const KEY = 'house-settings';
 const DEFAULTS = { aiPace: 'normal', reading: null, uiScale: 1, reducedMotion: false, shake: true };
 const PACE = { slow: 2000, normal: 1100, fast: 200 };
@@ -37,7 +37,7 @@ function title() {
   const motes = Array.from({ length: 26 }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${8 + (i * 7) % 11}s;--delay:${-(i * 1.3) % 9}s;--s:${1 + (i % 3)}px"></i>`).join('');
   app.className = 'title-mode';
   app.innerHTML = `<section class="title-screen"><div class="title-art" aria-hidden="true"></div><div class="title-fog f1"></div><div class="title-fog f2"></div><div class="title-motes" aria-hidden="true">${motes}</div>
-<div class="title-panel"><div class="eyebrow">THE HOUSE ON THE HILL · 原型 ${VERSION}</div><h1 class="title-logo">山中小屋</h1>
+<div class="title-panel"><div class="eyebrow">THE HOUSE ON THE HILL · ${VERSION}</div><h1 class="title-logo">山中小屋</h1>
 <p class="title-sub">推开每一扇门，积攒勇气与遗物。<br>直到小屋露出真面目，有人会站到另一边。</p>
 <nav class="title-menu" aria-label="主菜单">${cont}
 <button class="title-item ${s ? '' : 'primary'}" data-action="titleNew"><span>新的探索</span><small>组建 3–6 人的队伍，选择剧本入口</small></button>
@@ -51,7 +51,7 @@ function title() {
 }
 function credits() {
   openModal(`<div class="eyebrow">CREDITS</div><h2>制作说明</h2>
-<p>《山中小屋》是依据《山中小屋 游戏策划案 v0.3》制作的可玩原型，用来验证探索、作祟和剧本目标的规则与体验。</p>
+<p>《山中小屋》依据《山中小屋 游戏策划案 v0.3》制作，目前是可以完整游玩的试玩版：探索、作祟和三个剧本都已可玩。</p>
 <ul class="credits"><li><strong>规则与剧本</strong>降魂仪式、命运罗网为策划案样本的原型适配；封印之夜为原创合作剧本。均非官方内容的复刻。</li>
 <li><strong>画面</strong>开场与剧本插图来自策划案概念图；棋盘场景、角色、光影全部由程序实时绘制。</li>
 <li><strong>声音</strong>全部由浏览器实时合成，没有使用录音素材。</li>
@@ -71,7 +71,7 @@ function settingsDialog(tab = settingsTab) {
   if (tab === 'game') {
     const rm = readingMode;
     body = row('AI 行动节奏', '电脑角色每一步之间的停顿。', opt('aiPace', 'slow', '慢', settings.aiPace) + opt('aiPace', 'normal', '正常', settings.aiPace) + opt('aiPace', 'fast', '快', settings.aiPace))
-      + row('AI 事件阅读', '确认：每条重要结果都停下等你；自动：按文字长度停留后继续；快速：只停关键转折。', opt('reading', 'confirm', '确认', rm) + opt('reading', 'auto', '自动', rm) + opt('reading', 'fast', '快速', rm))
+      + row('AI 与队友的行动结果', '逐条确认：每条结果都等你点继续。自动继续：停留一会儿后自己关闭。只看关键：只在作祟、死亡、目标进展时弹出，其余写进房屋纪事。', opt('reading', 'confirm', '逐条确认', rm) + opt('reading', 'auto', '自动继续', rm) + opt('reading', 'fast', '只看关键', rm))
       + row('新手引导', '新开对局时是否默认开启。局内可随时跳过。', opt('guide', 'on', '开启', guidePreference() ? 'on' : 'off') + opt('guide', 'off', '关闭', guidePreference() ? 'on' : 'off'));
   } else if (tab === 'display') {
     body = row('界面缩放', '侧栏、行动栏和弹窗的文字大小，不影响地图。', [0.9, 1, 1.1, 1.25].map(v => opt('uiScale', v, Math.round(v * 100) + '%', settings.uiScale)).join(''))
@@ -117,9 +117,11 @@ function hud() {
   const tools = app.querySelector('.toptools');
   if (tools) {
     const s = game.s, human = s.players.filter(q => !game.isAI(q)).length;
-    tools.innerHTML = `<span class="badge">${s.mode === 'solo' ? '单人' : '本地多人'} · 手动 ${human} / AI ${s.players.length - human}</span><span id="saveStatus" class="helper">已自动保存</span>`
-      + `<div class="tool-group" role="group" aria-label="AI 控制">${B(aiPaused ? '▶ 继续 AI' : 'Ⅱ 暂停 AI', 'aiPause', 'small')}${B('AI ' + ({ 1100: '正常', 200: '快速', 2000: '慢速' }[aiPace] || '正常'), 'pace', 'small')}${B('事件：' + ({ confirm: '确认', auto: '自动', fast: '快速' }[readingMode] || '确认'), 'readingMode', 'small')}</div>`
-      + `${B(sound ? '♪ 开' : '♪ 关', 'sound', 'small icon', false)}${B('设置', 'settings', 'small')}${B('☰ 菜单', 'menu', 'small')}`;
+    // AI pace and event reading live in Settings; the bar keeps only what you reach for mid-turn
+    const hasAI = s.players.length > human;
+    tools.innerHTML = `<span id="saveStatus" class="helper">已自动保存</span>`
+      + (hasAI ? B(aiPaused ? '▶ 继续 AI' : 'Ⅱ 暂停 AI', 'aiPause', 'small' + (aiPaused ? ' on' : '')) : '')
+      + `${B(sound ? '♪ 声音开' : '♪ 声音关', 'sound', 'small icon', false)}${B('设置', 'settings', 'small')}${B('☰ 菜单', 'menu', 'small')}`;
   }
   if (!desk) { if (wasDeskLayout) window.HouseBoard?.draw(true); wasDeskLayout = false; return; }
   wasDeskLayout = true;
@@ -148,12 +150,19 @@ function banner() {
   if (!game || game.s.result) return;
   const s = game.s, key = s.seed + '|' + s.startedAt + '|' + s.turnSerial;
   if (key === lastTurn) return; const first = lastTurn === null || !lastTurn.startsWith(s.seed + '|' + s.startedAt); lastTurn = key;
-  if (game.isAI() || first && !s.turnSerial) return;
+  if (first && !s.turnSerial) return;
   const wrap = app.querySelector('.mapwrap'); if (!wrap) return;
-  const p = game.p, el = document.createElement('div');
-  el.className = 'turn-banner'; el.style.setProperty('--c', p.color);
-  el.innerHTML = `<small>ROUND ${String(s.round).padStart(2, '0')}${s.phase === 'explore' ? ' · 探索' : ' · ' + E(game.scenario.title)}</small><strong>${E(p.name)}的回合</strong><span>移动力 ${s.moves}${s.phase !== 'explore' ? ' · ' + (p.team === 'traitor' ? '叛徒' : '英雄') : ''}</span>`;
-  wrap.append(el); setTimeout(() => el.remove(), motion() ? 2300 : 1600);
+  wrap.querySelectorAll('.turn-banner').forEach(e => e.remove());
+  const p = game.p, ai = game.isAI(), el = document.createElement('div');
+  el.className = 'turn-banner' + (ai ? ' ai' : ''); el.style.setProperty('--c', p.color);
+  const team = s.phase !== 'explore' ? ' · ' + (p.team === 'traitor' ? '叛徒' : '英雄') : '';
+  el.innerHTML = ai
+    ? `<strong>${E(p.name)}的回合</strong><span>电脑 AI 行动中${team}</span>`
+    : `<small>ROUND ${String(s.round).padStart(2, '0')}${s.phase === 'explore' ? ' · 探索' : ' · ' + E(game.scenario.title)}</small><strong>${E(p.name)}的回合</strong><span>移动力 ${s.moves}${team}</span>`;
+  // centre on the part of the map the side panels leave visible
+  const hl = wrap.querySelector('.hud-left'), wr = wrap.getBoundingClientRect(), lr = hl && hl.children.length ? hl.getBoundingClientRect() : null;
+  if (lr && lr.width && wr.width > 820) el.style.left = ((lr.right - wr.left) + wr.width) / 2 + 'px';
+  wrap.append(el); setTimeout(() => el.remove(), ai ? 1500 : motion() ? 2300 : 1600);
 }
 // ---------- haunt cinematic ----------
 const HAUNT = ['封印之夜', '降魂仪式', '命运罗网', '幽灵回应了英雄', '幽灵回应了叛徒'];

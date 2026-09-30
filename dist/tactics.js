@@ -8,10 +8,10 @@ const oldStart=P.startHaunt;
 P.startHaunt=function(){const s=this.s;if(s.phase!=='explore')return;if(s.scenarioMode==='auto'){
  const clue=s.lastOmen||{room:this.roomNow.name,index:0,name:'验证预兆'},row=ROOMDEFS.findIndex(r=>r[0]===clue.room);
  s.scenario=mapping[Math.max(0,row)][clue.index%13];s.hauntSelection={room:clue.room,omen:clue.name,scenario:s.scenario};
- this.log(`危机揭晓：${clue.room} × ${clue.name} → ${this.scenario.title}（三剧本原型映射）。`);
+ this.log(`危机揭晓：${clue.room}里的${clue.name}唤醒了「${this.scenario.title}」。`);
  }oldStart.call(this);if(s.hauntSelection&&s.report)s.report.text=`${s.hauntSelection.room}中的${s.hauntSelection.omen}揭开了这场危机。\n`+s.report.text;};
 const oldNotice=P.omenNotice;
-P.omenNotice=function(){return oldNotice.call(this).replace('进入'+this.scenario.title,this.s.scenarioMode==='auto'&&this.s.phase==='explore'?'届时由房间与预兆组合揭晓剧本':'进入'+this.scenario.title);};
+P.omenNotice=function(){return oldNotice.call(this).replace('进入'+this.scenario.title,this.s.scenarioMode==='auto'&&this.s.phase==='explore'?'具体剧本由房间与预兆决定':'进入'+this.scenario.title);};
 const events=[
  {title:'墙内的求救声',trait:3,type:'mental',text:'墙后传来熟悉的声音。回应它可能找到线索，也可能让声音留在脑中。'},
  {title:'摇摇欲坠的柜子',trait:1,type:'physical',text:'柜顶露出一个金属盒。爬上去搜查可能得到补给，也可能跌落。'},
@@ -29,6 +29,10 @@ events.push(
  {title:'被藤蔓封住的抽屉',trait:0,alt:2,type:'physical',threshold:3,damage:1,reward:'item',text:'抽屉里有东西轻轻碰撞。扯断藤蔓，或寻找它松动的结。'},
  {title:'倒转的钟摆',trait:1,alt:3,type:'mental',threshold:4,damage:2,reward:'recover',text:'每一次摆动都带来旧日的疲惫。跟上它的节拍，或稳住自己的心神。'}
 );
+// one line of story for each outcome, shown above the numbers
+const OUTCOME={'墙内的求救声':['你循声撬开一块墙板，后面塞着一张写满名字的旧纸条。','那声音忽然变成了你自己的，在耳边一遍遍重复。'],'摇摇欲坠的柜子':['你踩稳柜沿，把金属盒拽了下来。','柜子猛地一歪，你连人带盒摔在地上。'],'缠紧的暗门':['门轴吱呀一声让开，里面的东西还在。','门框突然合拢，夹住了你的手臂。'],'未完成的笔记':['笔记里画着这座房子的格局，你默默记了下来。','最后一行写着你的死法，字迹和你的一模一样。'],'锁住的药箱':['锁芯咔哒一声弹开，药瓶还封着蜡。','箱盖弹开时，碎玻璃划破了你的手。'],'摇晃的吊桥':['你稳稳落在对岸，身后的木板一块块坠进黑暗。','一块木板在脚下断开，你死死抓住绳索才爬回来。'],'无声的留声机':['你跟着脑中的旋律哼完最后一节，唱片下弹出一个暗格。','旋律越来越快，你捂住耳朵也停不下来。'],'温暖的壁炉':['火是真的。你在炉边缓过一口气。','火焰里浮出一张脸，冲你笑了笑。'],'天花板上的行李':['箱子落进你怀里，木梁只是晃了晃。','木梁先断了，箱子和碎木一起砸下来。'],'镜中的指路人':['你看懂了手势。镜中人点点头，退回黑暗里。','你盯得太久，镜子里的你先眨了眼。'],'被藤蔓封住的抽屉':['藤蔓一松，抽屉自己滑开了。','藤蔓突然收紧，勒进你的手腕。'],'倒转的钟摆':['你的心跳慢慢和钟摆错开，疲惫退去了。','钟摆每晃一下，你都觉得自己又老了一岁。']};
+// how each approach reads in the dialog: [main trait, alternate trait]
+const METHOD={'墙内的求救声':['回应那个声音'],'摇摇欲坠的柜子':['爬上去搜查'],'缠紧的暗门':['强行推开'],'未完成的笔记':['读完它'],'锁住的药箱':['研究锁芯','掰开箱盖'],'摇晃的吊桥':['轻巧地跨过','抓住横梁攀行'],'无声的留声机':['辨认旋律','研究机关'],'温暖的壁炉':['辨别火焰','在炉边静坐'],'天花板上的行李':['拉下箱子','攀上去取'],'镜中的指路人':['抵抗它的注视','推理手势'],'被藤蔓封住的抽屉':['扯断藤蔓','找到松动的结'],'倒转的钟摆':['跟上节拍','稳住心神']};
 function eventRule(e){return {threshold:e.threshold??4,damage:e.damage??2,reward:e.reward||'both'};}
 function rewardText(e,t){const r=eventRule(e).reward;return r==='recover'?'最低轨道属性恢复 2 格（并列时优先力量、速度、知识、理智）':r==='item'?'获得一件剩余道具':r==='trait'?TRAITS[t]+'提升 1 格':TRAITS[t]+'提升 1 格并获得一件剩余道具';}
 function chance(n,threshold){n=Math.max(0,Math.min(8,n));let a=[1];for(let i=0;i<n;i++){const b=Array(a.length+2).fill(0);a.forEach((v,j)=>{for(let k=0;k<3;k++)b[j+k]+=v/3});a=b;}return a.reduce((sum,v,i)=>sum+(i>=threshold?v:0),0);}
@@ -38,15 +42,15 @@ P.draw=function(type){if(type==='O'){const i=this.s.omenDeck.at(-1);oldDraw.call
  if(!this.s.eventDeck?.length)this.s.eventDeck=this.shuffle(events.map((_,i)=>i));const e=events[this.s.eventDeck.pop()];this.s.moves=0;this.s.eventChoice={...e,playerId:this.p.id};this.s.report=null;this.log(`${this.p.name}遇到${e.title}，正在选择应对方式。`);
 };
 P.eventOptions=function(){const e=this.s.eventChoice;if(!e)return[];const p=this.s.players[e.playerId],spend=p.items.find(i=>['heal','calm','speed'].includes(i.type)&&!p.used.includes(i.id));const ally=this.s.players.find(q=>q.alive&&q.id!==p.id&&q.room===p.room&&(this.s.phase==='explore'||q.team===p.team)&&q.idx[e.trait]<7);
- const r=eventRule(e),check=(id,t)=>({id,label:(id==='risk'?'冒险调查':'换一种方法')+' · '+TRAITS[t],detail:`${Math.min(8,this.val(p,t,true))} 骰，总和 ≥ ${r.threshold}（成功率约 ${Math.round(chance(this.val(p,t,true),r.threshold)*100)}%）。成功：${rewardText(e,t)}；失败：${r.damage} 点${e.type==='physical'?'物理':'精神'}伤害。`});return[check('risk',e.trait),...(e.alt===undefined?[]:[check('alternate',e.alt)]),{id:'leave',label:'谨慎离开',detail:'不获得奖励，也不损失属性；抽到事件消耗的移动力不会恢复。'},{id:'spend',label:spend?'使用 '+spend.name+' 排除危险':'消耗补给排除危险',detail:'消耗一件恢复或移动补给，不检定，提升对应属性 1 格；不额外获得道具。',reason:spend?'':'没有可消耗且本回合未使用的补给。',item:spend?.id},{id:'help',label:ally?'稳定 '+ally.name+' 的状态':'帮助同房同伴',detail:`不检定，使同伴${TRAITS[e.trait]}提升 1 格；自己不获得奖励。`,reason:ally?'':'没有同房且该属性未满的友方角色。',ally:ally?.id}];
+ const r=eventRule(e),check=(id,t)=>({id,label:(METHOD[e.title]?.[id==='risk'?0:1]||(id==='risk'?'冒险调查':'换一种方法'))+' · '+TRAITS[t],detail:`${Math.min(8,this.val(p,t,true))} 骰，总和 ≥ ${r.threshold}（成功率约 ${Math.round(chance(this.val(p,t,true),r.threshold)*100)}%）。成功：${rewardText(e,t)}；失败：${r.damage} 点${e.type==='physical'?'物理':'精神'}伤害。`});return[check('risk',e.trait),...(e.alt===undefined?[]:[check('alternate',e.alt)]),{id:'leave',label:'谨慎离开',detail:'不获得奖励，也不损失属性；抽到事件消耗的移动力不会恢复。'},{id:'spend',label:spend?'使用 '+spend.name+' 排除危险':'消耗补给排除危险',detail:'消耗一件恢复或移动补给，不检定，提升对应属性 1 格；不额外获得道具。',reason:spend?'':'没有可消耗且本回合未使用的补给。',item:spend?.id},{id:'help',label:ally?'稳定 '+ally.name+' 的状态':'帮助同房同伴',detail:`不检定，使同伴${TRAITS[e.trait]}提升 1 格；自己不获得奖励。`,reason:ally?'':'没有同房且该属性未满的友方角色。',ally:ally?.id}];
 };
 P.resolveEvent=function(id){const e=this.s.eventChoice,a=this.eventOptions().find(x=>x.id===id);if(!e||!a||a.reason||this.s.result)return false;const aiReason=this.isAI(this.s.players[e.playerId])?this.eventPlan()?.reason:null;this.s.eventChoice=null;const p=this.s.players[e.playerId];let text=a.detail,rolls=[];
  if(id==='risk'||id==='alternate'){const t=id==='risk'?e.trait:e.alt,r=eventRule(e),n=this.roll(this.val(p,t,true),e.title+' · '+TRAITS[t]);rolls=[this.s.lastRoll];if(n>=r.threshold){
  const rewards=[];if(['trait','both'].includes(r.reward)){this.change(p,t,1);rewards.push(TRAITS[t]+'提升 1 格（不超过上限）');}
  if(r.reward==='recover'){const low=p.idx.indexOf(Math.min(...p.idx));this.change(p,low,2);rewards.push(TRAITS[low]+'恢复 2 格（不超过上限）');}
  if(['item','both'].includes(r.reward)){if(this.s.itemDeck.length){this.draw('I');rewards.push('获得 '+p.items.at(-1).name);}else rewards.push('道具堆已空，没有获得道具');}
- text=`检定 ${n} ≥ ${r.threshold}。${rewards.join('；')}。`;
- }else{this.damage(p,r.damage,e.type);text=`检定 ${n} < ${r.threshold}，受到 ${r.damage} 点${e.type==='physical'?'物理':'精神'}伤害。`;}}
+ text=`${OUTCOME[e.title]?OUTCOME[e.title][0]+'\n':''}检定 ${n} ≥ ${r.threshold}。${rewards.join('；')}。`;
+ }else{this.damage(p,r.damage,e.type);text=`${OUTCOME[e.title]?OUTCOME[e.title][1]+'\n':''}检定 ${n} < ${r.threshold}，受到 ${r.damage} 点${e.type==='physical'?'物理':'精神'}伤害。`;}}
 
  if(id==='spend'){p.items=p.items.filter(i=>i.id!==a.item);p.used.push(a.item);this.change(p,e.trait,1);}
  if(id==='help')this.change(this.s.players[a.ally],e.trait,1);
