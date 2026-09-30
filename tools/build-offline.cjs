@@ -23,7 +23,8 @@ for (const name of ['house', 'rescue', 'ritual']) {
 }
 const inlineSafe = s => s.replace(/<\/(script|style)/gi, '<\\/$1');
 
-let css = fs.readFileSync(path.join(dist, 'style.css'), 'utf8');
+const sheets = [...html.matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(m => m[1]);
+let css = sheets.map(f => fs.readFileSync(path.join(dist, f), 'utf8')).join('\n');
 let cssRefs = 0;
 css = css.replace(/url\('?([a-z]+)\.png'?\)/g, (m, n) => { cssRefs++; return `var(--img-${n})`; });
 
@@ -38,7 +39,8 @@ const boot = `window.HOUSE_ASSETS=${JSON.stringify(images)};window.HOUSE_OFFLINE
   `for(const [k,v] of Object.entries(HOUSE_ASSETS))document.documentElement.style.setProperty('--img-'+k.replace('.png',''),'url("'+v+'")');`;
 
 const page = html
-  .replace('<link rel="stylesheet" href="style.css">', () => `<style>\n${inlineSafe(css)}\n</style>`)
+  .replace(/<link rel="stylesheet" href="[^"]+">/g, (m, i) => '')
+  .replace('</head>', () => `<style>\n${inlineSafe(css)}\n</style></head>`)
   .replace(/<script src="[^"]+"><\/script>/g, '')
   .replace('</body>', () => `<script>\n${inlineSafe(boot)}\n</script>\n${js}\n</body>`)
   .replace('<title>', '<!-- Built by tools/build-offline.cjs from dist/. Edit dist/, then rebuild. -->\n<title>');

@@ -3,7 +3,10 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const app={innerHTML:'',className:'',querySelector:()=>null,querySelectorAll:()=>[]};
 const modal={innerHTML:'',dataset:{},open:false,showModal(){this.open=true},close(){this.open=false},querySelector:()=>null,addEventListener(){}};
 const ctx={document:{querySelector:q=>q==='#app'?app:q==='#modal'?modal:null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:()=>null,setItem(){}},clearTimeout(){},setTimeout(){},requestAnimationFrame(){},matchMedia:()=>({matches:true})};ctx.window=ctx;ctx.addEventListener=()=>{};vm.createContext(ctx);
-for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','equipment.js','seals.js','awareness.js','guide.js','intel.js','audio.js','playlog.js','app.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
+for(const file of ['scenarios.js','rooms.js','engine.js','tactics.js','equipment.js','seals.js','awareness.js','guide.js','intel.js','board.js','audio.js','playlog.js','app.js','shell.js'])vm.runInContext(fs.readFileSync('dist/'+file,'utf8'),ctx,{filename:file});
+// v22: the shell opens on the title screen; the party setup is one click away.
+assert(app.innerHTML.includes('data-action="titleNew"')&&app.innerHTML.includes('data-action="settings"')&&app.className==='title-mode','title screen');assert(ctx.HouseShell&&ctx.HouseBoard&&ctx.HouseSettings,'v22 modules');
+vm.runInContext('act("titleNew")',ctx);assert(app.innerHTML.includes('data-action="toTitle"'),'setup has back-to-title');
 assert(app.innerHTML.includes('命运罗网'));assert(app.innerHTML.includes('scenario:rescue'));assert(app.innerHTML.includes('data-action="sound"')&&app.innerHTML.includes('data-action="playlog"'),'v21 start tools');assert(ctx.HouseAudio&&ctx.HousePlaylog,'v21 modules load in host');
 for(const scenario of ['ritual','rescue']){
  vm.runInContext(`game=new Game({scenario:'${scenario}',quick:true,count:4,humanCount:4});floor=game.roomNow.f;render();report();`,ctx);
