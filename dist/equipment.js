@@ -1,6 +1,6 @@
 (function(root){
 'use strict';
-const {Game}=root.House||(typeof require==='function'?require('./engine.js'):{}),P=Game.prototype;
+const {Game}=root.House||(typeof require==='function'?require('./engine.js'):{}),S=root.HouseScenarios||(typeof require==='function'?require('./scenarios.js'):{}),P=Game.prototype;
 P.itemReady=function(id){return this.s.itemActions?.[id]!==this.s.turnSerial&&!this.p.used.includes(id);};
 P.markItem=function(id){(this.s.itemActions??={})[id]=this.s.turnSerial;};
 const oldUse=P.use,oldTrade=P.trade;
@@ -15,7 +15,7 @@ P.attack=function(target){
  // Monster combat and noninteractive simulations retain their existing resolution.
  if(target==='ghost'||target==='spider'||!this._decision)return oldAttack.call(this,target);
  const s=this.s,p=this.p,t=s.players.find(x=>x.id===Number(target));
- if(!this.canAct()||s.attackUsed||!['burial','collapse','rescue'].includes(s.phase)||!t?.alive||t.team===p.team||t.room!==p.room||(s.phase==='rescue'&&p.team==='traitor'&&!s.rescue.eggs&&t.id===s.rescue.victim))return false;
+ if(!this.canAct()||s.attackUsed||!['burial','collapse','rescue'].includes(s.phase)||!t?.alive||t.team===p.team||t.room!==p.room||(s.phase==='rescue'&&p.team==='traitor'&&!S.Rescue.enemyAllowed(this,t)))return false; // single source of truth for victim protection
  s.attackUsed=true;s.actions++;const a=this.roll(this.val(p,0)+(p.items.some(i=>i.type==='weapon')?2:0),p.name+'攻击'),ar=s.lastRoll,d=this.roll(this.val(t,0),t.name+'防守'),rolls=[ar,s.lastRoll],delta=a-d;
  const loot=t.items.filter(i=>i.type!=='omen'&&this.itemReady(i.id));
  if(delta>=2&&loot.length){s.combatChoice={attacker:p.id,target:t.id,damage:delta,rolls};s.report=null;

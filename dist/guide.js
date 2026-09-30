@@ -1,8 +1,10 @@
 (function(root){
 'use strict';
 const names=['力量','速度','知识','理智'];
+// Rule numbers in advice text come from scenario config (tuning must never desync the tutorial).
+const RC=g=>(root.HouseScenarios||(typeof require==='function'?require('./scenarios.js'):{})).Rules.of(g,'ritual');
 function next(g){
- const s=g.s,p=g.p,r=g.roomNow;
+ const s=g.s,p=g.p,r=g.roomNow,c=RC(g),G=g.ritualGoals();
  if(s.result)return{title:'本局已结束',text:s.result.reason,focus:'结束后可以导出日志复盘，或返回菜单开始新对局。',action:null};
  if(!p.alive)return{title:'当前角色已倒下',text:'作祟后任意一项属性跌出轨道，角色就会死亡。这个角色不能再行动。',focus:'点击结束回合，让其他存活角色继续。',action:'end'};
  if(g.isAI())return{title:'现在观察 AI 的行动',text:`${p.name}由电脑控制，不需要你替它点击移动或结束回合。AI 和你遵守相同的移动、抽卡与检定规则。`,focus:'关注地图上的位置变化和「房屋纪事」。轮到手动角色时，操作按钮会恢复。',action:null};
@@ -14,14 +16,14 @@ function next(g){
  }
  if(s.phase==='seals')return g.sealAdvice();
  if(s.phase==='rescue')return g.rescueAdvice();
- if(s.phase==='ritual')return{title:s.taskUsed?'本回合仪式已尝试':'尝试一次降魂仪式',text:`你是${p.team==='hero'?'英雄':'叛徒'}。知识或理智任选一项检定，骰子总和 ≥ 4 就成功；${p.team==='hero'?'英雄成功增加 1 点':'叛徒成功增加 2 点'}，先到 3 点的一方控制幽灵。`,focus:s.taskUsed?'无论成功或失败，每名角色每回合只能尝试一次。可以结束回合，等待下次机会。':'优先选数值更高的属性。每颗骰子只出 0、1、2；属性值表示骰子数量，不保证成功。仪式阶段不能攻击。',action:s.taskUsed?'end':'task:'+(g.val(p,2,true)>=g.val(p,3,true)?2:3)};
+ if(s.phase==='ritual')return{title:s.taskUsed?'本回合仪式已尝试':'尝试一次降魂仪式',text:`你是${p.team==='hero'?'英雄':'叛徒'}。知识或理智任选一项检定，骰子总和 ≥ ${c.threshold} 就成功；${p.team==='hero'?'英雄成功增加 '+c.heroGain+' 点':'叛徒成功增加 '+c.traitorGain+' 点'}，${G.hero===G.traitor?`先到 ${G.hero} 点的一方控制幽灵`:`英雄先到 ${G.hero} 点、叛徒先到 ${G.traitor} 点即控制幽灵`}。`,focus:s.taskUsed?'无论成功或失败，每名角色每回合只能尝试一次。可以结束回合，等待下次机会。':'优先选数值更高的属性。每颗骰子只出 0、1、2；属性值表示骰子数量，不保证成功。仪式阶段不能攻击。',action:s.taskUsed?'end':'task:'+(g.val(p,2,true)>=g.val(p,3,true)?2:3)};
  if(p.team==='traitor')return{title:s.phase==='burial'?'阻止英雄安葬遗骸':'配合幽灵追击英雄',text:s.phase==='burial'?`英雄还有 ${s.countdown} 轮。寻找携带遗骸的英雄，移动到同一房间后攻击，拖过期限即可获胜。`:'幽灵会在轮末自动行动。你可以追击英雄，并在同一房间攻击。全部英雄倒下，叛徒获胜。',focus:'每回合最多攻击一次。力量为攻击骰池；攻击败北也可能受伤。离开敌人所在房间需要更多移动力。',action:null};
- if(s.phase==='collapse')return{title:'靠近幽灵并驱散它',text:`已成功驱散 ${s.ghost.hits}/3 次。与幽灵同房时使用「驱散幽灵」，以理智骰池对抗幽灵 4 颗骰子；严格高于对方才成功。`,focus:s.attackUsed?'本回合已经攻击过。结束回合后才可再次驱散。':'成功会击晕幽灵；失败可能承受精神伤害。注意每轮的崩塌和角色属性余量。',action:s.attackUsed?'end':s.ghost.room===p.room?'attack:ghost':null};
+ if(s.phase==='collapse')return{title:'靠近幽灵并驱散它',text:`已成功驱散 ${s.ghost.hits}/${G.dispel} 次。与幽灵同房时使用「驱散幽灵」，以理智骰池对抗幽灵 ${c.ghostDefense} 颗骰子；严格高于对方才成功。`,focus:s.attackUsed?'本回合已经攻击过。结束回合后才可再次驱散。':'成功会击晕幽灵；失败可能承受精神伤害。注意每轮的崩塌和角色属性余量。',action:s.attackUsed?'end':s.ghost.room===p.room?'attack:ghost':null};
  const burial=s.rooms.find(r=>r.id===s.burialRoom),corpse=s.rooms.find(r=>r.id===s.corpseRoom);
  if(s.carrier===p.id)return{title:`把遗骸送往${burial.name}`,text:`你正在携带遗骸，剩余 ${s.countdown} 轮。沿门和楼梯到达安葬点，再执行「安葬遗骸」才算完成；仅仅走进房间不会获胜。`,focus:s.taskUsed?'本回合已经尝试任务，需要下回合才能安葬。':'在地图寻找「Ⅱ 安葬」标记。换层要用楼梯，避免与叛徒纠缠。',action:p.room===s.burialRoom&&!s.taskUsed?'task:2':null};
  if(s.carrier===null){
   const here=p.room===s.corpseRoom,location=`${['地下层','一层','二层'][corpse.f+1]}·${corpse.name}`;
-  return{title:here?'已到达遗骸搜索点':`前往${corpse.name}寻找遗骸`,text:`你当前在${r.name}；遗骸搜索点在${location}（「Ⅰ 遗骸」标记）。${here?'点击下方「寻找遗骸」，知识骰子总和 ≥ 4 才会找到。':'到达搜索点后才会出现「寻找遗骸」按钮。✧ 表示幽灵，并非遗骸位置。'}之后携带遗骸前往${burial.name}安葬。剩余 ${s.countdown} 轮。`,focus:s.taskUsed?'本回合已尝试任务，结束回合后才能再次搜索。':!here&&s.moves===0?'移动力已用尽，请先结束回合，下次轮到你时继续前往搜索点。':here?'搜索不消耗移动力；即使移动力为 0 也可以尝试。':'沿相通的门前往搜索点；切换楼层视图不会移动角色。',action:here&&!s.taskUsed?'task:2':s.taskUsed||s.moves===0?'end':null};
+  return{title:here?'已到达遗骸搜索点':`前往${corpse.name}寻找遗骸`,text:`你当前在${r.name}；遗骸搜索点在${location}（「Ⅰ 遗骸」标记）。${here?'点击下方「寻找遗骸」，知识骰子总和 ≥ '+c.corpseThreshold+' 才会找到。':'到达搜索点后才会出现「寻找遗骸」按钮。✧ 表示幽灵，并非遗骸位置。'}之后携带遗骸前往${burial.name}安葬。剩余 ${s.countdown} 轮。`,focus:s.taskUsed?'本回合已尝试任务，结束回合后才能再次搜索。':!here&&s.moves===0?'移动力已用尽，请先结束回合，下次轮到你时继续前往搜索点。':here?'搜索不消耗移动力；即使移动力为 0 也可以尝试。':'沿相通的门前往搜索点；切换楼层视图不会移动角色。',action:here&&!s.taskUsed?'task:2':s.taskUsed||s.moves===0?'end':null};
  }
 
  return{title:`协助${s.players[s.carrier].name}运送遗骸`,text:`遗骸已由${s.players[s.carrier].name}携带，其他英雄不必重复搜索。目标是让携带者到达${burial.name}并安葬。`,focus:`剩余 ${s.countdown} 轮。可接近叛徒牵制它，或使用道具恢复属性；无事可做时结束回合。`,action:null};
@@ -103,7 +105,7 @@ function explain(s,title){
   const c=s.lastHauntCheck;return [
    ['作祟是什么？','作祟是这一局的剧情转折：小屋里的超自然危机正式爆发，原本一起探索的人开始分成不同阵营，并有了各自的胜利条件。它不是普通伤害，也不代表你已经输掉游戏。'],
    ['为什么现在发生？',c?`刚才的作祟检定掷出 ${c.total} 点，严格小于全局 ${c.omen} 个预兆，所以触发了作祟。`:'这一局选择了「快速开局」，跳过了探索和作祟检定，直接从这里开始。'],
-   ['这一局变了什么？',`本局选择了「降魂仪式」剧本。${s.players[s.traitor].name}成为叛徒，其余角色是英雄。已有的房间、道具、位置和属性全部保留；手动／AI 控制权也保留。作祟后任意属性跌出轨道就会死亡，预兆不再触发新作祟。`],
+   ['这一局变了什么？',`本局选择了「降魂仪式」剧本。${s.traitorRoll?'作祟时每人掷理智骰，总和最低的':''}${s.players[s.traitor].name}成为叛徒，其余角色是英雄。已有的房间、道具、位置和属性全部保留；手动／AI 控制权也保留。作祟后任意属性跌出轨道就会死亡，预兆不再触发新作祟。`],
    ['现在应该做什么？','先确认自己控制角色的阵营，再看右侧目标。双方先竞争幽灵控制权：每回合用知识或理智尝试一次仪式。此时还不能普通攻击；仪式完成后才进入安葬或对抗幽灵的下一阶段。']
   ];
  }

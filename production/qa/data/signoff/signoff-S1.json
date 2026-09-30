@@ -1,0 +1,273 @@
+{
+ "default": {
+  "B1": {
+   "chuteGames": 0,
+   "slidesTotal": 0,
+   "stalls": 0,
+   "violations": []
+  },
+  "B2": {
+   "all": 65.3,
+   "perCount": {
+    "3": 60,
+    "4": 72,
+    "5": 61,
+    "6": 68
+   },
+   "range": 12,
+   "perCell": {
+    "3q": 68,
+    "3n": 52,
+    "4q": 78,
+    "4n": 66,
+    "5q": 60,
+    "5n": 62,
+    "6q": 64,
+    "6n": 72
+   }
+  },
+  "B4": {
+   "all": 54,
+   "perCount": {
+    "3": 49,
+    "4": 55,
+    "5": 56,
+    "6": 56
+   },
+   "range": 7,
+   "perCell": {
+    "3q": 56,
+    "3n": 42,
+    "4q": 52,
+    "4n": 58,
+    "5q": 56,
+    "5n": 56,
+    "6q": 48,
+    "6n": 64
+   }
+  },
+  "B6": {
+   "all": 58.5,
+   "perCount": {
+    "3": 60,
+    "4": 58,
+    "5": 60,
+    "6": 56
+   },
+   "range": 4,
+   "perCell": {
+    "3q": 56,
+    "3n": 64,
+    "4q": 58,
+    "4n": 58,
+    "5q": 62,
+    "5n": 58,
+    "6q": 52,
+    "6n": 60
+   }
+  },
+  "B3": {
+   "ratioMeanOfRatios": 0.66,
+   "ratioOfMeans": 0.665,
+   "leftAtWin": 5.67,
+   "startAvg": 8.52,
+   "losses": 139,
+   "timeoutPct": 42.4,
+   "wipePct": 57.6,
+   "perCount": {
+    "3": {
+     "ratio": 0.58,
+     "timeoutPct": 90,
+     "wipePct": 10
+    },
+    "4": {
+     "ratio": 0.67,
+     "timeoutPct": 57.1,
+     "wipePct": 42.9
+    },
+    "5": {
+     "ratio": 0.68,
+     "timeoutPct": 17.9,
+     "wipePct": 82.1
+    },
+    "6": {
+     "ratio": 0.69,
+     "timeoutPct": 0,
+     "wipePct": 100
+    }
+   }
+  },
+  "B5": {
+   "restrainedVictimDeaths": 0,
+   "victimDeaths": 41,
+   "games": 400
+  },
+  "B7": {
+   "ritual": {
+    "mean": 4.99,
+    "median": 5,
+    "perCellMedianMin": 4
+   },
+   "rescue": {
+    "mean": 9.9,
+    "median": 9,
+    "perCellMedianMin": 7.5
+   },
+   "seals": {
+    "mean": 6.29,
+    "median": 6,
+    "perCellMedianMin": 4
+   }
+  }
+ },
+ "random": {
+  "B1": {
+   "chuteGames": 0,
+   "slidesTotal": 0,
+   "stalls": 0,
+   "violations": []
+  },
+  "B2": {
+   "all": 62.5,
+   "perCount": {
+    "3": 46,
+    "4": 75,
+    "5": 67,
+    "6": 62
+   },
+   "range": 29,
+   "perCell": {
+    "3q": 52,
+    "3n": 40,
+    "4q": 80,
+    "4n": 70,
+    "5q": 54,
+    "5n": 80,
+    "6q": 56,
+    "6n": 68
+   }
+  },
+  "B4": {
+   "all": 52.8,
+   "perCount": {
+    "3": 50,
+    "4": 58,
+    "5": 59,
+    "6": 44
+   },
+   "range": 15,
+   "perCell": {
+    "3q": 48,
+    "3n": 52,
+    "4q": 50,
+    "4n": 66,
+    "5q": 58,
+    "5n": 60,
+    "6q": 38,
+    "6n": 50
+   }
+  },
+  "B6": {
+   "all": 56.8,
+   "perCount": {
+    "3": 56,
+    "4": 53,
+    "5": 59,
+    "6": 59
+   },
+   "range": 6,
+   "perCell": {
+    "3q": 48,
+    "3n": 64,
+    "4q": 42,
+    "4n": 64,
+    "5q": 52,
+    "5n": 66,
+    "6q": 54,
+    "6n": 64
+   }
+  },
+  "B3": {
+   "ratioMeanOfRatios": 0.66,
+   "ratioOfMeans": 0.667,
+   "leftAtWin": 5.72,
+   "startAvg": 8.58,
+   "losses": 150,
+   "timeoutPct": 40,
+   "wipePct": 60,
+   "perCount": {
+    "3": {
+     "ratio": 0.53,
+     "timeoutPct": 85.2,
+     "wipePct": 14.8
+    },
+    "4": {
+     "ratio": 0.67,
+     "timeoutPct": 28,
+     "wipePct": 72
+    },
+    "5": {
+     "ratio": 0.71,
+     "timeoutPct": 9.1,
+     "wipePct": 90.9
+    },
+    "6": {
+     "ratio": 0.69,
+     "timeoutPct": 10.5,
+     "wipePct": 89.5
+    }
+   }
+  },
+  "B5": {
+   "restrainedVictimDeaths": 0,
+   "victimDeaths": 44,
+   "games": 400
+  },
+  "B7": {
+   "ritual": {
+    "mean": 4.87,
+    "median": 5,
+    "perCellMedianMin": 4
+   },
+   "rescue": {
+    "mean": 9.61,
+    "median": 8,
+    "perCellMedianMin": 8
+   },
+   "seals": {
+    "mean": 6.42,
+    "median": 6,
+    "perCellMedianMin": 4.5
+   }
+  }
+ },
+ "B8": {
+  "B2": {
+   "aggDiff": 2.8,
+   "perCountDiff": {
+    "3": 14,
+    "4": 3,
+    "5": 6,
+    "6": 6
+   }
+  },
+  "B4": {
+   "aggDiff": 1.2,
+   "perCountDiff": {
+    "3": 1,
+    "4": 3,
+    "5": 3,
+    "6": 12
+   }
+  },
+  "B6": {
+   "aggDiff": 1.7,
+   "perCountDiff": {
+    "3": 4,
+    "4": 5,
+    "5": 1,
+    "6": 3
+   }
+  }
+ }
+}

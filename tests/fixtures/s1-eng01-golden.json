@@ -1,0 +1,533 @@
+{
+ "generatedFrom": "S1-ENG-01 dist (pre tuning plan B)",
+ "games": [
+  {
+   "seed": "S1-TRACE-ritual-3-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "幽灵被彻底驱散，房屋停止崩塌。",
+    "round": 4
+   },
+   "rng": 278933952,
+   "texts": 20,
+   "hash": "cbb40da374fc4d95e055827c977c378da9f4762a333c4087c4fde52877086c20"
+  },
+  {
+   "seed": "S1-TRACE-ritual-3-true-1",
+   "result": {
+    "team": "traitor",
+    "reason": "所有英雄都已倒下。",
+    "round": 5
+   },
+   "rng": 1022225818,
+   "texts": 28,
+   "hash": "08688b1282c9bbac2bc84d9fb1a156df328f670c73f196f82e799e953707f14a"
+  },
+  {
+   "seed": "S1-TRACE-ritual-3-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 6
+   },
+   "rng": 341292580,
+   "texts": 36,
+   "hash": "620454f5cf1bf825ed1e67072db0791e41ca6b734dc88e914c734cdb8d28543d"
+  },
+  {
+   "seed": "S1-TRACE-ritual-3-false-1",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 6
+   },
+   "rng": 4475675,
+   "texts": 36,
+   "hash": "a149e63ebed48b8b899892dec187d6c37a65ae4b8ebd531fed45b59e8099db04"
+  },
+  {
+   "seed": "S1-TRACE-ritual-4-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 3
+   },
+   "rng": 2736536718,
+   "texts": 22,
+   "hash": "2c5512c2208d20ddc8fe26436ae3cc3acfcd2c101888447fcce6ebf72223c2e6"
+  },
+  {
+   "seed": "S1-TRACE-ritual-4-true-1",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 4
+   },
+   "rng": 2372619926,
+   "texts": 31,
+   "hash": "b8b67a3a189c76d5ae3d8ae46274b731fa1a2990e5729d5ed2524c8042b90aef"
+  },
+  {
+   "seed": "S1-TRACE-ritual-4-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 6
+   },
+   "rng": 3026517452,
+   "texts": 59,
+   "hash": "92397b17e83b2a8b45972378129a30de50ea2e588888251aeefdc1c71d3a4b43"
+  },
+  {
+   "seed": "S1-TRACE-ritual-4-false-1",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 7
+   },
+   "rng": 2181057269,
+   "texts": 53,
+   "hash": "fb0d203509ca3bb8b5490faa641b90d082125e8d2c4f7592732454860b0de733"
+  },
+  {
+   "seed": "S1-TRACE-ritual-5-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 3
+   },
+   "rng": 2747453297,
+   "texts": 25,
+   "hash": "fe4f3050083f3d40073849f3fdecd09c2d0a224ef58f2be52fc54872f0a80e9d"
+  },
+  {
+   "seed": "S1-TRACE-ritual-5-true-1",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 3
+   },
+   "rng": 1204478990,
+   "texts": 27,
+   "hash": "5510d3bee0d0f7b34b50952e1e6d58ba3702be853b5009ea786d89ed5ae4abba"
+  },
+  {
+   "seed": "S1-TRACE-ritual-5-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 5
+   },
+   "rng": 2663439814,
+   "texts": 62,
+   "hash": "1f88dd4b253442fa0d16f5cb1a6d2c9105bc1d131ef1608f4a85a8905e510471"
+  },
+  {
+   "seed": "S1-TRACE-ritual-5-false-1",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 4
+   },
+   "rng": 234150060,
+   "texts": 54,
+   "hash": "cc461264c8e2d7b1f12b6db61d0a4b0f95299340ca559965b09d7e701d0dfe7b"
+  },
+  {
+   "seed": "S1-TRACE-ritual-6-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 2
+   },
+   "rng": 930813174,
+   "texts": 33,
+   "hash": "cdf77cd0d6874ad6156313a3e3ef16bc4e47ca473cf16e2aa61480c2b9572985"
+  },
+  {
+   "seed": "S1-TRACE-ritual-6-true-1",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 2
+   },
+   "rng": 3916686033,
+   "texts": 24,
+   "hash": "b6ed80df6b263d1a93b16b27413488a68cdfd18a41e7be39fb3442109ac6812f"
+  },
+  {
+   "seed": "S1-TRACE-ritual-6-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 4
+   },
+   "rng": 2155226309,
+   "texts": 56,
+   "hash": "4ed21e31c616bc3e4204beecb34ec028bf1b4cbe95077c746f9b4600987bc221"
+  },
+  {
+   "seed": "S1-TRACE-ritual-6-false-1",
+   "result": {
+    "team": "hero",
+    "reason": "遗骸被安葬，幽灵获得安息。",
+    "round": 3
+   },
+   "rng": 3739377417,
+   "texts": 51,
+   "hash": "7cfdb29c2b795bf49b8405602c8d2b4a342e42d88233fded77cc463b7178d35b"
+  },
+  {
+   "seed": "S1-TRACE-rescue-3-true-0",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 4
+   },
+   "rng": 131132600,
+   "texts": 15,
+   "hash": "d720584fc90b219193ebb7a50e86884494d1afbb85091d35df78ae937684dd00"
+  },
+  {
+   "seed": "S1-TRACE-rescue-3-true-1",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 5
+   },
+   "rng": 2679727743,
+   "texts": 19,
+   "hash": "073cf0f2930a8c578df916f57304c078bebe15751d8e1e66a587d052bc8e6fcb"
+  },
+  {
+   "seed": "S1-TRACE-rescue-3-false-0",
+   "result": {
+    "team": "traitor",
+    "reason": "逃脱时限耗尽，蜘蛛封死了所有出路。",
+    "round": 16
+   },
+   "rng": 4045570352,
+   "texts": 38,
+   "hash": "3d434a4231c108dc8a8448f51e5adf354ae77713746494eef282649d44df3125"
+  },
+  {
+   "seed": "S1-TRACE-rescue-3-false-1",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 12
+   },
+   "rng": 1802993358,
+   "texts": 37,
+   "hash": "2a178bb3ccd3b98fc2cf28defb324382bff4f903b4925676e4b79936c2ef4953"
+  },
+  {
+   "seed": "S1-TRACE-rescue-4-true-0",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 4
+   },
+   "rng": 942343251,
+   "texts": 21,
+   "hash": "53171929065962e6dbf0c4fc2bc4e9771dca474bff188476886c917a88d2c5bb"
+  },
+  {
+   "seed": "S1-TRACE-rescue-4-true-1",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 5
+   },
+   "rng": 1890039692,
+   "texts": 25,
+   "hash": "89c06134bf13d332a826b3d9821b2e4b95c89c3398e150edcaded0f1f8a1af69"
+  },
+  {
+   "seed": "S1-TRACE-rescue-4-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。",
+    "round": 9
+   },
+   "rng": 3195288864,
+   "texts": 56,
+   "hash": "8e98661c25c67b9e4aab917c59719ac3801046325b6161768c5f25020bdef338"
+  },
+  {
+   "seed": "S1-TRACE-rescue-4-false-1",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 6
+   },
+   "rng": 915814074,
+   "texts": 39,
+   "hash": "cd1d7e8ec2f35f5337f78f7c705766f9c66b93e35fa08d61222d5f4a4209ef20"
+  },
+  {
+   "seed": "S1-TRACE-rescue-5-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。",
+    "round": 7
+   },
+   "rng": 2688524849,
+   "texts": 36,
+   "hash": "89e7d405d7989e632beb005f865bc80010c0e1c55f4035604f6b8e3029122daa"
+  },
+  {
+   "seed": "S1-TRACE-rescue-5-true-1",
+   "result": {
+    "team": "hero",
+    "reason": "艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。",
+    "round": 3
+   },
+   "rng": 2516260782,
+   "texts": 23,
+   "hash": "59065c46f7c601fe1cc5f54cdbafc055b6e02aad383857e9d19548415d886de1"
+  },
+  {
+   "seed": "S1-TRACE-rescue-5-false-0",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 7
+   },
+   "rng": 3581005008,
+   "texts": 55,
+   "hash": "452b19a891f605bec907c8912180a1cef8fd41f5f2edc29e9aef6da2fd1c7d8c"
+  },
+  {
+   "seed": "S1-TRACE-rescue-5-false-1",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 7
+   },
+   "rng": 763733229,
+   "texts": 52,
+   "hash": "ffafb405c479eeadf6a4374c2cda23ce936c90b5bf1bdc1e4dec645bf7556f4d"
+  },
+  {
+   "seed": "S1-TRACE-rescue-6-true-0",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 4
+   },
+   "rng": 1011878997,
+   "texts": 29,
+   "hash": "234166c5811ee528f88330a590a7c09701327057628343043d672a81f8251ac1"
+  },
+  {
+   "seed": "S1-TRACE-rescue-6-true-1",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 4
+   },
+   "rng": 3462181701,
+   "texts": 26,
+   "hash": "68521879175029b4d2b3491000c6df26d66b26ef603b35337a76c53636c68ef0"
+  },
+  {
+   "seed": "S1-TRACE-rescue-6-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。",
+    "round": 7
+   },
+   "rng": 3055270983,
+   "texts": 55,
+   "hash": "324935753781d2b09e285bc057525c74c36a09fd043d5e3587f6cf800ab0cad1"
+  },
+  {
+   "seed": "S1-TRACE-rescue-6-false-1",
+   "result": {
+    "team": "traitor",
+    "reason": "需要救出的同伴已死亡，救援失败。",
+    "round": 8
+   },
+   "rng": 757780482,
+   "texts": 59,
+   "hash": "48b3441dba845d4bac912609f11c8bce24bd48e603c390ea51b0f420d103e638"
+  },
+  {
+   "seed": "S1-TRACE-seals-3-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "艾琳开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 2
+   },
+   "rng": 1893193246,
+   "texts": 21,
+   "hash": "cf061b5db798aa3faee2c6ec0341a0ec764b13a58ab5ad50a87087fd6664fe15"
+  },
+  {
+   "seed": "S1-TRACE-seals-3-true-1",
+   "result": {
+    "team": "hero",
+    "reason": "薇拉开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 3
+   },
+   "rng": 3267002835,
+   "texts": 21,
+   "hash": "3622047b1d48c73c5733ba16ecd0adf4a5253bceabd95af03f5b9c429e299430"
+  },
+  {
+   "seed": "S1-TRACE-seals-3-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "薇拉开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 10
+   },
+   "rng": 3704059159,
+   "texts": 61,
+   "hash": "492d5501a1971d9b35c25bc454ba7f0bc700d74d41f596fa52263809416db3d5"
+  },
+  {
+   "seed": "S1-TRACE-seals-3-false-1",
+   "result": {
+    "team": "hero",
+    "reason": "林默开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 7
+   },
+   "rng": 1103440406,
+   "texts": 52,
+   "hash": "f12617f8ec53dc6089c3f513cf8cda5373197cc0a2ee2ba88b2bc20ce986ba90"
+  },
+  {
+   "seed": "S1-TRACE-seals-4-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "林默开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 4
+   },
+   "rng": 1721765472,
+   "texts": 41,
+   "hash": "c5ac4268d716020abecf9abb926b3b1849165d3f99cf071563378461a301e528"
+  },
+  {
+   "seed": "S1-TRACE-seals-4-true-1",
+   "result": {
+    "team": "hero",
+    "reason": "林默开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 3
+   },
+   "rng": 3832562003,
+   "texts": 31,
+   "hash": "85c0b0bd4be522d21fdbfb2ad18a6230a9cba1a871e8071c3d1622a724693822"
+  },
+  {
+   "seed": "S1-TRACE-seals-4-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "艾琳开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 6
+   },
+   "rng": 495168147,
+   "texts": 59,
+   "hash": "3110cb5ae734d45d7a95e66157f27b68b273adbd34eff299efdf8b720ffd4794"
+  },
+  {
+   "seed": "S1-TRACE-seals-4-false-1",
+   "result": {
+    "team": "hero",
+    "reason": "艾琳开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 6
+   },
+   "rng": 2348466648,
+   "texts": 66,
+   "hash": "47341dfcc3a91d9a76afa6217e6be1cb1093aa45a163ad7434610f90b7f1843e"
+  },
+  {
+   "seed": "S1-TRACE-seals-5-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "薇拉开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 3
+   },
+   "rng": 3254099098,
+   "texts": 36,
+   "hash": "70358bdb2b60c3b5bea6f288d430b6548e93ba3f1025d3050721d67e89c33b92"
+  },
+  {
+   "seed": "S1-TRACE-seals-5-true-1",
+   "result": {
+    "team": "hero",
+    "reason": "罗伊开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 3
+   },
+   "rng": 778005223,
+   "texts": 46,
+   "hash": "7ca7561b4ecb163a8835a7e0bde8f94245ae26a710edbf0358da8a13a7c63bea"
+  },
+  {
+   "seed": "S1-TRACE-seals-5-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "艾琳开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 4
+   },
+   "rng": 2882045862,
+   "texts": 62,
+   "hash": "a5648409c83f7673b450630e81094739752617db4135f0be2e6bd16c605a4670"
+  },
+  {
+   "seed": "S1-TRACE-seals-5-false-1",
+   "result": {
+    "team": "hero",
+    "reason": "薇拉开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 7
+   },
+   "rng": 1532519229,
+   "texts": 80,
+   "hash": "c765421d296ea95fd5a71020da3bc4c422ffbb0c460adc8e9d76ec7dcd70c060"
+  },
+  {
+   "seed": "S1-TRACE-seals-6-true-0",
+   "result": {
+    "team": "hero",
+    "reason": "奥斯卡开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 3
+   },
+   "rng": 4290638610,
+   "texts": 53,
+   "hash": "f2c4afb515e31dd101fb8d33868b4c534b7650d89019a047a160633320d693d2"
+  },
+  {
+   "seed": "S1-TRACE-seals-6-true-1",
+   "result": {
+    "team": "hero",
+    "reason": "林默开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 3
+   },
+   "rng": 3919164934,
+   "texts": 46,
+   "hash": "aca50de46e13348ab43ae8d9f3a3827e95e480a02dc64e6575c12e96e0dd25b4"
+  },
+  {
+   "seed": "S1-TRACE-seals-6-false-0",
+   "result": {
+    "team": "hero",
+    "reason": "罗伊开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 5
+   },
+   "rng": 3714225414,
+   "texts": 84,
+   "hash": "e21c3d1021f52af64d787469cf34de8e77a4f74eefe8ecfe47fdc18670faca48"
+  },
+  {
+   "seed": "S1-TRACE-seals-6-false-1",
+   "result": {
+    "team": "hero",
+    "reason": "罗伊开启退路，封印之夜的幸存者逃出小屋。",
+    "round": 5
+   },
+   "rng": 1932913057,
+   "texts": 78,
+   "hash": "cc180e0772f9d08dae95f795ba6cfd47751e71da1c10a0fd07bdf0db0209d580"
+  }
+ ]
+}

@@ -1,0 +1,725 @@
+{
+ "meta": {
+  "tool": "tools/balance-sim.cjs",
+  "driver": "invoke('aiStep') (browser path)",
+  "n": 50,
+  "prefix": "S1",
+  "scenarios": [
+   "ritual"
+  ],
+  "counts": [
+   3,
+   4,
+   5,
+   6
+  ],
+  "entries": [
+   "quick",
+   "normal"
+  ],
+  "maxSteps": 6000,
+  "levers": [
+   [
+    "ritual.ghostDefense",
+    5
+   ],
+   [
+    "ritual.corpseThreshold",
+    6
+   ]
+  ],
+  "fixChute": false,
+  "roster": "random",
+  "counterfactuals": [],
+  "games": 400,
+  "ms": 5135,
+  "node": "v22.22.2"
+ },
+ "cells": [
+  {
+   "scenario": "ritual",
+   "count": 3,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 26,
+   "traitorPct": 74,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 4.7,
+   "medEnd": 4,
+   "avgHaunt": 1,
+   "avgAfter": 4.7,
+   "medAfter": 4,
+   "avgDeaths": 1.82,
+   "avgHeroDeaths": 1.44,
+   "traitorDeathPct": 38,
+   "reasons": {
+    "traitor｜所有英雄都已倒下。": 35,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 7,
+    "hero｜遗骸被安葬，幽灵获得安息。": 6,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 2
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 2.78,
+    "hero→ghost>hero": 9.8,
+    "traitor→player>traitor": 4.06,
+    "ghost>hero": 3.22,
+    "hero→player>hero": 0.12,
+    "hero→player>traitor": 0.24
+   },
+   "attacksPerGame": {
+    "traitor": 3.32,
+    "ghost": 5.08,
+    "hero": 0.22
+   },
+   "traitor": {
+    "turnsPerGame": 3.58,
+    "sameRoomStartPct": 94.4,
+    "avgDistToHero": 0.16,
+    "avgDistToCarrier": 2.5,
+    "stealsPerGame": 0
+   },
+   "ritual": {
+    "heroSummonPct": 16,
+    "traitorSummonPct": 84,
+    "avgRitualRounds": 1.24,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 1.43,
+    "carrierFoundPct": 87.5,
+    "burialCountdownAtHeroWin": 4,
+    "burialInCryptPct": 100,
+    "burialTimeouts": 2,
+    "collapseGhostHitsAtLoss": 0.94
+   }
+  },
+  {
+   "scenario": "ritual",
+   "count": 3,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 42,
+   "traitorPct": 58,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 7.86,
+   "medEnd": 8,
+   "avgHaunt": 3.72,
+   "avgAfter": 5.14,
+   "medAfter": 5,
+   "avgDeaths": 1.54,
+   "avgHeroDeaths": 1.26,
+   "traitorDeathPct": 28,
+   "reasons": {
+    "hero｜遗骸被安葬，幽灵获得安息。": 8,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 13,
+    "traitor｜所有英雄都已倒下。": 29
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>traitor": 3.3,
+    "roundEnd>hero": 0.52,
+    "hero→ghost>hero": 8.06,
+    "ghost>hero": 2.38,
+    "traitor→player>hero": 3.88,
+    "hero→player>traitor": 0.08,
+    "roundEnd>traitor": 0.12
+   },
+   "attacksPerGame": {
+    "traitor": 3.16,
+    "ghost": 4.78,
+    "hero": 0.08
+   },
+   "traitor": {
+    "turnsPerGame": 3.94,
+    "sameRoomStartPct": 40.6,
+    "avgDistToHero": 2.26,
+    "avgDistToCarrier": 2.56,
+    "stealsPerGame": 0.18
+   },
+   "ritual": {
+    "heroSummonPct": 18,
+    "traitorSummonPct": 82,
+    "avgRitualRounds": 1.34,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 1.29,
+    "carrierFoundPct": 100,
+    "burialCountdownAtHeroWin": 4.25,
+    "burialInCryptPct": 22.2,
+    "burialTimeouts": 0,
+    "collapseGhostHitsAtLoss": 0.93
+   }
+  },
+  {
+   "scenario": "ritual",
+   "count": 4,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 22,
+   "traitorPct": 78,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 5.28,
+   "medEnd": 5,
+   "avgHaunt": 1,
+   "avgAfter": 5.28,
+   "medAfter": 5,
+   "avgDeaths": 2.66,
+   "avgHeroDeaths": 2.38,
+   "traitorDeathPct": 28,
+   "reasons": {
+    "traitor｜所有英雄都已倒下。": 38,
+    "hero｜遗骸被安葬，幽灵获得安息。": 8,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 3,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 1
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 4.36,
+    "hero→ghost>hero": 16.56,
+    "traitor→player>traitor": 3.62,
+    "ghost>hero": 3.38,
+    "hero→player>hero": 0.2,
+    "hero→player>traitor": 0.3
+   },
+   "attacksPerGame": {
+    "traitor": 3.92,
+    "ghost": 7.74,
+    "hero": 0.18
+   },
+   "traitor": {
+    "turnsPerGame": 4.32,
+    "sameRoomStartPct": 96.3,
+    "avgDistToHero": 0.06,
+    "avgDistToCarrier": 1.67,
+    "stealsPerGame": 0
+   },
+   "ritual": {
+    "heroSummonPct": 18,
+    "traitorSummonPct": 82,
+    "avgRitualRounds": 1.36,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 2.12,
+    "carrierFoundPct": 88.9,
+    "burialCountdownAtHeroWin": 2.38,
+    "burialInCryptPct": 100,
+    "burialTimeouts": 1,
+    "collapseGhostHitsAtLoss": 1.24
+   }
+  },
+  {
+   "scenario": "ritual",
+   "count": 4,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 38,
+   "traitorPct": 62,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 7.18,
+   "medEnd": 7,
+   "avgHaunt": 2.74,
+   "avgAfter": 5.44,
+   "medAfter": 5,
+   "avgDeaths": 2.2,
+   "avgHeroDeaths": 1.92,
+   "traitorDeathPct": 28,
+   "reasons": {
+    "traitor｜所有英雄都已倒下。": 29,
+    "hero｜遗骸被安葬，幽灵获得安息。": 10,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 9,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 2
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "hero→ghost>hero": 12.92,
+    "traitor→player>traitor": 3.78,
+    "ghost>hero": 2.54,
+    "roundEnd>hero": 0.48,
+    "traitor→player>hero": 3.94,
+    "hero→player>hero": 0.2,
+    "hero→player>traitor": 0.62,
+    "roundEnd>traitor": 0.08
+   },
+   "attacksPerGame": {
+    "ghost": 6.88,
+    "traitor": 3.74,
+    "hero": 0.32
+   },
+   "traitor": {
+    "turnsPerGame": 4.36,
+    "sameRoomStartPct": 47.2,
+    "avgDistToHero": 1.52,
+    "avgDistToCarrier": 2.15,
+    "stealsPerGame": 0.3
+   },
+   "ritual": {
+    "heroSummonPct": 24,
+    "traitorSummonPct": 76,
+    "avgRitualRounds": 1.48,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 2.45,
+    "carrierFoundPct": 91.7,
+    "burialCountdownAtHeroWin": 2.7,
+    "burialInCryptPct": 25,
+    "burialTimeouts": 2,
+    "collapseGhostHitsAtLoss": 1.76
+   }
+  },
+  {
+   "scenario": "ritual",
+   "count": 5,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 30,
+   "traitorPct": 70,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 5.68,
+   "medEnd": 6,
+   "avgHaunt": 1,
+   "avgAfter": 5.68,
+   "medAfter": 6,
+   "avgDeaths": 3.32,
+   "avgHeroDeaths": 2.86,
+   "traitorDeathPct": 46,
+   "reasons": {
+    "hero｜遗骸被安葬，幽灵获得安息。": 5,
+    "traitor｜所有英雄都已倒下。": 32,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 10,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 3
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "hero→player>hero": 0.12,
+    "hero→player>traitor": 0.74,
+    "traitor→player>traitor": 4.74,
+    "traitor→player>hero": 2.78,
+    "hero→ghost>hero": 23.26,
+    "ghost>hero": 2.98
+   },
+   "attacksPerGame": {
+    "hero": 0.4,
+    "traitor": 3.66,
+    "ghost": 11.26
+   },
+   "traitor": {
+    "turnsPerGame": 4.04,
+    "sameRoomStartPct": 97.5,
+    "avgDistToHero": 0.04,
+    "avgDistToCarrier": 1.75,
+    "stealsPerGame": 0
+   },
+   "ritual": {
+    "heroSummonPct": 16,
+    "traitorSummonPct": 84,
+    "avgRitualRounds": 1.36,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 2.62,
+    "carrierFoundPct": 100,
+    "burialCountdownAtHeroWin": 2,
+    "burialInCryptPct": 100,
+    "burialTimeouts": 3,
+    "collapseGhostHitsAtLoss": 2.09
+   }
+  },
+  {
+   "scenario": "ritual",
+   "count": 5,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 56,
+   "traitorPct": 44,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 7.36,
+   "medEnd": 7,
+   "avgHaunt": 2.54,
+   "avgAfter": 5.82,
+   "medAfter": 6,
+   "avgDeaths": 2.86,
+   "avgHeroDeaths": 2.3,
+   "traitorDeathPct": 56,
+   "reasons": {
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 19,
+    "traitor｜所有英雄都已倒下。": 21,
+    "hero｜遗骸被安葬，幽灵获得安息。": 9,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 1
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 2.9,
+    "ghost>hero": 2.22,
+    "roundEnd>hero": 0.56,
+    "hero→ghost>hero": 20.16,
+    "traitor→player>traitor": 4.98,
+    "hero→player>traitor": 0.74,
+    "hero→player>hero": 0.1,
+    "roundEnd>traitor": 0.04
+   },
+   "attacksPerGame": {
+    "traitor": 3.7,
+    "ghost": 11.06,
+    "hero": 0.38
+   },
+   "traitor": {
+    "turnsPerGame": 4.06,
+    "sameRoomStartPct": 54.2,
+    "avgDistToHero": 1.19,
+    "avgDistToCarrier": 2.62,
+    "stealsPerGame": 0.18
+   },
+   "ritual": {
+    "heroSummonPct": 20,
+    "traitorSummonPct": 80,
+    "avgRitualRounds": 1.28,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 3.08,
+    "carrierFoundPct": 100,
+    "burialCountdownAtHeroWin": 1.78,
+    "burialInCryptPct": 0,
+    "burialTimeouts": 1,
+    "collapseGhostHitsAtLoss": 2.1
+   }
+  },
+  {
+   "scenario": "ritual",
+   "count": 6,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 26,
+   "traitorPct": 74,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 5.8,
+   "medEnd": 6,
+   "avgHaunt": 1,
+   "avgAfter": 5.8,
+   "medAfter": 6,
+   "avgDeaths": 4.08,
+   "avgHeroDeaths": 3.72,
+   "traitorDeathPct": 36,
+   "reasons": {
+    "traitor｜所有英雄都已倒下。": 34,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 7,
+    "hero｜遗骸被安葬，幽灵获得安息。": 6,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 3
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>traitor": 4.16,
+    "hero→ghost>hero": 29.38,
+    "traitor→player>hero": 4,
+    "ghost>hero": 4.18,
+    "hero→player>traitor": 0.24,
+    "hero→player>hero": 0.2
+   },
+   "attacksPerGame": {
+    "traitor": 4.12,
+    "ghost": 14.2,
+    "hero": 0.3
+   },
+   "traitor": {
+    "turnsPerGame": 4.62,
+    "sameRoomStartPct": 96.5,
+    "avgDistToHero": 0.08,
+    "avgDistToCarrier": 2.17,
+    "stealsPerGame": 0
+   },
+   "ritual": {
+    "heroSummonPct": 18,
+    "traitorSummonPct": 82,
+    "avgRitualRounds": 1.48,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 4.05,
+    "carrierFoundPct": 100,
+    "burialCountdownAtHeroWin": 1.5,
+    "burialInCryptPct": 100,
+    "burialTimeouts": 3,
+    "collapseGhostHitsAtLoss": 2.56
+   }
+  },
+  {
+   "scenario": "ritual",
+   "count": 6,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 42,
+   "traitorPct": 58,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 7,
+   "medEnd": 7,
+   "avgHaunt": 2.04,
+   "avgAfter": 5.96,
+   "medAfter": 6,
+   "avgDeaths": 3.58,
+   "avgHeroDeaths": 3.2,
+   "traitorDeathPct": 38,
+   "reasons": {
+    "hero｜遗骸被安葬，幽灵获得安息。": 7,
+    "traitor｜所有英雄都已倒下。": 27,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 2,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 14
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "hero→player>hero": 0.18,
+    "traitor→player>hero": 3.72,
+    "roundEnd>hero": 0.64,
+    "hero→ghost>hero": 26.78,
+    "traitor→player>traitor": 4.42,
+    "ghost>hero": 2.58,
+    "roundEnd>traitor": 0.04,
+    "hero→player>traitor": 0.1
+   },
+   "attacksPerGame": {
+    "traitor": 4.3,
+    "hero": 0.18,
+    "ghost": 14.34
+   },
+   "traitor": {
+    "turnsPerGame": 4.7,
+    "sameRoomStartPct": 59.6,
+    "avgDistToHero": 0.87,
+    "avgDistToCarrier": 2.11,
+    "stealsPerGame": 0.24
+   },
+   "ritual": {
+    "heroSummonPct": 18,
+    "traitorSummonPct": 82,
+    "avgRitualRounds": 1.36,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 3.63,
+    "carrierFoundPct": 100,
+    "burialCountdownAtHeroWin": 1.29,
+    "burialInCryptPct": 0,
+    "burialTimeouts": 2,
+    "collapseGhostHitsAtLoss": 3.37
+   }
+  }
+ ],
+ "aggregate": {
+  "ritual/quick": {
+   "games": 200,
+   "heroPct": 26,
+   "traitorPct": 74,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 5.37,
+   "medEnd": 5,
+   "avgHaunt": 1,
+   "avgAfter": 5.37,
+   "medAfter": 5,
+   "avgDeaths": 2.97,
+   "avgHeroDeaths": 2.6,
+   "traitorDeathPct": 37,
+   "reasons": {
+    "traitor｜所有英雄都已倒下。": 139,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 27,
+    "hero｜遗骸被安葬，幽灵获得安息。": 25,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 9
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 3.48,
+    "hero→ghost>hero": 19.75,
+    "traitor→player>traitor": 4.14,
+    "ghost>hero": 3.44,
+    "hero→player>hero": 0.16,
+    "hero→player>traitor": 0.38
+   },
+   "attacksPerGame": {
+    "traitor": 3.76,
+    "ghost": 9.57,
+    "hero": 0.28
+   },
+   "traitor": {
+    "turnsPerGame": 4.14,
+    "sameRoomStartPct": 96.3,
+    "avgDistToHero": 0.08,
+    "avgDistToCarrier": 2.06,
+    "stealsPerGame": 0
+   },
+   "ritual": {
+    "heroSummonPct": 17,
+    "traitorSummonPct": 83,
+    "avgRitualRounds": 1.36,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 2.55,
+    "carrierFoundPct": 94.1,
+    "burialCountdownAtHeroWin": 2.48,
+    "burialInCryptPct": 100,
+    "burialTimeouts": 9,
+    "collapseGhostHitsAtLoss": 1.68
+   }
+  },
+  "ritual/normal": {
+   "games": 200,
+   "heroPct": 44.5,
+   "traitorPct": 55.5,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 7.35,
+   "medEnd": 7,
+   "avgHaunt": 2.76,
+   "avgAfter": 5.59,
+   "medAfter": 5,
+   "avgDeaths": 2.55,
+   "avgHeroDeaths": 2.17,
+   "traitorDeathPct": 37.5,
+   "reasons": {
+    "hero｜遗骸被安葬，幽灵获得安息。": 34,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 55,
+    "traitor｜所有英雄都已倒下。": 106,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 5
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>traitor": 4.12,
+    "roundEnd>hero": 0.55,
+    "hero→ghost>hero": 16.98,
+    "ghost>hero": 2.43,
+    "traitor→player>hero": 3.61,
+    "hero→player>traitor": 0.39,
+    "roundEnd>traitor": 0.07,
+    "hero→player>hero": 0.12
+   },
+   "attacksPerGame": {
+    "traitor": 3.73,
+    "ghost": 9.27,
+    "hero": 0.24
+   },
+   "traitor": {
+    "turnsPerGame": 4.26,
+    "sameRoomStartPct": 50.8,
+    "avgDistToHero": 1.46,
+    "avgDistToCarrier": 2.34,
+    "stealsPerGame": 0.23
+   },
+   "ritual": {
+    "heroSummonPct": 20,
+    "traitorSummonPct": 80,
+    "avgRitualRounds": 1.37,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 2.61,
+    "carrierFoundPct": 97.5,
+    "burialCountdownAtHeroWin": 2.53,
+    "burialInCryptPct": 12.5,
+    "burialTimeouts": 5,
+    "collapseGhostHitsAtLoss": 2.02
+   }
+  },
+  "ritual/all": {
+   "games": 400,
+   "heroPct": 35.3,
+   "traitorPct": 64.8,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 6.36,
+   "medEnd": 6,
+   "avgHaunt": 1.88,
+   "avgAfter": 5.48,
+   "medAfter": 5,
+   "avgDeaths": 2.76,
+   "avgHeroDeaths": 2.38,
+   "traitorDeathPct": 37.3,
+   "reasons": {
+    "traitor｜所有英雄都已倒下。": 245,
+    "hero｜幽灵被彻底驱散，房屋停止崩塌。": 82,
+    "hero｜遗骸被安葬，幽灵获得安息。": 59,
+    "traitor｜未能及时安葬遗骸，幽灵吞没了房屋。": 14
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 3.55,
+    "hero→ghost>hero": 18.36,
+    "traitor→player>traitor": 4.13,
+    "ghost>hero": 2.94,
+    "hero→player>hero": 0.14,
+    "hero→player>traitor": 0.38,
+    "roundEnd>hero": 0.28,
+    "roundEnd>traitor": 0.04
+   },
+   "attacksPerGame": {
+    "traitor": 3.74,
+    "ghost": 9.42,
+    "hero": 0.26
+   },
+   "traitor": {
+    "turnsPerGame": 4.2,
+    "sameRoomStartPct": 73.2,
+    "avgDistToHero": 0.77,
+    "avgDistToCarrier": 2.22,
+    "stealsPerGame": 0.11
+   },
+   "ritual": {
+    "heroSummonPct": 18.5,
+    "traitorSummonPct": 81.5,
+    "avgRitualRounds": 1.36,
+    "traitorProgressAtHeroSummon": 0,
+    "heroProgressAtTraitorSummon": 2.58,
+    "carrierFoundPct": 95.9,
+    "burialCountdownAtHeroWin": 2.51,
+    "burialInCryptPct": 52.7,
+    "burialTimeouts": 14,
+    "collapseGhostHitsAtLoss": 1.83
+   }
+  }
+ }
+}

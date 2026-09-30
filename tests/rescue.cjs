@@ -15,7 +15,7 @@ v.room='0:0:0';g.s.taskUsed=false;fakeRoll(g,[6]);assert(g.rescueAction('door-kn
 // Medicine handoff cannot duplicate supplies or cross rooms.
 g=make();r=g.s.rescue;const receiver=g.s.players.find(p=>p.team==='hero'&&p.id!==g.p.id);r.kitHolder=g.p.id;receiver.room=g.p.room;assert(g.handoffKit(receiver.id));assert.equal(r.kitHolder,receiver.id);assert(g.s.taskUsed);assert(!g.handoffKit(receiver.id));
 // Protected victim, drop/recover supplies, death failure, and six player setup.
-g=make(6);r=g.s.rescue;assert.equal(r.webGoal,6);assert.equal(r.remaining,15);g.s.active=g.s.traitor;g.p.room=g.s.players[r.victim].room;assert(!g.attack(r.victim));
+g=make(6);r=g.s.rescue;assert.equal(r.webGoal,6);assert.equal(r.remaining,Math.max(1,configs.rescue.rounds+3*configs.rescue.roundsPerPlayer));g.s.active=g.s.traitor;g.p.room=g.s.players[r.victim].room;assert(!g.attack(r.victim));
 g=make();r=g.s.rescue;const helper=g.s.players.find(p=>p.team==='hero'&&p.id!==r.victim);r.kitHolder=helper.id;helper.idx[0]=0;g.change(helper,0,-1);assert.equal(r.kitHolder,null);assert.equal(r.kitRoom,helper.room);assert(!g.s.result);
 g=make();r=g.s.rescue;r.spider.stunned=true;const start=r.remaining;g.roundEnd();assert.equal(r.remaining,start);for(let i=0;i<start;i++){r.spider.stunned=true;g.roundEnd();}assert.equal(g.s.result.team,'traitor');
 g=make();r=g.s.rescue;g.s.players[r.victim].idx[0]=0;g.change(g.s.players[r.victim],0,-1);assert.equal(g.s.result.team,'traitor');

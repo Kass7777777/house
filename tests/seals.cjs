@@ -1,12 +1,13 @@
-const assert=require('node:assert/strict');require('../dist/tactics.js');require('../dist/equipment.js');require('../dist/seals.js');const {Game}=require('../dist/engine.js');
+const assert=require('node:assert/strict');require('../dist/tactics.js');require('../dist/equipment.js');require('../dist/seals.js');const {Game}=require('../dist/engine.js');const {configs}=require('../dist/scenarios.js');
 let g=new Game({quick:true,scenario:'seals',count:4,humanCount:4});assert.equal(g.s.phase,'seals');assert(g.s.players.every(p=>p.team==='hero'));assert.equal(g.s.traitor,null);assert(g.s.seals.nodes.every(n=>g.path('0:0:0',n.room).length));
 let before=g.s.countdown;g.s.active=g.order().at(-1).id;g.invoke('endTurn');assert(!g.s.pendingDecision);assert.equal(g.s.countdown,before);
 // Repair uses one task even on failure, and does not silently win on final node.
 let n=g.s.seals.nodes[0];g.p.room=n.room;const originalRoll=g.roll;g.roll=()=>0;assert(g.invoke('sealAction',['repair']));assert.equal(n.progress,0);assert(!g.invoke('sealAction',['repair']));g.roll=originalRoll;
 // Atomic whole-round damage, including save between every person's allocation.
 g=new Game({quick:true,scenario:'seals',count:4,humanCount:4});g.s.round++;g.s.active=g.order().at(-1).id;g.s.seals.nodes[0].progress=2;g.s.players[0].room=g.s.seals.nodes[0].room;const tracks=g.s.players.map(p=>[...p.idx]),round=g.s.round,time=g.s.countdown;g.invoke('endTurn');assert(g.s.pendingDecision);let choices=0;
-while(g.s.pendingDecision){g=new Game({},g.s);assert(g.allocateDamage(2));g.confirmDamage();choices++;assert(choices<=3);}
-assert.equal(choices,3);assert.deepEqual(g.s.players[0].idx,tracks[0]);for(const p of g.s.players.slice(1))assert.equal(p.idx[2],tracks[p.id][2]-1);assert.equal(g.s.round,round+1);assert.equal(g.s.countdown,time-1);
+// Erosion amount is config-driven (S1-ENG-02: seals.erosion); allocate every point to knowledge, reloading between people.
+const erosion=configs.seals.erosion;while(g.s.pendingDecision){g=new Game({},g.s);for(let k=0;k<erosion;k++)assert(g.allocateDamage(2));assert(g.damageReady());g.confirmDamage();choices++;assert(choices<=3);}
+assert.equal(choices,3);assert.deepEqual(g.s.players[0].idx,tracks[0]);for(const p of g.s.players.slice(1))assert.equal(p.idx[2],tracks[p.id][2]-erosion);assert.equal(g.s.round,round+1);assert.equal(g.s.countdown,time-1);
 // Completion requires explicit exit at entrance, survives save; no auto win.
 g.s.seals.nodes.forEach(n=>n.progress=2);g.p.room=g.s.seals.nodes[0].room;assert(!g.sealAction('exit'));assert(!g.s.result);g=new Game({},g.s);g.p.room='0:0:0';assert(g.invoke('sealAction',['exit']));assert.equal(g.s.result.team,'hero');
 // Both failure modes use house, never a fabricated traitor.

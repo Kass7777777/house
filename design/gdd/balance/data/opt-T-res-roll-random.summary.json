@@ -1,0 +1,694 @@
+{
+ "meta": {
+  "tool": "tools/balance-sim.cjs",
+  "driver": "invoke('aiStep') (browser path)",
+  "n": 50,
+  "prefix": "S1",
+  "scenarios": [
+   "rescue"
+  ],
+  "counts": [
+   3,
+   4,
+   5,
+   6
+  ],
+  "entries": [
+   "quick",
+   "normal"
+  ],
+  "maxSteps": 6000,
+  "levers": [
+   [
+    "rescue.rounds",
+    16
+   ],
+   [
+    "rescue.roundsPerPlayer",
+    -2
+   ]
+  ],
+  "fixChute": false,
+  "roster": "random",
+  "counterfactuals": [
+   "protect-freed"
+  ],
+  "games": 400,
+  "ms": 8961,
+  "node": "v22.22.2"
+ },
+ "cells": [
+  {
+   "scenario": "rescue",
+   "count": 3,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 64,
+   "traitorPct": 36,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 11.14,
+   "medEnd": 11,
+   "avgHaunt": 1,
+   "avgAfter": 11.14,
+   "medAfter": 11,
+   "avgDeaths": 1.2,
+   "avgHeroDeaths": 0.9,
+   "traitorDeathPct": 30,
+   "reasons": {
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 6,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 11,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 12,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 4,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 7,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 4,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 1
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 6.08,
+    "spider>hero": 2.6,
+    "traitor→player>traitor": 4.16,
+    "hero→spider>hero": 0.78
+   },
+   "attacksPerGame": {
+    "traitor": 4.78,
+    "spider": 1.04
+   },
+   "traitor": {
+    "turnsPerGame": 9.4,
+    "sameRoomStartPct": 17.7,
+    "avgDistToHero": 1.45,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0
+   },
+   "rescue": {
+    "countdownAtHeroWin": 8.22,
+    "startCountdown": 16,
+    "lossWebPct": 98.15,
+    "lossEggsPct": 83.3,
+    "lossDoorPct": 5.6,
+    "lossWebDonePct": 94.4,
+    "victimDeathLosses": 11
+   }
+  },
+  {
+   "scenario": "rescue",
+   "count": 3,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 62,
+   "traitorPct": 38,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 13.46,
+   "medEnd": 12,
+   "avgHaunt": 3.72,
+   "avgAfter": 10.74,
+   "medAfter": 10,
+   "avgDeaths": 1.22,
+   "avgHeroDeaths": 0.88,
+   "traitorDeathPct": 34,
+   "reasons": {
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 4,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 10,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 9,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 6.16,
+    "spider>hero": 1.4,
+    "hero→spider>hero": 0.98,
+    "traitor→player>traitor": 3.64
+   },
+   "attacksPerGame": {
+    "traitor": 4.36,
+    "spider": 1.04
+   },
+   "traitor": {
+    "turnsPerGame": 9.04,
+    "sameRoomStartPct": 15.9,
+    "avgDistToHero": 1.79,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0.28
+   },
+   "rescue": {
+    "countdownAtHeroWin": 8.9,
+    "startCountdown": 16,
+    "lossWebPct": 84.21,
+    "lossEggsPct": 78.9,
+    "lossDoorPct": 15.8,
+    "lossWebDonePct": 68.4,
+    "victimDeathLosses": 10
+   }
+  },
+  {
+   "scenario": "rescue",
+   "count": 4,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 70,
+   "traitorPct": 30,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 8.44,
+   "medEnd": 8,
+   "avgHaunt": 1,
+   "avgAfter": 8.44,
+   "medAfter": 8,
+   "avgDeaths": 1.48,
+   "avgHeroDeaths": 1.06,
+   "traitorDeathPct": 42,
+   "reasons": {
+    "traitor｜需要救出的同伴已死亡，救援失败。": 9,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 6,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 6,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 8,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 8,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 9,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 2,
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 2
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 8.1,
+    "traitor→player>traitor": 4.92,
+    "spider>hero": 3.16,
+    "hero→spider>hero": 0.5
+   },
+   "attacksPerGame": {
+    "traitor": 5.72,
+    "spider": 0.48
+   },
+   "traitor": {
+    "turnsPerGame": 7.1,
+    "sameRoomStartPct": 35.8,
+    "avgDistToHero": 1.31,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0
+   },
+   "rescue": {
+    "countdownAtHeroWin": 8.6,
+    "startCountdown": 14,
+    "lossWebPct": 90,
+    "lossEggsPct": 100,
+    "lossDoorPct": 26.7,
+    "lossWebDonePct": 86.7,
+    "victimDeathLosses": 9
+   }
+  },
+  {
+   "scenario": "rescue",
+   "count": 4,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 82,
+   "traitorPct": 18,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 10.14,
+   "medEnd": 10,
+   "avgHaunt": 2.74,
+   "avgAfter": 8.4,
+   "medAfter": 8,
+   "avgDeaths": 1.36,
+   "avgHeroDeaths": 0.92,
+   "traitorDeathPct": 44,
+   "reasons": {
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 13,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 6,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 9,
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 4,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 3,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 1
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>traitor": 4.42,
+    "traitor→player>hero": 7.32,
+    "spider>hero": 2.3,
+    "hero→spider>hero": 0.64
+   },
+   "attacksPerGame": {
+    "traitor": 5.3,
+    "spider": 1
+   },
+   "traitor": {
+    "turnsPerGame": 6.14,
+    "sameRoomStartPct": 38.8,
+    "avgDistToHero": 1.33,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0.36
+   },
+   "rescue": {
+    "countdownAtHeroWin": 8.22,
+    "startCountdown": 14,
+    "lossWebPct": 100,
+    "lossEggsPct": 100,
+    "lossDoorPct": 66.7,
+    "lossWebDonePct": 100,
+    "victimDeathLosses": 6
+   }
+  },
+  {
+   "scenario": "rescue",
+   "count": 5,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 86,
+   "traitorPct": 14,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 6.62,
+   "medEnd": 6,
+   "avgHaunt": 1,
+   "avgAfter": 6.62,
+   "medAfter": 6,
+   "avgDeaths": 1,
+   "avgHeroDeaths": 0.74,
+   "traitorDeathPct": 26,
+   "reasons": {
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 10,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 7,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 9,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 3,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 11,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5,
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>traitor": 4.08,
+    "traitor→player>hero": 6.74,
+    "spider>hero": 2.86,
+    "hero→spider>hero": 0.3
+   },
+   "attacksPerGame": {
+    "traitor": 5.3,
+    "spider": 0.38
+   },
+   "traitor": {
+    "turnsPerGame": 5.3,
+    "sameRoomStartPct": 45.3,
+    "avgDistToHero": 1.22,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0
+   },
+   "rescue": {
+    "countdownAtHeroWin": 7.33,
+    "startCountdown": 12,
+    "lossWebPct": 100,
+    "lossEggsPct": 100,
+    "lossDoorPct": 71.4,
+    "lossWebDonePct": 100,
+    "victimDeathLosses": 7
+   }
+  },
+  {
+   "scenario": "rescue",
+   "count": 5,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 78,
+   "traitorPct": 22,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 8.66,
+   "medEnd": 9,
+   "avgHaunt": 2.54,
+   "avgAfter": 7.12,
+   "medAfter": 7,
+   "avgDeaths": 1.38,
+   "avgHeroDeaths": 1.1,
+   "traitorDeathPct": 28,
+   "reasons": {
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 6,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 10,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 9,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5,
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 6,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 2
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 7.7,
+    "spider>hero": 2.96,
+    "traitor→player>traitor": 4.06,
+    "hero→spider>hero": 0.34
+   },
+   "attacksPerGame": {
+    "traitor": 5.6,
+    "spider": 0.58
+   },
+   "traitor": {
+    "turnsPerGame": 5.9,
+    "sameRoomStartPct": 47.5,
+    "avgDistToHero": 1.1,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0.36
+   },
+   "rescue": {
+    "countdownAtHeroWin": 7.28,
+    "startCountdown": 12,
+    "lossWebPct": 98.18,
+    "lossEggsPct": 100,
+    "lossDoorPct": 9.1,
+    "lossWebDonePct": 90.9,
+    "victimDeathLosses": 9
+   }
+  },
+  {
+   "scenario": "rescue",
+   "count": 6,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 70,
+   "traitorPct": 30,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 6.56,
+   "medEnd": 6,
+   "avgHaunt": 1,
+   "avgAfter": 6.56,
+   "medAfter": 6,
+   "avgDeaths": 1.38,
+   "avgHeroDeaths": 1.22,
+   "traitorDeathPct": 16,
+   "reasons": {
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 14,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 5,
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 1,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 8,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 1
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>traitor": 2.72,
+    "spider>hero": 3.76,
+    "traitor→player>hero": 9.32,
+    "hero→spider>hero": 0.72
+   },
+   "attacksPerGame": {
+    "traitor": 5.48,
+    "spider": 0.86
+   },
+   "traitor": {
+    "turnsPerGame": 5.56,
+    "sameRoomStartPct": 44.2,
+    "avgDistToHero": 1.29,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0
+   },
+   "rescue": {
+    "countdownAtHeroWin": 5.37,
+    "startCountdown": 10,
+    "lossWebPct": 98.89,
+    "lossEggsPct": 93.3,
+    "lossDoorPct": 33.3,
+    "lossWebDonePct": 93.3,
+    "victimDeathLosses": 14
+   }
+  },
+  {
+   "scenario": "rescue",
+   "count": 6,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 90,
+   "traitorPct": 10,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 7.96,
+   "medEnd": 8,
+   "avgHaunt": 2.04,
+   "avgAfter": 6.92,
+   "medAfter": 6,
+   "avgDeaths": 1.38,
+   "avgHeroDeaths": 1.1,
+   "traitorDeathPct": 28,
+   "reasons": {
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 9,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 9,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 6,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 3,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 2,
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 7
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 10,
+    "traitor→player>traitor": 3.84,
+    "spider>hero": 2.62,
+    "hero→spider>hero": 0.12
+   },
+   "attacksPerGame": {
+    "traitor": 5.34,
+    "spider": 0.36
+   },
+   "traitor": {
+    "turnsPerGame": 5.66,
+    "sameRoomStartPct": 52.3,
+    "avgDistToHero": 1.04,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0.16
+   },
+   "rescue": {
+    "countdownAtHeroWin": 5.36,
+    "startCountdown": 10,
+    "lossWebPct": 86.67,
+    "lossEggsPct": 100,
+    "lossDoorPct": 20,
+    "lossWebDonePct": 60,
+    "victimDeathLosses": 3
+   }
+  }
+ ],
+ "aggregate": {
+  "rescue/quick": {
+   "games": 200,
+   "heroPct": 72.5,
+   "traitorPct": 27.5,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 8.19,
+   "medEnd": 7,
+   "avgHaunt": 1,
+   "avgAfter": 8.19,
+   "medAfter": 7,
+   "avgDeaths": 1.26,
+   "avgHeroDeaths": 0.98,
+   "traitorDeathPct": 28.5,
+   "reasons": {
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 20,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 15,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 41,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 39,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 29,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 14,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 16,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 26
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 7.56,
+    "spider>hero": 3.1,
+    "traitor→player>traitor": 3.97,
+    "hero→spider>hero": 0.57
+   },
+   "attacksPerGame": {
+    "traitor": 5.32,
+    "spider": 0.69
+   },
+   "traitor": {
+    "turnsPerGame": 6.84,
+    "sameRoomStartPct": 33.1,
+    "avgDistToHero": 1.32,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0
+   },
+   "rescue": {
+    "countdownAtHeroWin": 7.36,
+    "startCountdown": 16,
+    "lossWebPct": 96.36,
+    "lossEggsPct": 92.7,
+    "lossDoorPct": 27.3,
+    "lossWebDonePct": 92.7,
+    "victimDeathLosses": 41
+   }
+  },
+  "rescue/normal": {
+   "games": 200,
+   "heroPct": 78,
+   "traitorPct": 22,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 10.06,
+   "medEnd": 9,
+   "avgHaunt": 2.76,
+   "avgAfter": 8.3,
+   "medAfter": 7,
+   "avgDeaths": 1.34,
+   "avgHeroDeaths": 1,
+   "traitorDeathPct": 33.5,
+   "reasons": {
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 21,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 28,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 34,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 16,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 25,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 24,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 24,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 28
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 7.8,
+    "spider>hero": 2.32,
+    "hero→spider>hero": 0.52,
+    "traitor→player>traitor": 3.99
+   },
+   "attacksPerGame": {
+    "traitor": 5.15,
+    "spider": 0.75
+   },
+   "traitor": {
+    "turnsPerGame": 6.69,
+    "sameRoomStartPct": 35.8,
+    "avgDistToHero": 1.32,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0.29
+   },
+   "rescue": {
+    "countdownAtHeroWin": 7.29,
+    "startCountdown": 16,
+    "lossWebPct": 91.21,
+    "lossEggsPct": 90.9,
+    "lossDoorPct": 25,
+    "lossWebDonePct": 79.5,
+    "victimDeathLosses": 28
+   }
+  },
+  "rescue/all": {
+   "games": 400,
+   "heroPct": 75.3,
+   "traitorPct": 24.8,
+   "housePct": 0,
+   "stalls": 0,
+   "avgEnd": 9.12,
+   "medEnd": 8,
+   "avgHaunt": 1.88,
+   "avgAfter": 8.24,
+   "medAfter": 7,
+   "avgDeaths": 1.3,
+   "avgHeroDeaths": 0.99,
+   "traitorDeathPct": 31,
+   "reasons": {
+    "hero｜林默成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 41,
+    "hero｜罗伊成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 39,
+    "traitor｜需要救出的同伴已死亡，救援失败。": 69,
+    "hero｜奥斯卡成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 67,
+    "hero｜米娅成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 54,
+    "traitor｜逃脱时限耗尽，蜘蛛封死了所有出路。": 30,
+    "hero｜艾琳成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 40,
+    "hero｜薇拉成功逃出小屋；同伴已获救，蜘蛛卵已处理。": 60
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "traitor→player>hero": 7.68,
+    "spider>hero": 2.71,
+    "traitor→player>traitor": 3.98,
+    "hero→spider>hero": 0.55
+   },
+   "attacksPerGame": {
+    "traitor": 5.24,
+    "spider": 0.72
+   },
+   "traitor": {
+    "turnsPerGame": 6.76,
+    "sameRoomStartPct": 34.5,
+    "avgDistToHero": 1.32,
+    "avgDistToCarrier": null,
+    "stealsPerGame": 0.14
+   },
+   "rescue": {
+    "countdownAtHeroWin": 7.33,
+    "startCountdown": 16,
+    "lossWebPct": 94.07,
+    "lossEggsPct": 91.9,
+    "lossDoorPct": 26.3,
+    "lossWebDonePct": 86.9,
+    "victimDeathLosses": 69
+   }
+  }
+ }
+}

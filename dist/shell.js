@@ -3,7 +3,7 @@
 (function (root) {
 'use strict';
 if (typeof render !== 'function' || typeof act !== 'function') return;
-const VERSION = 'v24';
+const VERSION = 'v25';
 const KEY = 'house-settings';
 const DEFAULTS = { aiPace: 'normal', reading: null, uiScale: 1, reducedMotion: false, shake: true };
 const PACE = { slow: 2000, normal: 1100, fast: 200 };

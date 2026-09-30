@@ -1,0 +1,561 @@
+{
+ "meta": {
+  "tool": "tools/balance-sim.cjs",
+  "driver": "invoke('aiStep') (browser path)",
+  "n": 50,
+  "prefix": "S1",
+  "scenarios": [
+   "seals"
+  ],
+  "counts": [
+   3,
+   4,
+   5,
+   6
+  ],
+  "entries": [
+   "quick",
+   "normal"
+  ],
+  "maxSteps": 6000,
+  "levers": [
+   [
+    "seals.repairThreshold",
+    5
+   ],
+   [
+    "seals.erosion",
+    2
+   ],
+   [
+    "seals.timeBase",
+    4
+   ],
+   [
+    "seals.nodeMin",
+    3
+   ],
+   [
+    "seals.nodeMax",
+    5
+   ]
+  ],
+  "fixChute": false,
+  "roster": "random",
+  "counterfactuals": [],
+  "games": 400,
+  "ms": 8173,
+  "node": "v22.22.2"
+ },
+ "cells": [
+  {
+   "scenario": "seals",
+   "count": 3,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 52,
+   "traitorPct": 0,
+   "housePct": 48,
+   "stalls": 0,
+   "avgEnd": 6.28,
+   "medEnd": 8,
+   "avgHaunt": 1,
+   "avgAfter": 6.28,
+   "medAfter": 8,
+   "avgDeaths": 0.78,
+   "avgHeroDeaths": 0.78,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 3,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 24,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 9,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 6,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 2,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 1
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 24.28
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 4.31,
+    "usedRoundsAtHeroWin": 2.69,
+    "startCountdown": 7,
+    "nodes": 3,
+    "lossDonePct": 48.61,
+    "lossProgressPct": 65.97,
+    "survivorsAtHeroWin": 3
+   }
+  },
+  {
+   "scenario": "seals",
+   "count": 3,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 40,
+   "traitorPct": 0,
+   "housePct": 60,
+   "stalls": 0,
+   "avgEnd": 9.94,
+   "medEnd": 10,
+   "avgHaunt": 3.72,
+   "avgAfter": 7.22,
+   "medAfter": 8,
+   "avgDeaths": 1.18,
+   "avgHeroDeaths": 1.18,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 4,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 3,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 4,
+    "house｜所有英雄都已倒下。": 8,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 22,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 1,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 3
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 29.92
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 2.95,
+    "usedRoundsAtHeroWin": 4.05,
+    "startCountdown": 7,
+    "nodes": 3,
+    "lossDonePct": 43.33,
+    "lossProgressPct": 61.11,
+    "survivorsAtHeroWin": 3
+   }
+  },
+  {
+   "scenario": "seals",
+   "count": 4,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 80,
+   "traitorPct": 0,
+   "housePct": 20,
+   "stalls": 0,
+   "avgEnd": 5.34,
+   "medEnd": 4.5,
+   "avgHaunt": 1,
+   "avgAfter": 5.34,
+   "medAfter": 4.5,
+   "avgDeaths": 0.72,
+   "avgHeroDeaths": 0.72,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 6,
+    "house｜所有英雄都已倒下。": 6,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 8,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 4,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 8,
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 4,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 7,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 7
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 22.12
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 5.58,
+    "usedRoundsAtHeroWin": 2.42,
+    "startCountdown": 8,
+    "nodes": 3,
+    "lossDonePct": 56.67,
+    "lossProgressPct": 71.67,
+    "survivorsAtHeroWin": 4
+   }
+  },
+  {
+   "scenario": "seals",
+   "count": 4,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 70,
+   "traitorPct": 0,
+   "housePct": 30,
+   "stalls": 0,
+   "avgEnd": 7.8,
+   "medEnd": 7.5,
+   "avgHaunt": 2.74,
+   "avgAfter": 6.06,
+   "medAfter": 6,
+   "avgDeaths": 1.12,
+   "avgHeroDeaths": 1.12,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "house｜所有英雄都已倒下。": 12,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 11,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 6,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 7,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 4,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 3,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 2
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 27.24
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 5.09,
+    "usedRoundsAtHeroWin": 2.91,
+    "startCountdown": 8,
+    "nodes": 3,
+    "lossDonePct": 46.67,
+    "lossProgressPct": 67.78,
+    "survivorsAtHeroWin": 3.97
+   }
+  },
+  {
+   "scenario": "seals",
+   "count": 5,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 54,
+   "traitorPct": 0,
+   "housePct": 46,
+   "stalls": 0,
+   "avgEnd": 6.9,
+   "medEnd": 6,
+   "avgHaunt": 1,
+   "avgAfter": 6.9,
+   "medAfter": 6,
+   "avgDeaths": 2.32,
+   "avgHeroDeaths": 2.32,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 4,
+    "house｜所有英雄都已倒下。": 21,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 7,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 4,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 2,
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 2
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 41.64
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 6.48,
+    "usedRoundsAtHeroWin": 2.52,
+    "startCountdown": 9,
+    "nodes": 4,
+    "lossDonePct": 55.43,
+    "lossProgressPct": 72.28,
+    "survivorsAtHeroWin": 4.89
+   }
+  },
+  {
+   "scenario": "seals",
+   "count": 5,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 80,
+   "traitorPct": 0,
+   "housePct": 20,
+   "stalls": 0,
+   "avgEnd": 7.14,
+   "medEnd": 7,
+   "avgHaunt": 2.54,
+   "avgAfter": 5.6,
+   "medAfter": 5,
+   "avgDeaths": 1,
+   "avgHeroDeaths": 1,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "house｜所有英雄都已倒下。": 9,
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 6,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 6,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 3,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 15,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 7,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 3,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 1
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 27.12
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 6.33,
+    "usedRoundsAtHeroWin": 2.68,
+    "startCountdown": 9,
+    "nodes": 4,
+    "lossDonePct": 60,
+    "lossProgressPct": 68.75,
+    "survivorsAtHeroWin": 4.97
+   }
+  },
+  {
+   "scenario": "seals",
+   "count": 6,
+   "entry": "quick",
+   "games": 50,
+   "heroPct": 56,
+   "traitorPct": 0,
+   "housePct": 44,
+   "stalls": 0,
+   "avgEnd": 7.4,
+   "medEnd": 7,
+   "avgHaunt": 1,
+   "avgAfter": 7.4,
+   "medAfter": 7,
+   "avgDeaths": 2.66,
+   "avgHeroDeaths": 2.66,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 7,
+    "house｜所有英雄都已倒下。": 20,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 2,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 6,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 3,
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 2
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 51.2
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 6.86,
+    "usedRoundsAtHeroWin": 3.14,
+    "startCountdown": 10,
+    "nodes": 5,
+    "lossDonePct": 67.27,
+    "lossProgressPct": 77.27,
+    "survivorsAtHeroWin": 5.89
+   }
+  },
+  {
+   "scenario": "seals",
+   "count": 6,
+   "entry": "normal",
+   "games": 50,
+   "heroPct": 68,
+   "traitorPct": 0,
+   "housePct": 32,
+   "stalls": 0,
+   "avgEnd": 7.58,
+   "medEnd": 7,
+   "avgHaunt": 2.04,
+   "avgAfter": 6.54,
+   "medAfter": 6,
+   "avgDeaths": 1.9,
+   "avgHeroDeaths": 1.9,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "house｜所有英雄都已倒下。": 14,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 10,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 5,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 4,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 6,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 4,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 2
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 42.28
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 6.97,
+    "usedRoundsAtHeroWin": 3.03,
+    "startCountdown": 10,
+    "nodes": 5,
+    "lossDonePct": 57.5,
+    "lossProgressPct": 71.88,
+    "survivorsAtHeroWin": 5.97
+   }
+  }
+ ],
+ "aggregate": {
+  "seals/quick": {
+   "games": 200,
+   "heroPct": 60.5,
+   "traitorPct": 0,
+   "housePct": 39.5,
+   "stalls": 0,
+   "avgEnd": 6.48,
+   "medEnd": 6,
+   "avgHaunt": 1,
+   "avgAfter": 6.48,
+   "medAfter": 6,
+   "avgDeaths": 1.62,
+   "avgHeroDeaths": 1.62,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 14,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 32,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 24,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 26,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 24,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 16,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 17,
+    "house｜所有英雄都已倒下。": 47
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 34.81
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 5.8,
+    "usedRoundsAtHeroWin": 2.67,
+    "startCountdown": 7,
+    "nodes": 3,
+    "lossDonePct": 56.81,
+    "lossProgressPct": 71.68,
+    "survivorsAtHeroWin": 4.42
+   }
+  },
+  "seals/normal": {
+   "games": 200,
+   "heroPct": 64.5,
+   "traitorPct": 0,
+   "housePct": 35.5,
+   "stalls": 0,
+   "avgEnd": 8.12,
+   "medEnd": 8,
+   "avgHaunt": 2.76,
+   "avgAfter": 6.36,
+   "medAfter": 6,
+   "avgDeaths": 1.3,
+   "avgHeroDeaths": 1.3,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 22,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 20,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 31,
+    "house｜所有英雄都已倒下。": 43,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 28,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 19,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 13,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 24
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 31.64
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 5.64,
+    "usedRoundsAtHeroWin": 3.05,
+    "startCountdown": 7,
+    "nodes": 3,
+    "lossDonePct": 49.58,
+    "lossProgressPct": 66.02,
+    "survivorsAtHeroWin": 4.66
+   }
+  },
+  "seals/all": {
+   "games": 400,
+   "heroPct": 62.5,
+   "traitorPct": 0,
+   "housePct": 37.5,
+   "stalls": 0,
+   "avgEnd": 7.3,
+   "medEnd": 7,
+   "avgHaunt": 1.88,
+   "avgAfter": 6.42,
+   "medAfter": 6,
+   "avgDeaths": 1.46,
+   "avgHeroDeaths": 1.46,
+   "traitorDeathPct": 0,
+   "reasons": {
+    "hero｜林默开启退路，封印之夜的幸存者逃出小屋。": 36,
+    "house｜时限耗尽，小屋吞没了尚未撤离的队伍。": 60,
+    "hero｜艾琳开启退路，封印之夜的幸存者逃出小屋。": 37,
+    "hero｜奥斯卡开启退路，封印之夜的幸存者逃出小屋。": 45,
+    "hero｜米娅开启退路，封印之夜的幸存者逃出小屋。": 48,
+    "hero｜罗伊开启退路，封印之夜的幸存者逃出小屋。": 36,
+    "hero｜薇拉开启退路，封印之夜的幸存者逃出小屋。": 48,
+    "house｜所有英雄都已倒下。": 90
+   },
+   "violations": [],
+   "capHitGames": 0,
+   "timelineLostHaunt": 0,
+   "chuteGames": 0,
+   "chuteGamesHeroPct": 0,
+   "avgChuteSlides": 0,
+   "dmgPerGame": {
+    "roundEnd>hero": 33.23
+   },
+   "attacksPerGame": {},
+   "seals": {
+    "countdownAtHeroWin": 5.72,
+    "usedRoundsAtHeroWin": 2.86,
+    "startCountdown": 7,
+    "nodes": 3,
+    "lossDonePct": 53.39,
+    "lossProgressPct": 69,
+    "survivorsAtHeroWin": 4.54
+   }
+  }
+ }
+}

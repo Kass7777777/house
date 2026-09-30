@@ -11,7 +11,7 @@ g.p.controller='ai';assert.equal(Guide.next(g).action,null);assert(Guide.next(g)
 g.p.controller='human';g.startHaunt();assert(Guide.next(g).action.startsWith('task:'));
 g.s.taskUsed=true;assert.equal(Guide.next(g).action,'end');
 g.s.active=g.s.traitor;g.turnStart();assert(Guide.next(g).text.includes('叛徒'));
-g.s.active=0;g.turnStart();g.summon('hero');
+g.s.active=g.s.players.find(p=>p.team==='hero').id;g.turnStart();g.summon('hero');
 g.p.room=g.s.ghost.room;g.s.moves=0;
 assert.notEqual(g.p.room,g.s.corpseRoom);
 assert(Guide.next(g).text.includes('✧ 表示幽灵，并非遗骸位置'));
@@ -24,7 +24,7 @@ g.s.carrier=g.p.id;g.p.room=g.s.burialRoom;assert.equal(Guide.next(g).action,'ta
 assert(Guide.next(g).text.includes('仅仅走进房间不会获胜'));
 g.s.taskUsed=true;assert.equal(Guide.next(g).action,null);
 g.s.active=g.s.traitor;assert(Guide.next(g).title.includes('阻止'));
-g.s.active=0;g.summon('traitor');g.turnStart();g.p.room=g.s.ghost.room;assert.equal(Guide.next(g).action,'attack:ghost');
+g.s.active=g.s.players.find(p=>p.team==='hero').id;g.summon('traitor');g.turnStart();g.p.room=g.s.ghost.room;assert.equal(Guide.next(g).action,'attack:ghost');
 g.s.attackUsed=true;assert.equal(Guide.next(g).action,'end');
 before=copy(g);g.damage(g.p,1);assert(Guide.impact(before,g.s,'attack').some(s=>s.includes('轨移动')));
 g.endGame('hero','测试结局');assert.equal(Guide.next(g).action,null);

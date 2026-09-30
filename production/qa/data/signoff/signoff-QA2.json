@@ -1,0 +1,1187 @@
+{
+ "default": {
+  "B1": {
+   "chuteGames": 0,
+   "slidesTotal": 0,
+   "stalls": 0,
+   "violations": []
+  },
+  "B2": {
+   "all": 65.8,
+   "perCount": {
+    "3": 61,
+    "4": 71,
+    "5": 63.5,
+    "6": 67.5
+   },
+   "range": 10,
+   "perCell": {
+    "3q": 70,
+    "3n": 52,
+    "4q": 81,
+    "4n": 61,
+    "5q": 61,
+    "5n": 66,
+    "6q": 67,
+    "6n": 68
+   }
+  },
+  "B4": {
+   "all": 52.9,
+   "perCount": {
+    "3": 45,
+    "4": 56.5,
+    "5": 53.5,
+    "6": 56.5
+   },
+   "range": 11.5,
+   "perCell": {
+    "3q": 46,
+    "3n": 44,
+    "4q": 50,
+    "4n": 63,
+    "5q": 52,
+    "5n": 55,
+    "6q": 55,
+    "6n": 58
+   }
+  },
+  "B6": {
+   "all": 59.6,
+   "perCount": {
+    "3": 58.5,
+    "4": 64,
+    "5": 58,
+    "6": 58
+   },
+   "range": 6,
+   "perCell": {
+    "3q": 55,
+    "3n": 62,
+    "4q": 62,
+    "4n": 66,
+    "5q": 61,
+    "5n": 55,
+    "6q": 53,
+    "6n": 63
+   }
+  },
+  "B3": {
+   "ratioMeanOfRatios": 0.65,
+   "ratioOfMeans": 0.655,
+   "leftAtWin": 5.58,
+   "startAvg": 8.52,
+   "losses": 274,
+   "timeoutPct": 43.8,
+   "wipePct": 56.2,
+   "perCount": {
+    "3": {
+     "ratio": 0.57,
+     "timeoutPct": 87.2,
+     "wipePct": 12.8
+    },
+    "4": {
+     "ratio": 0.69,
+     "timeoutPct": 36.2,
+     "wipePct": 63.8
+    },
+    "5": {
+     "ratio": 0.66,
+     "timeoutPct": 28.8,
+     "wipePct": 71.2
+    },
+    "6": {
+     "ratio": 0.67,
+     "timeoutPct": 15.4,
+     "wipePct": 84.6
+    }
+   }
+  },
+  "B5": {
+   "restrainedVictimDeaths": 0,
+   "victimDeaths": 95,
+   "games": 800
+  },
+  "B7": {
+   "ritual": {
+    "mean": 4.85,
+    "median": 5,
+    "perCellMedianMin": 4
+   },
+   "rescue": {
+    "mean": 9.87,
+    "median": 9,
+    "perCellMedianMin": 7.5
+   },
+   "seals": {
+    "mean": 6.36,
+    "median": 6,
+    "perCellMedianMin": 4
+   }
+  }
+ },
+ "random": {
+  "B1": {
+   "chuteGames": 0,
+   "slidesTotal": 0,
+   "stalls": 0,
+   "violations": []
+  },
+  "B2": {
+   "all": 64.8,
+   "perCount": {
+    "3": 46,
+    "4": 72.5,
+    "5": 69,
+    "6": 71.5
+   },
+   "range": 26.5,
+   "perCell": {
+    "3q": 51,
+    "3n": 41,
+    "4q": 79,
+    "4n": 66,
+    "5q": 70,
+    "5n": 68,
+    "6q": 69,
+    "6n": 74
+   }
+  },
+  "B4": {
+   "all": 54.5,
+   "perCount": {
+    "3": 48,
+    "4": 55.5,
+    "5": 60.5,
+    "6": 54
+   },
+   "range": 12.5,
+   "perCell": {
+    "3q": 47,
+    "3n": 49,
+    "4q": 59,
+    "4n": 52,
+    "5q": 56,
+    "5n": 65,
+    "6q": 43,
+    "6n": 65
+   }
+  },
+  "B6": {
+   "all": 53.8,
+   "perCount": {
+    "3": 55,
+    "4": 55,
+    "5": 52.5,
+    "6": 52.5
+   },
+   "range": 2.5,
+   "perCell": {
+    "3q": 55,
+    "3n": 55,
+    "4q": 56,
+    "4n": 54,
+    "5q": 50,
+    "5n": 55,
+    "6q": 51,
+    "6n": 54
+   }
+  },
+  "B3": {
+   "ratioMeanOfRatios": 0.65,
+   "ratioOfMeans": 0.655,
+   "leftAtWin": 5.66,
+   "startAvg": 8.64,
+   "losses": 282,
+   "timeoutPct": 50.4,
+   "wipePct": 49.6,
+   "perCount": {
+    "3": {
+     "ratio": 0.54,
+     "timeoutPct": 88.9,
+     "wipePct": 11.1
+    },
+    "4": {
+     "ratio": 0.68,
+     "timeoutPct": 41.8,
+     "wipePct": 58.2
+    },
+    "5": {
+     "ratio": 0.67,
+     "timeoutPct": 27.4,
+     "wipePct": 72.6
+    },
+    "6": {
+     "ratio": 0.67,
+     "timeoutPct": 10.5,
+     "wipePct": 89.5
+    }
+   }
+  },
+  "B5": {
+   "restrainedVictimDeaths": 0,
+   "victimDeaths": 112,
+   "games": 800
+  },
+  "B7": {
+   "ritual": {
+    "mean": 4.97,
+    "median": 5,
+    "perCellMedianMin": 4
+   },
+   "rescue": {
+    "mean": 9.56,
+    "median": 8,
+    "perCellMedianMin": 7.5
+   },
+   "seals": {
+    "mean": 6.36,
+    "median": 6,
+    "perCellMedianMin": 4
+   }
+  }
+ },
+ "B8": {
+  "B2": {
+   "aggDiff": 1,
+   "perCountDiff": {
+    "3": 15,
+    "4": 1.5,
+    "5": 5.5,
+    "6": 4
+   }
+  },
+  "B4": {
+   "aggDiff": 1.6,
+   "perCountDiff": {
+    "3": 3,
+    "4": 1,
+    "5": 7,
+    "6": 2.5
+   }
+  },
+  "B6": {
+   "aggDiff": 5.8,
+   "perCountDiff": {
+    "3": 3.5,
+    "4": 9,
+    "5": 5.5,
+    "6": 5.5
+   }
+  }
+ },
+ "edges-default": {
+  "crossCheck": {
+   "compared": 2400,
+   "mismatches": 0,
+   "examples": []
+  },
+  "playlogHauntMissing": 0,
+  "hauntRulesMissing": 0,
+  "rescue6": {
+   "games": 200,
+   "heroPct": 56.5,
+   "start": {
+    "7": 200
+   },
+   "remainingAtWin": {
+    "1": 33,
+    "2": 44,
+    "3": 21,
+    "4": 12,
+    "5": 3
+   },
+   "winsWith0or1Left": 33,
+   "lossReasons": {
+    "需要救出的同伴已死亡": 10,
+    "逃脱时限耗尽，蜘蛛封": 77
+   },
+   "perEntry": {
+    "quick": 55,
+    "normal": 58
+   }
+  },
+  "rescueByCount": {
+   "3": {
+    "start": {
+     "16": 200
+    },
+    "heroPct": 45,
+    "avgLeftAtWin": 7.54,
+    "timeoutPctOfLoss": 64.5
+   },
+   "4": {
+    "start": {
+     "13": 200
+    },
+    "heroPct": 56.5,
+    "avgLeftAtWin": 6.25,
+    "timeoutPctOfLoss": 67.8
+   },
+   "5": {
+    "start": {
+     "10": 200
+    },
+    "heroPct": 53.5,
+    "avgLeftAtWin": 4.34,
+    "timeoutPctOfLoss": 80.6
+   },
+   "6": {
+    "start": {
+     "7": 200
+    },
+    "heroPct": 56.5,
+    "avgLeftAtWin": 2.19,
+    "timeoutPctOfLoss": 88.5
+   }
+  },
+  "ritualByCount": {
+   "3": {
+    "goals": {
+     "hero": 3,
+     "traitor": 2,
+     "burialRounds": 5,
+     "dispel": 2
+    },
+    "heroPct": 58.5,
+    "traitorWinsRacePct": 78,
+    "collapseHeroWinPct": 53.2,
+    "collapseRoundsToDispelWin": {
+     "2": 9,
+     "3": 35,
+     "4": 21,
+     "5": 12,
+     "6": 5,
+     "7": 1
+    },
+    "collapseMedianRounds": 3,
+    "burialHeroWinPct": 77.3,
+    "burialLeftAtWin": {
+     "1": 3,
+     "2": 1,
+     "3": 10,
+     "4": 17,
+     "5": 3
+    },
+    "raceRounds": 1.31,
+    "reasons": {
+     "hero|遗骸被安葬，幽灵": 34,
+     "traitor|所有英雄都已倒下": 76,
+     "hero|幽灵被彻底驱散，": 83,
+     "traitor|未能及时安葬遗骸": 7
+    }
+   },
+   "4": {
+    "goals": {
+     "hero": 5,
+     "traitor": 2,
+     "burialRounds": 4,
+     "dispel": 3
+    },
+    "heroPct": 64,
+    "traitorWinsRacePct": 63,
+    "collapseHeroWinPct": 52.4,
+    "collapseRoundsToDispelWin": {
+     "2": 3,
+     "3": 22,
+     "4": 27,
+     "5": 10,
+     "6": 2,
+     "7": 1,
+     "8": 1
+    },
+    "collapseMedianRounds": 4,
+    "burialHeroWinPct": 83.8,
+    "burialLeftAtWin": {
+     "1": 7,
+     "2": 22,
+     "3": 25,
+     "4": 8
+    },
+    "raceRounds": 1.58,
+    "reasons": {
+     "hero|幽灵被彻底驱散，": 66,
+     "traitor|所有英雄都已倒下": 60,
+     "hero|遗骸被安葬，幽灵": 62,
+     "traitor|未能及时安葬遗骸": 12
+    }
+   },
+   "5": {
+    "goals": {
+     "hero": 6,
+     "traitor": 2,
+     "burialRounds": 3,
+     "dispel": 4
+    },
+    "heroPct": 58,
+    "traitorWinsRacePct": 66.5,
+    "collapseHeroWinPct": 44.4,
+    "collapseRoundsToDispelWin": {
+     "3": 14,
+     "4": 19,
+     "5": 18,
+     "6": 4,
+     "7": 4
+    },
+    "collapseMedianRounds": 4,
+    "burialHeroWinPct": 85.1,
+    "burialLeftAtWin": {
+     "1": 21,
+     "2": 25,
+     "3": 11
+    },
+    "raceRounds": 1.58,
+    "reasons": {
+     "hero|幽灵被彻底驱散，": 59,
+     "traitor|所有英雄都已倒下": 74,
+     "hero|遗骸被安葬，幽灵": 57,
+     "traitor|未能及时安葬遗骸": 10
+    }
+   },
+   "6": {
+    "goals": {
+     "hero": 8,
+     "traitor": 2,
+     "burialRounds": 2,
+     "dispel": 5
+    },
+    "heroPct": 58,
+    "traitorWinsRacePct": 70.5,
+    "collapseHeroWinPct": 51.1,
+    "collapseRoundsToDispelWin": {
+     "3": 12,
+     "4": 25,
+     "5": 19,
+     "6": 9,
+     "7": 6,
+     "8": 1
+    },
+    "collapseMedianRounds": 4,
+    "burialHeroWinPct": 74.6,
+    "burialLeftAtWin": {
+     "1": 23,
+     "2": 21
+    },
+    "raceRounds": 1.56,
+    "reasons": {
+     "traitor|所有英雄都已倒下": 69,
+     "hero|幽灵被彻底驱散，": 72,
+     "hero|遗骸被安葬，幽灵": 44,
+     "traitor|未能及时安葬遗骸": 15
+    }
+   }
+  },
+  "seals3": {
+   "games": 200,
+   "heroPct": 61,
+   "start": {
+    "7": 200
+   },
+   "nodes": {
+    "3": 200
+   },
+   "losses": 78,
+   "reasons": {
+    "时限耗尽，小屋吞没了": 68,
+    "所有英雄都已倒下。": 10
+   },
+   "lossSealsDone": {
+    "2/3": 39,
+    "1/3": 22,
+    "3/3": 9,
+    "0/3": 8
+   },
+   "lossProgress": {
+    "5/6": 31,
+    "3/6": 15,
+    "6/6": 9,
+    "4/6": 18,
+    "2/6": 2,
+    "1/6": 3
+   },
+   "perEntry": {
+    "quick": 70,
+    "normal": 52
+   }
+  },
+  "sealsByCount": {
+   "3": {
+    "start": {
+     "7": 200
+    },
+    "nodes": {
+     "3": 200
+    },
+    "heroPct": 61,
+    "timeoutPct": 87.2,
+    "wipePct": 12.8
+   },
+   "4": {
+    "start": {
+     "8": 200
+    },
+    "nodes": {
+     "3": 200
+    },
+    "heroPct": 71,
+    "timeoutPct": 36.2,
+    "wipePct": 63.8
+   },
+   "5": {
+    "start": {
+     "9": 200
+    },
+    "nodes": {
+     "4": 200
+    },
+    "heroPct": 63.5,
+    "timeoutPct": 28.8,
+    "wipePct": 71.2
+   },
+   "6": {
+    "start": {
+     "10": 200
+    },
+    "nodes": {
+     "4": 1,
+     "5": 199
+    },
+    "heroPct": 67.5,
+    "timeoutPct": 15.4,
+    "wipePct": 84.6
+   }
+  },
+  "traitorRoll": {
+   "games": 1600,
+   "sealsWithRoll": 0,
+   "tiedPct": 29,
+   "tieDepth": {
+    "1": 1136,
+    "2": 372,
+    "3": 74,
+    "4": 16,
+    "5": 2
+   },
+   "traitorNotLowestSanityPct": 41.3,
+   "minTotal": {
+    "0": 100,
+    "1": 340,
+    "2": 536,
+    "3": 408,
+    "4": 172,
+    "5": 34,
+    "6": 8,
+    "7": 2
+   },
+   "tieBrokenBySeatPct": 7.5,
+   "byName": {
+    "艾琳": {
+     "n": 140,
+     "pct": 8.8,
+     "heroPct": 56.4
+    },
+    "薇拉": {
+     "n": 380,
+     "pct": 23.8,
+     "heroPct": 48.4
+    },
+    "林默": {
+     "n": 342,
+     "pct": 21.4,
+     "heroPct": 67.8
+    },
+    "罗伊": {
+     "n": 576,
+     "pct": 36,
+     "heroPct": 51.4
+    },
+    "米娅": {
+     "n": 124,
+     "pct": 7.8,
+     "heroPct": 71
+    },
+    "奥斯卡": {
+     "n": 38,
+     "pct": 2.4,
+     "heroPct": 55.3
+    }
+   },
+   "bySeat": {
+    "0": 380,
+    "1": 342,
+    "2": 140,
+    "3": 576,
+    "4": 124,
+    "5": 38
+   },
+   "byCountName": {
+    "r3": {
+     "艾琳": 68,
+     "薇拉": 180,
+     "林默": 152
+    },
+    "r4": {
+     "薇拉": 76,
+     "罗伊": 224,
+     "艾琳": 40,
+     "林默": 60
+    },
+    "r5": {
+     "米娅": 48,
+     "罗伊": 204,
+     "林默": 66,
+     "薇拉": 64,
+     "艾琳": 18
+    },
+    "r6": {
+     "薇拉": 60,
+     "林默": 64,
+     "罗伊": 148,
+     "艾琳": 14,
+     "奥斯卡": 38,
+     "米娅": 76
+    }
+   },
+   "tieBreakCorrect": true,
+   "rowsPerLivingCandidate": true
+  },
+  "hauntTiming": {
+   "ritual": {
+    "r1-2": {
+     "n": 181,
+     "heroPct": 60.8,
+     "avgDeaths": 2.04
+    },
+    "r3-4": {
+     "n": 190,
+     "heroPct": 62.1,
+     "avgDeaths": 1.55
+    },
+    "r5-6": {
+     "n": 29,
+     "heroPct": 62.1,
+     "avgDeaths": 1.17
+    }
+   },
+   "rescue": {
+    "r1-2": {
+     "n": 181,
+     "heroPct": 53,
+     "avgDeaths": 1.64
+    },
+    "r3-4": {
+     "n": 190,
+     "heroPct": 57.9,
+     "avgDeaths": 1.63
+    },
+    "r5-6": {
+     "n": 29,
+     "heroPct": 48.3,
+     "avgDeaths": 1.03
+    }
+   },
+   "seals": {
+    "r1-2": {
+     "n": 181,
+     "heroPct": 65.7,
+     "avgDeaths": 1.69
+    },
+    "r3-4": {
+     "n": 190,
+     "heroPct": 58.4,
+     "avgDeaths": 1.32
+    },
+    "r5-6": {
+     "n": 29,
+     "heroPct": 58.6,
+     "avgDeaths": 0.72
+    }
+   }
+  },
+  "hauntAtDist": {
+   "1": 75,
+   "2": 468,
+   "3": 396,
+   "4": 174,
+   "5": 75,
+   "6": 12
+  },
+  "extremes": [],
+  "smallExtremes": [
+   {
+    "cell": "rescue|6|quick|艾琳",
+    "n": 5,
+    "heroPct": 100
+   }
+  ]
+ },
+ "edges-random": {
+  "crossCheck": {
+   "compared": 2400,
+   "mismatches": 0,
+   "examples": []
+  },
+  "playlogHauntMissing": 0,
+  "hauntRulesMissing": 0,
+  "rescue6": {
+   "games": 200,
+   "heroPct": 54,
+   "start": {
+    "7": 200
+   },
+   "remainingAtWin": {
+    "1": 31,
+    "2": 34,
+    "3": 28,
+    "4": 13,
+    "5": 2
+   },
+   "winsWith0or1Left": 31,
+   "lossReasons": {
+    "需要救出的同伴已死亡": 11,
+    "逃脱时限耗尽，蜘蛛封": 81
+   },
+   "perEntry": {
+    "quick": 43,
+    "normal": 65
+   }
+  },
+  "rescueByCount": {
+   "3": {
+    "start": {
+     "16": 200
+    },
+    "heroPct": 48,
+    "avgLeftAtWin": 7.81,
+    "timeoutPctOfLoss": 53.8
+   },
+   "4": {
+    "start": {
+     "13": 200
+    },
+    "heroPct": 55.5,
+    "avgLeftAtWin": 6.62,
+    "timeoutPctOfLoss": 62.9
+   },
+   "5": {
+    "start": {
+     "10": 200
+    },
+    "heroPct": 60.5,
+    "avgLeftAtWin": 4.53,
+    "timeoutPctOfLoss": 74.7
+   },
+   "6": {
+    "start": {
+     "7": 200
+    },
+    "heroPct": 54,
+    "avgLeftAtWin": 2.27,
+    "timeoutPctOfLoss": 88
+   }
+  },
+  "ritualByCount": {
+   "3": {
+    "goals": {
+     "hero": 3,
+     "traitor": 2,
+     "burialRounds": 5,
+     "dispel": 2
+    },
+    "heroPct": 55,
+    "traitorWinsRacePct": 68.5,
+    "collapseHeroWinPct": 40.9,
+    "collapseRoundsToDispelWin": {
+     "2": 6,
+     "3": 22,
+     "4": 15,
+     "5": 10,
+     "6": 1,
+     "7": 2
+    },
+    "collapseMedianRounds": 3.5,
+    "burialHeroWinPct": 85.7,
+    "burialLeftAtWin": {
+     "1": 5,
+     "2": 6,
+     "3": 12,
+     "4": 18,
+     "5": 13
+    },
+    "raceRounds": 1.46,
+    "reasons": {
+     "hero|遗骸被安葬，幽灵": 54,
+     "traitor|所有英雄都已倒下": 86,
+     "hero|幽灵被彻底驱散，": 56,
+     "traitor|未能及时安葬遗骸": 4
+    }
+   },
+   "4": {
+    "goals": {
+     "hero": 5,
+     "traitor": 2,
+     "burialRounds": 4,
+     "dispel": 3
+    },
+    "heroPct": 55,
+    "traitorWinsRacePct": 70,
+    "collapseHeroWinPct": 40,
+    "collapseRoundsToDispelWin": {
+     "2": 3,
+     "3": 15,
+     "4": 17,
+     "5": 13,
+     "6": 5,
+     "7": 3
+    },
+    "collapseMedianRounds": 4,
+    "burialHeroWinPct": 90,
+    "burialLeftAtWin": {
+     "1": 5,
+     "2": 12,
+     "3": 28,
+     "4": 9
+    },
+    "raceRounds": 1.56,
+    "reasons": {
+     "hero|遗骸被安葬，幽灵": 54,
+     "traitor|所有英雄都已倒下": 84,
+     "hero|幽灵被彻底驱散，": 56,
+     "traitor|未能及时安葬遗骸": 6
+    }
+   },
+   "5": {
+    "goals": {
+     "hero": 6,
+     "traitor": 2,
+     "burialRounds": 3,
+     "dispel": 4
+    },
+    "heroPct": 52.5,
+    "traitorWinsRacePct": 64,
+    "collapseHeroWinPct": 34.4,
+    "collapseRoundsToDispelWin": {
+     "3": 8,
+     "4": 15,
+     "5": 11,
+     "6": 4,
+     "7": 2,
+     "8": 3,
+     "9": 1
+    },
+    "collapseMedianRounds": 4,
+    "burialHeroWinPct": 84.7,
+    "burialLeftAtWin": {
+     "1": 15,
+     "2": 26,
+     "3": 20
+    },
+    "raceRounds": 1.59,
+    "reasons": {
+     "hero|遗骸被安葬，幽灵": 61,
+     "traitor|所有英雄都已倒下": 84,
+     "hero|幽灵被彻底驱散，": 44,
+     "traitor|未能及时安葬遗骸": 11
+    }
+   },
+   "6": {
+    "goals": {
+     "hero": 8,
+     "traitor": 2,
+     "burialRounds": 2,
+     "dispel": 5
+    },
+    "heroPct": 52.5,
+    "traitorWinsRacePct": 69.5,
+    "collapseHeroWinPct": 41,
+    "collapseRoundsToDispelWin": {
+     "3": 12,
+     "4": 15,
+     "5": 15,
+     "6": 3,
+     "7": 7,
+     "8": 3,
+     "9": 1,
+     "10": 1
+    },
+    "collapseMedianRounds": 5,
+    "burialHeroWinPct": 78.7,
+    "burialLeftAtWin": {
+     "1": 34,
+     "2": 14
+    },
+    "raceRounds": 1.54,
+    "reasons": {
+     "traitor|所有英雄都已倒下": 82,
+     "hero|幽灵被彻底驱散，": 57,
+     "hero|遗骸被安葬，幽灵": 48,
+     "traitor|未能及时安葬遗骸": 13
+    }
+   }
+  },
+  "seals3": {
+   "games": 200,
+   "heroPct": 46,
+   "start": {
+    "7": 200
+   },
+   "nodes": {
+    "3": 200
+   },
+   "losses": 108,
+   "reasons": {
+    "时限耗尽，小屋吞没了": 96,
+    "所有英雄都已倒下。": 12
+   },
+   "lossSealsDone": {
+    "1/3": 38,
+    "2/3": 50,
+    "0/3": 12,
+    "3/3": 8
+   },
+   "lossProgress": {
+    "3/6": 25,
+    "5/6": 34,
+    "4/6": 30,
+    "2/6": 8,
+    "6/6": 8,
+    "1/6": 3
+   },
+   "perEntry": {
+    "quick": 51,
+    "normal": 41
+   }
+  },
+  "sealsByCount": {
+   "3": {
+    "start": {
+     "7": 200
+    },
+    "nodes": {
+     "3": 200
+    },
+    "heroPct": 46,
+    "timeoutPct": 88.9,
+    "wipePct": 11.1
+   },
+   "4": {
+    "start": {
+     "8": 200
+    },
+    "nodes": {
+     "3": 200
+    },
+    "heroPct": 72.5,
+    "timeoutPct": 41.8,
+    "wipePct": 58.2
+   },
+   "5": {
+    "start": {
+     "9": 200
+    },
+    "nodes": {
+     "4": 200
+    },
+    "heroPct": 69,
+    "timeoutPct": 27.4,
+    "wipePct": 72.6
+   },
+   "6": {
+    "start": {
+     "10": 200
+    },
+    "nodes": {
+     "4": 1,
+     "5": 199
+    },
+    "heroPct": 71.5,
+    "timeoutPct": 10.5,
+    "wipePct": 89.5
+   }
+  },
+  "traitorRoll": {
+   "games": 1600,
+   "sealsWithRoll": 0,
+   "tiedPct": 26.3,
+   "tieDepth": {
+    "1": 1180,
+    "2": 350,
+    "3": 60,
+    "4": 10
+   },
+   "traitorNotLowestSanityPct": 39,
+   "minTotal": {
+    "0": 100,
+    "1": 366,
+    "2": 570,
+    "3": 376,
+    "4": 160,
+    "5": 26,
+    "6": 2
+   },
+   "tieBrokenBySeatPct": 8.1,
+   "byName": {
+    "奥斯卡": {
+     "n": 212,
+     "pct": 13.3,
+     "heroPct": 51.4
+    },
+    "米娅": {
+     "n": 242,
+     "pct": 15.1,
+     "heroPct": 62.4
+    },
+    "林默": {
+     "n": 228,
+     "pct": 14.3,
+     "heroPct": 61
+    },
+    "罗伊": {
+     "n": 596,
+     "pct": 37.3,
+     "heroPct": 47.8
+    },
+    "薇拉": {
+     "n": 224,
+     "pct": 14,
+     "heroPct": 54.5
+    },
+    "艾琳": {
+     "n": 98,
+     "pct": 6.1,
+     "heroPct": 61.2
+    }
+   },
+   "bySeat": {
+    "0": 370,
+    "1": 410,
+    "2": 354,
+    "3": 248,
+    "4": 148,
+    "5": 70
+   },
+   "byCountName": {
+    "r3": {
+     "奥斯卡": 62,
+     "米娅": 76,
+     "林默": 52,
+     "罗伊": 134,
+     "薇拉": 40,
+     "艾琳": 36
+    },
+    "r4": {
+     "罗伊": 158,
+     "薇拉": 48,
+     "艾琳": 26,
+     "奥斯卡": 56,
+     "林默": 54,
+     "米娅": 58
+    },
+    "r5": {
+     "米娅": 58,
+     "薇拉": 70,
+     "林默": 60,
+     "罗伊": 160,
+     "艾琳": 18,
+     "奥斯卡": 34
+    },
+    "r6": {
+     "罗伊": 144,
+     "林默": 62,
+     "奥斯卡": 60,
+     "薇拉": 66,
+     "艾琳": 18,
+     "米娅": 50
+    }
+   },
+   "tieBreakCorrect": true,
+   "rowsPerLivingCandidate": true
+  },
+  "hauntTiming": {
+   "ritual": {
+    "r1-2": {
+     "n": 186,
+     "heroPct": 52.7,
+     "avgDeaths": 2.45
+    },
+    "r3-4": {
+     "n": 183,
+     "heroPct": 54.1,
+     "avgDeaths": 1.74
+    },
+    "r5-6": {
+     "n": 31,
+     "heroPct": 67.7,
+     "avgDeaths": 1.16
+    }
+   },
+   "rescue": {
+    "r1-2": {
+     "n": 186,
+     "heroPct": 57.5,
+     "avgDeaths": 1.66
+    },
+    "r3-4": {
+     "n": 183,
+     "heroPct": 59.6,
+     "avgDeaths": 1.43
+    },
+    "r5-6": {
+     "n": 31,
+     "heroPct": 48.4,
+     "avgDeaths": 1.39
+    }
+   },
+   "seals": {
+    "r1-2": {
+     "n": 186,
+     "heroPct": 69.4,
+     "avgDeaths": 1.49
+    },
+    "r3-4": {
+     "n": 183,
+     "heroPct": 57.9,
+     "avgDeaths": 1.34
+    },
+    "r5-6": {
+     "n": 31,
+     "heroPct": 45.2,
+     "avgDeaths": 0.84
+    }
+   }
+  },
+  "hauntAtDist": {
+   "1": 72,
+   "2": 486,
+   "3": 363,
+   "4": 186,
+   "5": 78,
+   "6": 15
+  },
+  "extremes": [
+   {
+    "cut": "scenario×count×traitor",
+    "cell": "rescue|4|艾琳",
+    "n": 13,
+    "heroPct": 100
+   }
+  ],
+  "smallExtremes": [
+   {
+    "cell": "rescue|4|quick|艾琳",
+    "n": 7,
+    "heroPct": 100
+   },
+   {
+    "cell": "rescue|4|normal|艾琳",
+    "n": 6,
+    "heroPct": 100
+   },
+   {
+    "cell": "rescue|6|normal|艾琳",
+    "n": 6,
+    "heroPct": 100
+   }
+  ]
+ }
+}

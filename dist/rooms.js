@@ -1,6 +1,10 @@
 (function(root){
 'use strict';
 const RoomRules={
+ // Rooms nobody can stay in (arrive() moves the entrant on). They are never an objective,
+ // an AI waypoint or an AI destination; players may still step in deliberately.
+ passThrough(r){return r?.name==='煤槽';},
+ outlet(r){return r?.name==='煤槽'?'-1:0:0':null;},
  describe(g){const r=g.roomNow;
   if(r.name==='宝库')return r.vaultOpened?'宝库已开启，珍藏已被取走。':'可以尝试知识检定 ≥ 4 开启宝库。成功获得一件道具，失败不受伤；每回合一次。';
   if(r.name==='塌陷房间')return '首次发现者进行速度检定 ≥ 4，失败坠至下一层平台。之后可自愿跳下；没有向上的捷径。';
@@ -13,8 +17,8 @@ const RoomRules={
   return [];
  },
  arrive(g,first=false){const s=g.s,p=g.p,r=g.roomNow;
-  if(r.name==='煤槽'){
-   p.room='-1:0:0';g.log(`${p.name}滑过煤槽，落在地下平台。`);g.milestone('route','煤槽滑落',`${p.name}被送往地下平台。`);
+  if(this.passThrough(r)){
+   p.room=this.outlet(r);g.log(`${p.name}滑过煤槽，落在地下平台。`);g.milestone('route','煤槽滑落',`${p.name}被送往地下平台。`);
    return;
   }
   if(r.name==='塌陷房间'&&first){
