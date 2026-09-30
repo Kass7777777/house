@@ -30,7 +30,7 @@ assert.equal(modal.open, false, 'dialog is held back while the board animates');
 assert.ok(run('beat'), 'beat pending');
 const held = [...timers.values()].find(t => t.ms === 1100);
 assert.ok(held, 'wait = board time + hold');
-assert.ok(cues.some(c => c[0] === 0 && String(c[1]).includes('黑羽')), 'bubble over the actor names what was found');
+assert.equal(cues.filter(c => c[0] !== null && c[0] !== undefined).length, 0, 'no spoiler bubble over a walking character');
 // a click during the wait skips it and is not applied
 const moves = run('game.s.moves'), room = run('game.p.room');
 run("act('move:1')");
@@ -49,4 +49,30 @@ assert.equal(run('aiDelay()'), 1100);
 // leaving to the title during a beat drops it
 run("HouseBoard.busyMs=()=>600;game.s.report={title:'x',text:'y'};stage(report,0);setup();");
 assert.equal(run('beat'), null, 'setup clears pending beat');
-console.log('staging: dialogs wait for the board, clicks skip the wait, AI waits for its walk, reduced motion unchanged.');
+// ---------- v24 multi-room walk ----------
+run('HouseBoard.busyMs=()=>0;HouseBoard.animating=()=>false;');
+run("game=new Game({count:4,humanCount:4,seed:'WALK-1'});");
+// a straight known corridor 0:0:0 -> 1:0 -> 2:0 -> 3:0 on floor 0, all doors open, no cards
+run("const mk=(x,y,name)=>game.s.rooms.push({id:'0:'+x+':'+y,x,y,f:0,name,card:'',doors:[0,1,2,3],collapsed:false});mk(1,0,'餐厅');mk(2,0,'画廊');mk(3,0,'卧室');game.s.moves=3;floor=0;render();");
+const r = run("planRoute('0:3:0')");
+assert.deepEqual([...r.steps], ['0:1:0', '0:2:0', '0:3:0']); assert.equal(r.cost, 3); assert.equal(r.ok, true);
+run('game.s.moves=2;'); assert.equal(run("planRoute('0:3:0').ok"), false, 'route longer than remaining moves is refused');
+run("act('path:0:3:0')"); assert.equal(run('game.p.room'), '0:0:0', 'refused route does not move');
+// an enemy in a waypoint raises the price exactly like the engine
+run("game.s.phase='ritual';game.s.players.forEach(p=>p.team='hero');game.s.players[1].team='traitor';game.s.players[1].room='0:1:0';game.s.moves=9;");
+assert.equal(run("planRoute('0:3:0').cost"), 4, 'leaving a room with an enemy costs 2');
+run("game.s.players[1].room='0:0:0';game.s.phase='explore';game.s.players.forEach(p=>p.team='explorer');");
+// the coal chute is never a waypoint
+run("game.s.rooms.find(r=>r.id==='0:2:0').name='煤槽';");
+assert.equal(run("planRoute('0:3:0')"), null, 'no route through the coal chute');
+run("game.s.rooms.find(r=>r.id==='0:2:0').name='画廊';game.s.moves=3;");
+// without animation: walks through synchronously, charged per step
+run("act('path:0:3:0')");
+assert.equal(run('game.p.room'), '0:3:0'); assert.equal(run('game.s.moves'), 0); assert.equal(run('walkPlan'), null);
+// with animation: one room per beat; any click stops the walk and is not applied
+run("game.p.room='0:0:0';game.s.moves=3;HouseBoard.animating=()=>true;HouseBoard.busyMs=()=>500;");
+timers.clear(); run("act('path:0:3:0')");
+assert.equal(run('game.p.room'), '0:1:0', 'first step taken'); assert.ok(run('walkPlan'), 'rest of the walk is pending');
+run("act('end')");
+assert.equal(run('walkPlan'), null, 'click stops the walk'); assert.equal(run('game.p.room'), '0:1:0'); assert.equal(run('game.s.active'), 0, 'the stopping click did not end the turn');
+console.log('staging: dialogs wait for the board, no spoiler bubbles, clicks skip the wait, AI waits for its walk; multi-room walk priced like the engine, avoids the coal chute, stops on click.');

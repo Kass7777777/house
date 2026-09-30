@@ -362,6 +362,18 @@ function frame(now) {
     c.fillStyle = r.collapsed ? '#c09080' : active ? '#fff3cf' : '#dfe3d2'; c.fillText(label, x, ly);
     if (r.loot?.length) { c.fillStyle = '#e9c65a'; c.beginPath(); c.arc(x + w / 2 + 6, ly - fs / 2 + 2, 3.5, 0, TAU); c.fill(); }
   }
+  // hovered route preview: dashed path through room centres + step count at the end
+  if (hover?.room && hover.room !== M.p.room && !M.neighbors.has(hover.room)) {
+    const rt = route(hover.room, M);
+    if (rt) {
+      const pts = [M.p.room, ...rt.steps].map(id => M.s.rooms.find(q => q.id === id)).filter(r => r && r.f === M.floor).map(r => pos(r.x, r.y));
+      c.save(); c.lineWidth = 3; c.setLineDash([7, 6]); c.lineDashOffset = still ? 0 : -t * 24; c.strokeStyle = rt.ok ? 'rgba(255,231,168,.85)' : 'rgba(216,140,120,.75)';
+      c.beginPath(); pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.stroke(); c.setLineDash([]);
+      pts.slice(1).forEach(([x, y]) => { c.fillStyle = rt.ok ? '#ffe7a8' : '#d88c78'; c.beginPath(); c.arc(x, y, 3.5, 0, TAU); c.fill(); });
+      c.restore();
+      const end = pts.at(-1); if (end) chip(c, end[0], end[1] - st.cam.tile * 0.62, rt.ok ? `${rt.steps.length} 步 · 消耗 ${rt.cost}` : `需要 ${rt.cost} · 剩 ${rt.moves}`, rt.ok ? '#ffe7a8' : '#e0a08c');
+    }
+  }
   // beacon chips stacked above rooms
   const stack = {};
   for (const b of M.beacons) { const r = M.rooms.find(q => q.id === b.room); const [x, y] = pos(r.x, r.y), n = stack[b.room] = (stack[b.room] || 0) + 1, bob = still ? 0 : Math.sin(t * 2 + n) * 2; chip(c, x, y - T * 0.72 - (n - 1) * 23 + bob, b.label, b.color); }
@@ -388,7 +400,7 @@ function frame(now) {
   if (away.length) chip(c, st.W / 2 + st.offX, st.H - 58, '其他楼层还有目标 · ' + away.join(' · ') + '（按 1 / 2 / 3 切换楼层）', '#c9b6ff');
   // floating feedback
   st.floats = st.floats.filter(f => t - f.t0 < 1.9);
-  for (const f of st.floats) { if (f.f !== floor) continue; if (st.cue && st.cue.pid === f.pid && f.text.startsWith('+ ')) continue; const a = st.anim[f.pid]; if (!a) continue; const [x, y] = pos(a.gx, a.gy), age = t - f.t0; c.globalAlpha = clamp(1.6 - age, 0, 1); c.font = 'bold 14px system-ui'; c.textAlign = 'center'; c.lineWidth = 3; c.strokeStyle = 'rgba(0,0,0,.8)'; const yy = y - T * 0.45 - age * 26 - f.row * 17; c.strokeText(f.text, x, yy); c.fillStyle = f.color; c.fillText(f.text, x, yy); c.globalAlpha = 1; }
+  for (const f of st.floats) { if (f.f !== floor || t < f.t0) continue; const a = st.anim[f.pid]; if (!a) continue; const [x, y] = pos(a.gx, a.gy), age = t - f.t0; c.globalAlpha = clamp(1.6 - age, 0, 1); c.font = 'bold 14px system-ui'; c.textAlign = 'center'; c.lineWidth = 3; c.strokeStyle = 'rgba(0,0,0,.8)'; const yy = y - T * 0.45 - age * 26 - f.row * 17; c.strokeText(f.text, x, yy); c.fillStyle = f.color; c.fillText(f.text, x, yy); c.globalAlpha = 1; }
   c.restore();
   // vignette & urgency
   const vg = c.createRadialGradient(st.W / 2, st.H / 2, Math.min(st.W, st.H) * 0.35, st.W / 2, st.H / 2, Math.max(st.W, st.H) * 0.72);
@@ -407,7 +419,9 @@ function camSettled() { const c = st.cam, t = st.target; return Math.abs(c.u0 - 
 function easeOut(k) { return 1 - Math.pow(1 - k, 3); }
 function candHits(M) { return M.candidates.map(r => { const [x, y] = pos(r.x, r.y); return { x, y, tw: st.cam.tile * S * 0.75, th: st.cam.tile * 0.52 * S * 0.75, d: r.d }; }); }
 function hitTest(list, x, y) { return list.find(a => a.d !== undefined && Math.abs(x - a.x) / a.tw + Math.abs(y - a.y) / a.th < 1) || list.find(a => Math.abs(x - a.x) / a.tw + Math.abs(y - a.y) / a.th < 1); }
-function isClickable(h, M) { if (M.locked) return false; if (h.d !== undefined) return true; return h.room !== M.p.room && M.neighbors.has(h.room); }
+function isClickable(h, M) { if (M.locked) return false; if (h.d !== undefined) return true; return h.room !== M.p.room && (M.neighbors.has(h.room) || !!route(h.room, M)?.ok); }
+// route preview comes from app.js planRoute (same pricing as the engine); cached per hovered room + state
+function route(id, M) { if (M.locked || typeof planRoute !== 'function') return null; const key = id + '|' + M.p.room + '|' + M.moves + '|' + M.s.turnSerial + '|' + (M.s.logSeq || 0); if (st.routeKey !== key) { st.routeKey = key; try { st.route = planRoute(id); } catch { st.route = null; } } return st.route; }
 function tooltip(c, h, M) {
   const lines = [];
   if (h.d !== undefined) { lines.push(['未知的门后', '#fff3cf']); lines.push([M.locked ? '现在不能行动' : M.moves < M.cost ? `移动力不足（需要 ${M.cost}）` : `探索新房间 · 消耗 ${M.cost} 移动力`, '#c6d1ac']); }
@@ -415,7 +429,7 @@ function tooltip(c, h, M) {
     const r = M.rooms.find(q => q.id === h.room); lines.push([r.collapsed ? r.name + '（已崩塌）' : r.name, '#fff3cf']);
     if (h.room === M.p.room) lines.push([`${M.p.name}在这里`, '#c6d1ac']);
     else if (M.neighbors.has(h.room)) lines.push([M.locked ? '相邻，但现在不能行动' : M.moves < M.cost ? `移动力不足（需要 ${M.cost}）` : `点击移动 · 消耗 ${M.cost} 移动力`, '#c6d1ac']);
-    else lines.push(['不相邻或门不相通', '#9aa596']);
+    else { const rt = route(h.room, M); lines.push(rt ? (rt.ok ? [`点击走过去 · ${rt.steps.length} 步 · 消耗 ${rt.cost} 移动力`, '#c6d1ac'] : [`路线要 ${rt.cost} 点移动力，只剩 ${rt.moves} 点`, '#d8a38f']) : [M.locked ? '现在不能行动' : '没有通往这里的已知路线', '#9aa596']); }
     const here = M.s.players.filter(p => p.alive && p.room === h.room).map(p => p.name); if (here.length) lines.push(['在场：' + here.join('、'), '#b8c4b4']);
     if (r.loot?.length) lines.push([`地面有 ${r.loot.length} 件物品`, '#e9c65a']);
   }
@@ -449,14 +463,17 @@ function computeTarget(M) {
 
 // ---------- change detection for floats / reveals ----------
 function diff(M) {
-  const cur = { id: M.id, rooms: new Set(M.s.rooms.map(r => r.id)), players: M.s.players.map(p => ({ idx: [...p.idx], alive: p.alive, items: p.items.map(i => i.name) })) };
+  const cur = { id: M.id, rooms: new Set(M.s.rooms.map(r => r.id)), players: M.s.players.map(p => ({ idx: [...p.idx], alive: p.alive, room: p.room, items: p.items.map(i => i.name) })) };
   const prev = st.prev; st.prev = cur;
   if (!prev || prev.id !== cur.id) { for (const r of M.s.rooms) st.reveal[r.id] = -9; return; }
   for (const r of M.s.rooms) if (!prev.rooms.has(r.id)) st.reveal[r.id] = st.t;
   const T = ['力量', '速度', '知识', '理智'];
   M.s.players.forEach((p, i) => {
     const q = prev.players[i]; if (!q) return; let row = 0;
-    const push = (text, color) => st.floats.push({ pid: p.id, f: M.s.rooms.find(r => r.id === p.room)?.f, text, color, t0: st.t + row * 0.12, row: row++ });
+    // results float up after the walk into the room has finished, not while walking
+    const a0 = M.s.rooms.find(r => r.id === q.room), a1 = M.s.rooms.find(r => r.id === p.room);
+    const walk = q.room !== p.room && a0 && a1 && a0.f === a1.f && !reduced() ? clamp(0.36 + 0.16 * Math.hypot(a1.x - a0.x, a1.y - a0.y), 0.42, 0.95) + 0.1 : 0;
+    const push = (text, color) => st.floats.push({ pid: p.id, f: a1?.f, text, color, t0: st.t + walk + row * 0.12, row: row++ });
     if (q.alive && !p.alive) { push('倒下', '#ff8f7a'); return; }
     p.idx.forEach((v, t) => { const d = v - q.idx[t]; if (d) push(`${d > 0 ? '+' : ''}${d} ${T[t]}`, d > 0 ? '#9fe8a8' : '#ff9d86'); });
     p.items.map(i => i.name).filter(n => !q.items.includes(n)).slice(0, 2).forEach(n => push('+ ' + n, '#f3d68c'));
@@ -488,7 +505,11 @@ function click(p) {
   const h = hitTest(hitAreas, p.x, p.y); if (!h) return;
   if (h.d !== undefined) { act('move:' + h.d); return; }
   if (h.room === game.p.room) return;
-  if (!game.neighbors(game.p.room).some(r => r.id === h.room)) { const el = document.querySelector('#maphint'); if (el) el.textContent = '只能移动到相邻且门相通的房间。'; return; }
+  if (!game.neighbors(game.p.room).some(r => r.id === h.room)) {
+    const rt = typeof planRoute === 'function' ? planRoute(h.room) : null;
+    if (rt?.ok) { act('path:' + h.room); return; }
+    const el = document.querySelector('#maphint'); if (el) el.textContent = rt ? `去那里要 ${rt.cost} 点移动力，本回合只剩 ${rt.moves} 点。` : '还没有通往那里的已知路线。'; return;
+  }
   act('room:' + h.room);
 }
 function retarget() { if (st.scene) st.target = computeTarget(st.scene); schedule(); }
